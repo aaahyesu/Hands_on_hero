@@ -6,10 +6,10 @@ const Home: NextPage = () => {
       {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
         <div
           key={i}
-          className="flex px-4 border-b pb-5 cursor-pointer hover:bg-gray-200 justify-between"
+          className="flex px-4 border-b pb-3 cursor-pointer hover:bg-gray-200 justify-between"
         >
-          <div className="flex space-x-4">
-            <div className="pt-7 flex flex-col">
+          <div className="flex space-x-3">
+            <div className="pt-5 flex flex-col">
               <h3 className="text-[30px] font-bold mb-3 text-black">
                 강아지 산책
               </h3>
