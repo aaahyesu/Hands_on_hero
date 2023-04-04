@@ -43,13 +43,14 @@ const Enter: NextPage = () => {
           </div>
         </div>
         <form className="mt-8 flex flex-col">
-          <label className="text-sm font-medium text-gray-700">
+          <label htmlFor="input" className="text-sm font-medium text-gray-700">
             {method === "email" ? "이메일 주소" : null}
             {method === "phone" ? "전화번호" : null}
           </label>
           <div className="mt-1">
             {method === "email" ? (
               <input
+                id="input"
                 type="email"
                 className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
                 required
@@ -61,6 +62,7 @@ const Enter: NextPage = () => {
                   +82
                 </span>
                 <input
+                  id="input"
                   type="number"
                   className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
                   required
