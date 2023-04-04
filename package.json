@@ -26,5 +26,18 @@
     "prettier": "^2.8.7",
     "prettier-plugin-tailwindcss": "^0.2.6",
     "tailwindcss": "^3.3.1"
-  }
+  },
+  "description": "",
+  "main": "next.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dongbab/hands_on_hero.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dongbab/hands_on_hero/issues"
+  },
+  "homepage": "https://github.com/dongbab/hands_on_hero#readme",
+  "keywords": []
 }
