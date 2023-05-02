@@ -1,21 +1,26 @@
 import type { NextPage } from "next";
 
-const Sold: NextPage = () => {
+const Loved: NextPage = () => {
   return (
     <div className="flex flex-col space-y-5 py-10">
       {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
         <div
           key={i}
-          className="flex cursor-pointer  justify-between border-b px-4 pb-5"
+          className="flex cursor-pointer hover:bg-gray-100 justify-between border-b px-4 pb-3"
         >
           <div className="flex space-x-4">
             <div className="h-20 w-20 rounded-md bg-gray-400" />
             <div className="flex flex-col pt-2">
               <h3 className="text-sm font-medium text-gray-900">
-                New iPhone 14
+                강아지 산책하기
               </h3>
-              <span className="text-xs text-gray-500">Black</span>
-              <span className="mt-1 font-medium text-gray-900">$95</span>
+              <span className="text-xs text-gray-500">
+                2023년 04월 07일 12시 부터
+              </span>
+              <span className="text-xs text-gray-500">
+                2023년 04월 07일 03시 까지
+              </span>
+              <span className="mt-1 font-medium text-gray-900">20만원</span>
             </div>
           </div>
           <div className="flex items-end justify-end space-x-2">
@@ -60,4 +65,4 @@ const Sold: NextPage = () => {
   );
 };
 
-export default Sold;
+export default Loved;
