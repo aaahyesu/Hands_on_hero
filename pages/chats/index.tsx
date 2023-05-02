@@ -10,9 +10,9 @@ const Chats: NextPage = () => {
         >
           <div className="w-12 h-12 rounded-full bg-slate-300" />
           <div>
-            <p className="text-gray-700">류동현</p>
+            <p className="text-gray-700">이가영</p>
             <p className="text-sm  text-gray-500">
-              저에게 일거리를 주세요
+              바보
             </p>
           </div>
         </div>
