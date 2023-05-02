@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Layout from "@/components/layout";
 const Loved: NextPage = () => {
   return (
-    <Layout hasTabBar canGoBack title="sold">
+    <Layout hasTabBar canGoBack title="서비스 요청 내역">
       <div className="flex flex-col space-y-5 py-10">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div
