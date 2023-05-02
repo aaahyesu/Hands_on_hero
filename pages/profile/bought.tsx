@@ -1,29 +1,33 @@
 import type { NextPage } from "next";
 import Layout from "@/components/layout";
-
-const Bought: NextPage = () => {
+const Loved: NextPage = () => {
   return (
-    <Layout hasTabBar canGoBack title="서비스 제공 내역">
+    <Layout hasTabBar canGoBack title="서비스 요청 내역">
       <div className="flex flex-col space-y-5 py-10">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div
             key={i}
-            className="flex px-4  border-b pb-5 cursor-pointer justify-between"
+            className="flex cursor-pointer hover:bg-gray-100 justify-between border-b px-4 pb-3"
           >
             <div className="flex space-x-4">
-              <div className="w-20 h-20 bg-gray-400 rounded-md" />
-              <div className="pt-2 flex flex-col">
+              <div className="h-20 w-20 rounded-md bg-gray-400" />
+              <div className="flex flex-col pt-2">
                 <h3 className="text-sm font-medium text-gray-900">
-                  New iPhone 14
+                  강아지 산책하기
                 </h3>
-                <span className="text-xs text-gray-500">Black</span>
-                <span className="font-medium mt-1 text-gray-900">$95</span>
+                <span className="text-xs text-gray-500">
+                  2023년 04월 07일 12시 부터
+                </span>
+                <span className="text-xs text-gray-500">
+                  2023년 04월 07일 03시 까지
+                </span>
+                <span className="mt-1 font-medium text-gray-900">20만원</span>
               </div>
             </div>
-            <div className="flex space-x-2 items-end justify-end">
-              <div className="flex space-x-0.5 items-center text-sm  text-gray-600">
+            <div className="flex items-end justify-end space-x-2">
+              <div className="flex items-center space-x-0.5 text-sm  text-gray-600">
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -38,9 +42,9 @@ const Bought: NextPage = () => {
                 </svg>
                 <span>1</span>
               </div>
-              <div className="flex space-x-0.5 items-center text-sm  text-gray-600">
+              <div className="flex items-center space-x-0.5 text-sm  text-gray-600">
                 <svg
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -63,4 +67,4 @@ const Bought: NextPage = () => {
   );
 };
 
-export default Bought;
+export default Loved;
