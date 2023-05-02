@@ -1,10 +1,11 @@
 import type { NextPage } from "next";
 import Layout from "@/components/layout";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
     <Layout hasTabBar title="요청서 리스트">
-      <div className="flex flex-col space-y-5">
+      <div className="flex flex-col space-y-5 divide-y">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div
             key={i}
@@ -12,12 +13,12 @@ const Home: NextPage = () => {
           >
             <div className="flex space-x-3">
               <div className="pt-5 flex flex-col">
-                <h3 className="text-[30px] font-bold mb-3 text-black">
+                <h3 className="text-[25px] font-bold mb-3 text-black">
                   강아지 산책
                 </h3>
                 <span className="text-lg text-gray-500">2023년 4월 1일 오전 10시 부터</span>
                 <span className="text-lg text-gray-500">2023년 4월 3일 오후 12시 까지</span>
-                <span className="text-[23px] font-medium mt-3 text-gray-900">200만원</span>
+                <span className="text-[20px] font-medium mt-3 text-gray-900">200만원</span>
               </div>
             </div>
             <div className="flex space-x-2 items-end justify-end">
@@ -58,6 +59,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         ))}
+        <Link href="\services\upload">
         <button className="flex justify-center fixed hover:bg-blue-400 transition-colors cursor-pointer bottom-20 right-5 shadow-xl bg-blue-500 rounded-full px-5 py-4 text-xl text-white">
           <svg
             className="h-7 w-7"
@@ -76,6 +78,7 @@ const Home: NextPage = () => {
           </svg>
           글쓰기
         </button>
+        </Link>
       </div>
     </Layout>
   );
