@@ -1,14 +1,30 @@
+import Input from "@/components/input";
 import type { NextPage } from "next";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+interface EnterForm {
+  email?: string;
+  phone?: string;
+}
 
 function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
-
 const Enter: NextPage = () => {
+  const { register, handleSubmit, reset } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
-  const onEmailClick = () => setMethod("email");
-  const onPhoneClick = () => setMethod("phone");
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  }
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  };
+  const onValid = (data:EnterForm) => {
+    console.log(data);
+  }
   return (
     <div className="mt-16 px-4">
       <h3 className="text-center text-3xl font-bold">Hands on Hero</h3>
@@ -42,32 +58,33 @@ const Enter: NextPage = () => {
             </button>
           </div>
         </div>
-        <form className="mt-8 flex flex-col">
-          <label htmlFor="input" className="text-sm font-medium text-gray-700">
-            {method === "email" ? "이메일 주소" : null}
-            {method === "phone" ? "전화번호" : null}
-          </label>
+        <form 
+          onSubmit={handleSubmit(onValid)}
+          className="mt-8 flex flex-col space-y-4">
+            
           <div className="mt-1">
             {method === "email" ? (
-              <input
-                id="input"
+              <Input
+                register={register("email", {
+                  required: true,
+                })}
+                name="email"
+                label="Eamil address"
                 type="email"
-                className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                //className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
                 required
               />
             ) : null}
             {method === "phone" ? (
-              <div className="flex rounded-md shadow-sm">
-                <span className="flex select-none items-center justify-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">
-                  +82
-                </span>
-                <input
-                  id="input"
+                <Input
+                  register={register("phone")}
+                  name="phone"
+                  label="Phone number"
                   type="number"
-                  className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+                  kind="phone"
+                  //className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
                   required
                 />
-              </div>
             ) : null}
           </div>
           <button className="mt-5 rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ">
