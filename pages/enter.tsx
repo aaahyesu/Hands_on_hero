@@ -85,7 +85,7 @@ const Enter: NextPage = () => {
             </div>
           </div>
           {/* SNS 로그인 버튼 */}
-          {/* <div className="mt-2 grid grid-cols-2 gap-1">
+          <div className="mt-2 grid grid-cols-2 gap-1">
             <button
               type="button"
               className="dark:focus:ring-[#3b5998]/55 mb-2 mr-2 inline-flex items-center rounded-lg bg-[#3b5998] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#3b5998]/80 focus:outline-none focus:ring-2 focus:ring-[#3b5998]/50 focus:ring-offset-2"
@@ -170,7 +170,7 @@ const Enter: NextPage = () => {
               </svg>
               Sign in with Apple
             </button>
-            </div> */}
+            </div>
         </div>
       </div>
     </div>
