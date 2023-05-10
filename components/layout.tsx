@@ -24,7 +24,7 @@ export default function Layout({
         <div>
             <div className={cls(
                 !canGoBack ? "justify-right" : "",
-                "bg-white w-full h-12 justify-right text-lg px-4 font-medium fixed text-gray-800 border-b flex top-0 items-center")}>
+                "bg-white max-w-xl px-4 flex w-full h-12 justify-right text-lg font-medium fixed text-gray-800 border-b top-0 items-center")}>
                 {canGoBack ? ( <button onClick={onClick}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
@@ -35,7 +35,7 @@ export default function Layout({
             </div>
             <div className={cls("pt-12", hasTabBar ? "pb-24" : "")}>{children}</div>
             {hasTabBar ? (
-            <nav className="bg-white text-gray-800 border-t fixed bottom-0 w-full px-4 pb-5 pt-3 flex justify-between text-xs text-center">
+            <nav className="bg-white max-w-xl text-gray-800 border-t fixed bottom-0 w-full px-4 pb-5 pt-3 flex justify-between text-xs text-center">
                 <Link href="/">
                     <span className="flex flex-col items-center space-y-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">

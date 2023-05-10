@@ -1,17 +1,31 @@
 import type { NextPage } from "next";
 import Layout from "@/components/layout";
+import { useForm } from "react-hook-form";
 
+interface UploadServiceForm {
+  title:String;
+  content:String;
+  serviceDate:Date;
+  startTime:Number;
+  endTime:Number;
+  Cost:Number;
+}
 const Upload: NextPage = () => {
+  const { register, handleSubmit} = useForm<UploadServiceForm>();
+  const onValid = (data:UploadServiceForm) => {
+    console.log(data);
+  }
   return (
     <Layout hasTabBar canGoBack title="요청서 작성">
-      <div className="px-4 py-5">
+      <div className="px-4 py-5" onSubmit={handleSubmit(onValid)}>
         <div className="my-5">
           <label className="mb-1 block text-sm font-medium text-gray-700">
             서비스 제목
           </label>
           <div className="rounded-md relative flex items-center shadow-sm">
-            <input
+            <input 
               id="title"
+              required
               className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               type="text"
               placeholder="제목을 입력해주세요."
@@ -29,6 +43,7 @@ const Upload: NextPage = () => {
             </div>
             <input
               id="price"
+              required
               className="appearance-none pl-7 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               type="number"
               placeholder="최소 1000원"
@@ -43,6 +58,7 @@ const Upload: NextPage = () => {
           <div className="rounded-md relative flex items-center shadow-sm">
             <input
               id="date"
+              required
               className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               type="date"
             />
@@ -55,6 +71,7 @@ const Upload: NextPage = () => {
           <div className="rounded-md relative flex items-center shadow-sm">
             <input
               id="service_start_time"
+              required
               className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               type="time"
             />
@@ -67,6 +84,7 @@ const Upload: NextPage = () => {
           <div className="rounded-md relative flex items-center shadow-sm">
             <input
               id="service_end_time"
+              required
               className="appearance-none w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               type="time"
             />

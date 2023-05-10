@@ -7,8 +7,10 @@ export default async function handler (
 ) {
     await client.user.create({
         data: {
-            email: "nanaa",
-            name: "nanan",
+            email: "s",
+            name: "d",
+            password: "asg",
+            balance: 1234
         },
     });
     res.json({
