@@ -12,6 +12,7 @@ function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
 const Enter: NextPage = () => {
+  const [submiitting, setSubmitting] = useState(false);
   const { register, handleSubmit, reset } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => {
