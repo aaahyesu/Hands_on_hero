@@ -1,3 +1,30 @@
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "mysql"
+//   url      = env("DATABASE_URL")
+//   relationMode = "prisma"
+// }
+
+// model User{
+//   id        Int       @id @default(autoincrement())
+//   phone     Int?      @unique
+//   email     String?   @unique
+//   name      String   
+//   password  String?
+//   balance   Int?
+//   Image     String? 
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//  // tokens    Token[]
+//  // services  Service[]
+// }
+
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -11,19 +38,23 @@ datasource db {
   relationMode = "prisma"
 }
 
-model User{
-  id        Int       @id @default(autoincrement())
-  phone     Int?      @unique
-  email     String?   @unique
-  name      String   
-  password  String?
-  balance   Int?
-  Image     String? 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
- // tokens    Token[]
- // services  Service[]
+model User {
+  id                Int            @id @default(autoincrement())
+  name              String         @db.VarChar(10)
+  phoneNumber       String         @db.VarChar(11)
+  gender            Int
+  birthdate         DateTime
+  password          String         @db.VarChar(20)
+  email             String         @db.VarChar(30)
+  introduction      String?
+  virtualAccount    Int
+  virtualAccountId  Int
+  licenseCerts      LicenseCert[]
+  reviews           Review[]       
+
+  @@map("users")
 }
+
 
 model Token {
   id        Int       @id @default(autoincrement())
@@ -53,3 +84,104 @@ model Service {
 
   @@index([userId])
 }
+
+model LicenseCert {
+  id                Int      @id @default(autoincrement())
+  licenseNum        String
+  licenseIssueDate  DateTime
+  licenseSerialNum  String
+  user              User     @relation(fields: [userId], references: [id])
+  userId            Int      @db.Int
+
+  @@map("license_cert")
+}
+model ServiceMatching {
+  serviceId        Int      @id
+  requesterId      Int      @db.Int
+  createdAt        DateTime
+  serviceTitle     String   @db.VarChar(30)
+  serviceContent   String   @db.VarChar(30)
+  providerId       Int      @db.Int
+  startTime        DateTime
+  endTime          DateTime
+  serviceCost      Int
+  serviceStatus    Int
+  serviceMethod    Int
+  acceptanceStatus Boolean
+  transactions  TransactionHistory[]
+
+  @@map("service_matching")
+}
+
+model Review {
+  reviewId         Int             @id @default(autoincrement())
+  serviceId        Int             @db.Int
+  userId           Int             @db.Int
+  reviewSummary    String          @db.VarChar(30)
+  reviewReason     String          @db.Text
+  createdAt        DateTime
+  rating           Int
+  user             User            @relation(fields: [userId], references: [id])
+
+  @@map("review")
+  @@index([userId])
+}
+
+model ChatRoom {
+  chatRoomId           Int    @id @default(autoincrement())
+  serviceProviderId    Int    @db.Int
+  serviceId            Int    @db.Int
+
+  @@map("chat_room")
+}
+
+model Message {
+  messageId    Int      @id @default(autoincrement())
+  content      String   @db.Text
+  sentAt       DateTime
+  senderId     Int      @db.Int
+  messageStatus Boolean
+  chatRoomId   Int      @db.Int
+
+  @@map("message")
+}
+
+model TransactionHistory {
+  paymentId     Int      @id @default(autoincrement())
+  serviceId     Int      @db.Int
+  amount        Int
+  depositTime   DateTime
+  service       ServiceMatching @relation(fields: [serviceId], references: [serviceId])
+
+  @@map("transaction_history")
+  @@index([serviceId])
+}
+
+model CertificationVerification {
+  certificationId   Int      @id
+  certificationNumber String  @db.VarChar(20)
+  issuanceDate     DateTime
+  certificatePageNumber String @db.VarChar(20)
+  userId           Int      @db.Int
+
+  @@map("certification_verification")
+}
+model BlockList {
+  blockId           Int      @id
+  blockedUserId     Int
+  userId            Int      @db.Int
+
+  @@map("block_list")
+}
+
+model Notification {
+  notificationId     Int      @id
+  notificationContent String   @db.Text
+  userId             Int      @db.Int
+  isRead             Boolean
+
+  @@map("notification")
+}
+
+
+

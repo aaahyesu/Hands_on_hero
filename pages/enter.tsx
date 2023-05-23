@@ -13,9 +13,17 @@ function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
 const Enter: NextPage = () => {
-  const { register, handleSubmit } = useForm<EnterForm>();
-  const [method] = useState<"email" | "password">("email");
-  const onValid = (data: EnterForm) => {
+  const { register, handleSubmit, reset } = useForm<EnterForm>();
+  const [method, setMethod] = useState<"email" | "phone">("email");
+  const onEmailClick = () => {
+    reset();
+    setMethod("email");
+  }
+  const onPhoneClick = () => {
+    reset();
+    setMethod("phone");
+  };
+  const onValid = (data:EnterForm) => {
     console.log(data);
   }
   return (
