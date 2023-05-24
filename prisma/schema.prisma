@@ -41,14 +41,14 @@ datasource db {
 model User {
   id                Int            @id @default(autoincrement())
   name              String         @db.VarChar(10)
-  phoneNumber       String         @db.VarChar(11)
-  gender            Int
-  birthdate         DateTime
-  password          String         @db.VarChar(20)
-  email             String         @db.VarChar(30)
+  phoneNumber       String?         @db.VarChar(11)
+  gender            Int?
+  birthdate         String?
+  password          String?        @db.VarChar(20)
+  email             String?         @db.VarChar(30)
   introduction      String?
-  virtualAccount    Int
-  virtualAccountId  Int
+  virtualAccount    Int?            
+  virtualAccountId  Int?
   licenseCerts      LicenseCert[]
   reviews           Review[]       
 
@@ -91,7 +91,7 @@ model LicenseCert {
   licenseIssueDate  DateTime
   licenseSerialNum  String
   user              User     @relation(fields: [userId], references: [id])
-  userId            Int      @db.Int
+  userId            Int      
 
   @@map("license_cert")
 }
@@ -108,7 +108,7 @@ model ServiceMatching {
   serviceStatus    Int
   serviceMethod    Int
   acceptanceStatus Boolean
-  transactions  TransactionHistory[]
+  transactions  TransactionHistory[] 
 
   @@map("service_matching")
 }
