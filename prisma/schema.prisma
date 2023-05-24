@@ -42,7 +42,7 @@ model User {
   id                Int            @id @default(autoincrement())
   name              String         @db.VarChar(10)
   phoneNumber       String?         @db.VarChar(11)
-  gender            Int?
+  gender            Int
   birthdate         String?
   password          String?        @db.VarChar(20)
   email             String?         @db.VarChar(30)
@@ -51,7 +51,6 @@ model User {
   virtualAccountId  Int?
   licenseCerts      LicenseCert[]
   reviews           Review[]       
-
   @@map("users")
 }
 
