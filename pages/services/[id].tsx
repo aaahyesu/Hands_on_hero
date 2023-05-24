@@ -4,34 +4,41 @@ const ServiceDetail: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="요청서 상세내용">
       <div className="px-4 py-4">
-        <div className="mb-8">
-          <div className="h-96 bg-slate-300" />
-          <div className="flex cursor-pointer items-center space-x-3 border-b border-t py-3">
-            <div className="h-12 w-12 rounded-full bg-slate-300" />
-            <div>
-              <p className="text-lg font-medium text-gray-700">김혜수</p>
+        <label className="py-2 text-xl font-bold">요청자 프로필</label>
+        <div className="pt-2">
+          <div className="flex cursor-pointer items-center space-x-3 rounded-lg border border-gray-400 py-3">
+            <div className="px-4">
+              <p className="text-lg font-medium text-black">김혜수</p>
               <p className="text-xs font-medium text-gray-500">프로필 보기</p>
             </div>
           </div>
-          <div className="mt-5">
-            <h1 className="text-3xl font-bold text-gray-900">강아지 산책</h1>
-            
-            <div className="flex flex-col pt-5">
-              <span className="text-lg text-gray-500">
-                2023년 4월 1일 오전 10시 부터
-              </span>
-              <span className="text-lg text-gray-500">
-                2023년 4월 3일 오후 12시 까지
-              </span>
-              <span className="mt-3 text-[23px] font-medium text-gray-900">
-                200만원
+          <div className="pt-4">
+            <h1 className="text-xl font-bold text-gray-900">강아지 산책</h1>
+            <div className="flex flex-col pt-2" />
+            <div className="flex items-center space-x-3 rounded-lg border border-gray-400 py-10">
+              <span className="px-4 text-sm text-black">
+                강아지 산책 부탁드려요!!
               </span>
             </div>
-            <p className=" my-6 text-gray-700">
-              강아지 산책 좀 해주쇼..
-            </p>
-            <div className="flex items-center justify-between space-x-2">
-              <button className="flex-1 rounded-md bg-blue-500 py-3 font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ">
+            <div className="pt-4" />
+            <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
+              <p className="mb-2 px-4 text-xl font-bold">요청시간</p>
+              <span className="px-2 text-sm text-black">
+                2023년 4월 1일 오전 10시 ~ 4월 3일 오후 12시 까지
+              </span>
+            </div>
+            <div className="pt-4" />
+            <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
+              <p className="mb-2 px-4 text-xl font-bold">서비스 비용</p>
+              <span className="px-2 text-sm text-black">50000 원</span>
+            </div>
+            <div className="pt-4" />
+            <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
+              <p className="mb-2 px-4 text-xl font-bold">서비스 방법</p>
+              <span className="px-2 text-sm text-black">화상통화</span>
+            </div>
+            <div className="flex items-center justify-between space-x-2 pt-16">
+              <button className="flex-1 rounded-md bg-black py-3 font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-1 ">
                 채팅 보내기
               </button>
               <button className="flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
@@ -52,20 +59,6 @@ const ServiceDetail: NextPage = () => {
                 </svg>
               </button>
             </div>
-          </div>
-        </div>
-        <div>
-          <h1 className="text-xl font-bold text-gray-900">
-            이 글과 함께 봤어요
-          </h1>
-          <div className=" mt-6 grid grid-cols-2 gap-4">
-            {[1, 2, 3, 4, 5, 6].map((_, i) => (
-              <div key={i}>
-                <div className="mb-4 h-56 w-full bg-slate-300" />
-                <h3 className="-mb-1 text-gray-700">강아지 산책</h3>
-                <span className="text-sm font-medium text-gray-900">20만원</span>
-              </div>
-            ))}
           </div>
         </div>
       </div>
