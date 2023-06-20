@@ -1,17 +1,18 @@
 import type { NextPage } from "next";
 import Layout from "@/components/layout";
+import Link from "next/link";
 const Loved: NextPage = () => {
   return (
-    <Layout hasTabBar canGoBack title="서비스 요청 내역">
-      <div className="flex flex-col space-y-5 py-10">
+    <Layout hasTabBar canGoBack title="나의 요청서 목록">
+      <div className="flex flex-col space-y-5 py-2">
+      <Link href="/">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div
             key={i}
-            className="flex cursor-pointer hover:bg-gray-100 justify-between border-b px-4 pb-3"
+            className="flex cursor-pointer hover:bg-gray-100 justify-between border-b px-4 pb-3 mt-3"
           >
             <div className="flex space-x-4">
-              <div className="h-20 w-20 rounded-md bg-gray-400" />
-              <div className="flex flex-col pt-2">
+              <div className="flex flex-col">
                 <h3 className="text-sm font-medium text-gray-900">
                   강아지 산책하기
                 </h3>
@@ -62,6 +63,7 @@ const Loved: NextPage = () => {
             </div>
           </div>
         ))}
+        </Link>
       </div>
     </Layout>
   );

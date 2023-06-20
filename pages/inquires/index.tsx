@@ -1,11 +1,13 @@
 import type { NextPage } from "next";
 import Layout from "@/components/layout";
-
+import Link from "next/link";
 const Community: NextPage = () => {
     return (
         <Layout hasTabBar canGoBack title="문의 내역">
-            <div className="py-10 space-y-8">
+            <div className="py-5 space-y-5">
                 {[1, 2, 3, 4, 5, 6].map((_, i) => (
+                    <div className="">
+                    <Link href="/inquires/id">
                     <div key={i} className="flex cursor-pointer flex-col hover:bg-gray-200 items-start">
                         <span className="flex ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
                             1:1 문의
@@ -54,7 +56,10 @@ const Community: NextPage = () => {
                             </span>
                         </div>
                     </div>
+                    </Link>
+                    </div>
                 ))}
+                <Link href="/inquires/write">
                 <button className="fixed hover:bg-blue-500 transition-colors cursor-pointer bottom-20 right-5 shadow-xl bg-blue-400 rounded-full p-4 text-white">
                     <svg
                         className="w-6 h-6"
@@ -71,6 +76,7 @@ const Community: NextPage = () => {
                         ></path>
                     </svg>
                 </button>
+                </Link>
             </div>
         </Layout>
     );

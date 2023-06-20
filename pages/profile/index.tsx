@@ -9,18 +9,19 @@ const Profile: NextPage = () => {
           <div className="w-16 h-16 bg-slate-500 rounded-full" />
           <div className="flex flex-col">
             <span className="font-bold text-gray-900">김혜수</span>
-            <div className="space-y-1">
-              <label htmlFor="number" className="text-sm font-medium text-gray-700">
-                나의 가상 머니 : 50000원
-              </label>
-            </div>
             <Link href="\profile\edit">
-              <span className="text-sm text-gray-700">프로필 수정하기</span>
+              <span className="text-sm text-gray-700 ">프로필 수정하기</span>
             </Link>
           </div>
         </div>
+        <div className="pt-10">
+              <label htmlFor="number" className="text-sm font-semibold text-gray-700">
+                나의 가상 머니 : 50000원
+              </label>
+        </div>
         <div className="mt-10 flex justify-around">
 
+{/* 
           <Link href="\profile\bought">
             <div className="flex flex-col items-center">
               <div className="w-14 h-14 text-white bg-blue-400 rounded-full flex items-center justify-center">
@@ -91,7 +92,7 @@ const Profile: NextPage = () => {
                 관심 목록
               </span>
             </div>
-          </Link>
+          </Link> */}
 
         </div>
         <div className="mt-12">
