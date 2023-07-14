@@ -38,12 +38,12 @@ const Enter: NextPage = () => {
         <form
           onSubmit={handleSubmit(onValid)}
           className="mt-8 flex flex-col space-y-4">
-          <Link href="\user\login">
+          <Link href="/users/login">
             <div className="mt-1 rounded-md border-2 border-transparent bg-black px-4 py-2 text-center font-medium text-white shadow-sm hover:bg-[#050708]/80 focus:outline-none focus:ring-2 focus:ring-[#050708] focus:ring-offset-2 ">
               로그인 하기
             </div>
           </Link>
-          <Link href="\user\index">
+          <Link href="/users/">
             <div className="mt-1 rounded-md border-2 border-black bg-white px-4 py-2 text-center font-medium text-black shadow-sm hover:bg-black/10 focus:outline-none focus:ring-2 focus:ring-[#050708] focus:ring-offset-2 ">
               계정 만들기
             </div>
