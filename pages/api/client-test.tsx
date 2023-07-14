@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import client from "../../libs/client";
+import client from "../../libs/server/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -9,7 +9,7 @@ export default async function handler(
     data: {
       name: "gazero",
       // phoneNumber: "010-1444-1234",
-      gender: 0,
+      // gender: 0,
       // birthdate: "2004-02-02",
       // password: "1234",
       email: "asdf@asasd.com",

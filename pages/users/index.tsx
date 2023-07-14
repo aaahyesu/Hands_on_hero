@@ -1,4 +1,5 @@
 import Input from "@/components/input";
+import useMutation from "@/libs/client/useMutation";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,10 +13,12 @@ function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
 const Enter: NextPage = () => {
-  const { register, handleSubmit } = useForm<EnterForm>();
-  const [method] = useState<"email" | "password">("email");
-  const onValid = (data: EnterForm) => {
-    console.log(data);
+  const [enter, {loading, data, error}] = useMutation("/api/user/enter");
+  const [submitting, setSubmitting] = useState(false);
+  const { register, handleSubmit, reset } = useForm<EnterForm>();
+  const [method, setMethod] = useState<"email" | "password">("email");
+  const onValid = (validForm: EnterForm) => {
+    enter(validForm);
   }
   return (
     <div className="mt-16 px-4">
@@ -31,23 +34,21 @@ const Enter: NextPage = () => {
           className="mt-8 flex flex-col space-y-4">
           <div className="mt-1">
             <Input
-              register={register("email", {
-                required: true,
-              })}
+              register={register("email", {required: true,})}
               name="email"
               label="이메일 주소"
               type="email"
+              kind="text"
               required
             />
           </div>
           <div className="mt-1">
             <Input
-              register={register("password", {
-                required: true,
-              })}
+              register={register("password", {required: true,})}
               name="password"
               label="비밀번호"
               type="password"
+              kind="text"
               required
             />
           </div>
