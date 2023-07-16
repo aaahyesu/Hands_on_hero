@@ -6,14 +6,14 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { email } = req.body; 
-  let user;
-    user = await client.user.upsert({
+  const { email, password } = req.body; 
+  const user = await client.user.upsert({
       where: {
         ...(email && { email }),
       },
       create: {
         ...(email && { email }),
+        ...(password && { password }),
       },
       update: {},
     })

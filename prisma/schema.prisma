@@ -44,12 +44,12 @@ model User {
   // phoneNumber       String?         @db.VarChar(11)
   // gender            Int
   // birthdate         String?
-  password          String        @db.VarChar(20)
-  email             String         @db.VarChar(30)
+  password          String         
+  email             String         @unique
   // introduction      String?
   // virtualAccount    Int?            
   // virtualAccountId  Int?
-   tokens            Token[]
+  // tokens            Token[]
   // services           Service[]
   // licenseCerts      LicenseCert[]
   // reviews           Review[]       
@@ -60,7 +60,7 @@ model User {
 model Token {
   id        Int       @id @default(autoincrement())
   pay       String    @unique
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+//  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

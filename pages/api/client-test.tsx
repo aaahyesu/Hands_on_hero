@@ -7,12 +7,12 @@ export default async function handler(
 ) {
   await client.user.create({
     data: {
-      name: "gazero",
+      name: "fdf",
       // phoneNumber: "010-1444-1234",
       // gender: 0,
       // birthdate: "2004-02-02",
-      // password: "1234",
-      email: "asdf@asasd.com",
+      password: "1234",
+      email: "asdf@dfdm",
       // introduction: "hi",
     },
   });
