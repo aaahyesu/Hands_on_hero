@@ -2,60 +2,84 @@ import type { NextPage } from "next";
 import Layout from "@/components/layout";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import useMutation from "@/libs/client/useMutation";
+import Input from "@/components/input";
+import { Service } from "@prisma/client";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface UploadServiceForm {
   title: String;
   content: String;
+  Method: String;
   serviceDate: Date;
-  startTime: Number;
-  endTime: Number;
+  startTime: Date;
+  endTime: Date;
   Cost: Number;
 }
+
+interface UploadServiceMutation {
+  ok: boolean;
+  service : Service;
+}
 const Upload: NextPage = () => {
+  const router = useRouter();
   const { register, handleSubmit } = useForm<UploadServiceForm>();
+  const [uploadService, { loading, data }] = useMutation<UploadServiceMutation>("/api/services");
   const onValid = (data: UploadServiceForm) => {
     console.log(data);
+    if (loading) return;
+    uploadService(data);
   };
+  useEffect(() => {
+    if(data?.ok) {
+      router.push(`/services/${data.service.id}`)
+    }
+  }, [data, router]);
   return (
     <Layout hasTabBar canGoBack title="요청서 작성">
-      <div className="px-4" onSubmit={handleSubmit(onValid)}>
+      <form className="px-4" onSubmit={handleSubmit(onValid)}>
         <div className="my-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">
-            요청서를 작성해주세요.
-          </label>
-          <div className="relative flex appearance-none items-center rounded-md shadow-sm">
-            <input
-              id="title"
+
+            <Input
+              register={register("title", { required: true })}
               required
-              className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
+              //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
               type="text"
-              placeholder="제목을 입력해주세요."
+              label="제목" 
+              name="title"
+              kind="text"
             />
-          </div>
+
         </div>
-        <div className="relative my-2 flex appearance-none  items-center rounded-md shadow-sm">
-          <input
-            id="content"
+
+          <Input
+            register={register("content", { required: true })}
+            //id="content"
             required
-            className="h-24 w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
+            //className="h-24 w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
             type="text"
-            placeholder="상세 내용을 입력해주세요."
+            label="상세 요청내용" 
+            name="content"
+            kind="textArea"
           />
-        </div>
 
         <div className="my-4">
           <label className="mb-2 block text-sm font-bold text-gray-700">
             서비스 방법을 선택해주세요.
           </label>
-          <div className="relative flex items-center rounded-lg shadow-sm">
-            <input
-              id="serviceMethod"
+
+            <Input
+              register={register("Method", { required: true })}
+              //id="serviceMethod"
               required
-              className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
+              //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
               type="text"
-              placeholder="비대면, 화상통화, 원격제어 등"
+              label="" 
+              name="Method"
+              kind="text"
             />
-          </div>
+
         </div>
 
         <div className="text my-2">
@@ -67,11 +91,14 @@ const Upload: NextPage = () => {
               날짜
             </p>
             <div className="relative flex items-center rounded-lg shadow-sm">
-              <input
-                id="date"
+              <Input
+                register={register("serviceDate", { required: true })}
                 required
-                className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
                 type="date"
+                label="" 
+                name="serviceDate"
+                kind="time"
+                //className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
               />
             </div>
           </div>
@@ -82,11 +109,14 @@ const Upload: NextPage = () => {
               시작 시간
             </p>
             <div className="relative flex items-center rounded-lg shadow-sm">
-              <input
-                id="startTime"
+            <Input
+                register={register("startTime", { required: true })}
                 required
-                className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
                 type="time"
+                label="" 
+                name="startTime"
+                kind="time"
+                //className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
               />
             </div>
           </div>
@@ -96,38 +126,35 @@ const Upload: NextPage = () => {
             종료 시간
           </p>
           <div className="relative flex items-center rounded-lg shadow-sm">
-            <input
-              id="endTime"
-              required
-              className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
-              type="time"
-            />
+          <Input
+                register={register("endTime", { required: true })}
+                required
+                type="time"
+                label="" 
+                name="endTime"
+                kind="time"
+                //className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
+              />
           </div>
         </div>
         <div className="my-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">
-            서비스 비용
-          </label>
-          <div className="relative flex items-center rounded-lg shadow-sm">
-            <div className="pointer-events-none absolute left-0 flex items-center justify-center pl-3">
-              <span className="text-sm text-gray-500">\</span>
-            </div>
-            <input
-              id="cost"
+          <div className="">
+            <Input
+              register={register("Cost", { required: true })}
               required
-              className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 pl-7 shadow-sm focus:border-black focus:outline-none"
+              //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 pl-7 shadow-sm focus:border-black focus:outline-none"
               type="number"
-              placeholder="최소 1000원"
+              label="서비스 비용을 입력해주세요." 
+              name="Cost"
+              kind="price"
             />
           </div>
         </div>
         <div className="flex justify-center">
           <div className="flex-col-2 flex">
-            <Link href="/">
               <button className="mr-6 mt-2 w-full flex-1 rounded-lg border border-transparent bg-black px-4 py-3 text-sm font-bold text-white shadow-md hover:bg-gray-700 ">
                 작성하기
               </button>
-            </Link>
             <Link href="/">
               <button className="ml-6 mt-2 w-full flex-1 rounded-lg border border-gray-600 border-transparent bg-white px-4 py-3 text-sm font-bold text-black shadow-md hover:bg-gray-300 ">
                 취소하기
@@ -135,7 +162,7 @@ const Upload: NextPage = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </form>
     </Layout>
   );
 };
