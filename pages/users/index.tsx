@@ -13,13 +13,14 @@ function cls(...classnames: string[]) {
   return classnames.join(" ");
 }
 const Enter: NextPage = () => {
-  const [enter, {loading, data, error}] = useMutation("/api/user/enter");
+  const [enter, {loading, data, error}] = useMutation("/api/users/enter");
   const [submitting, setSubmitting] = useState(false);
   const { register, handleSubmit, reset } = useForm<EnterForm>();
-  const [method, setMethod] = useState<"email" | "password">("email");
   const onValid = (validForm: EnterForm) => {
+    if (loading) return;
     enter(validForm);
-  }
+  };
+  console.log(data);
   return (
     <div className="mt-16 px-4">
       <h2 className="text-center text-4xl font-extrabold">내 손안의 슈퍼맨</h2>
