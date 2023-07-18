@@ -49,7 +49,7 @@ model User {
   // introduction      String?
   // virtualAccount    Int?            
   // virtualAccountId  Int?
-  // tokens            Token[]
+  tokens            Token[]
   // services           Service[]
   // licenseCerts      LicenseCert[]
   // reviews           Review[]       
@@ -59,8 +59,8 @@ model User {
 
 model Token {
   id        Int       @id @default(autoincrement())
-  pay       String    @unique
-//  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payload   String    @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -76,11 +76,11 @@ model Service {
   // userId    Int
   title     String
   content   String    @db.MediumText
-  serviceDate DateTime
-  startTime DateTime
-  endTime   DateTime
+  serviceDate String
+  startTime String
+  endTime   String
   Cost      Int
-  Method    Int
+  Method    String
 
   //@@index([userId])
 }
