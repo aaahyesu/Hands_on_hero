@@ -3,16 +3,20 @@ import Layout from "@/components/layout";
 import Link from "next/link";
 import useSWR from "swr";
 import useUser from "@/libs/client/useUser";
+import { Service } from "@prisma/client";
 
+interface ServiceResponse {
+  ok:boolean;
+  services: Service[]
+}
 const Home: NextPage = () => {
   //const { user, isLoading } = useUser();
-  const {data} = useSWR("/api/services"); 
+  const {data} = useSWR<ServiceResponse>("/api/services"); 
   console.log(data);
   return (
     <Layout hasTabBar title="요청서 리스트">
       <div className="flex flex-col space-y-5 divide-y">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-
             <div
               key={i}
               className="flex px-4 border-b pb-3 cursor-pointer hover:bg-gray-200 justify-between"
