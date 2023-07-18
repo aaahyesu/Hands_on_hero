@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/layout";
+import Layout from "@/components/navbar";
 const Write: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="1:1 문의 작성">

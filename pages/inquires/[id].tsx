@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/layout";
+import Layout from "@/components/navbar";
 
 const CommunityPostDetail: NextPage = () => {
   return (
@@ -11,13 +11,14 @@ const CommunityPostDetail: NextPage = () => {
         <div className="flex mb-3 px-4 cursor-pointer pb-3  border-b items-center space-x-3">
           <div className="w-10 h-10 rounded-full bg-slate-300" />
           <div>
-              <p className="text-lg font-medium text-gray-700">이가영</p>
-              <p className="text-xs font-medium text-gray-500">프로필 보기</p>
+            <p className="text-lg font-medium text-gray-700">이가영</p>
+            <p className="text-xs font-medium text-gray-500">프로필 보기</p>
           </div>
         </div>
         <div>
           <div className="mt-2 px-4 text-gray-700">
-            <span className="text-blue-500 font-medium">Q.</span> 왜 환전 안해주시나요?
+            <span className="text-blue-500 font-medium">Q.</span> 왜 환전
+            안해주시나요?
           </div>
           <div className="flex px-4 space-x-5 mt-3 text-gray-700 py-2.5 border-t border-b-[2px]  w-full">
             <span className="flex space-x-2 items-center text-sm">
@@ -64,9 +65,7 @@ const CommunityPostDetail: NextPage = () => {
                 관리자
               </span>
               <span className="text-xs text-gray-500 block ">2시간 전</span>
-              <p className="text-gray-700 mt-2">
-                저희가 돈이 없으니깐요..
-              </p>
+              <p className="text-gray-700 mt-2">저희가 돈이 없으니깐요..</p>
             </div>
           </div>
         </div>

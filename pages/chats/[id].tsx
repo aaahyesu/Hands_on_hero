@@ -1,169 +1,174 @@
-import type { NextPage } from "next";
-import Layout from "@/components/layout";
+import useSWR from "swr";
+import Link from "next/link";
+import useMe from "libs/client/useMe";
+import Message from "components/message";
+import Username from "components/username";
+import useMutation from "libs/client/useMutation";
+import ChatLayout from "components/layouts/chat-layout";
+// import MainLayout from "components/layouts/main-layout";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { ChatMessage, User } from "@prisma/client";
+import { NextRouter, useRouter } from "next/router";
+import { CommonResult } from "libs/server/withHandler";
 
-const ChatDetail: NextPage = () => {
+interface ChatDetailFormData {
+  text: string;
+}
+
+interface ChatMessageWithUserAndChat extends ChatMessage {
+  user: User;
+}
+
+interface ChatDetailResult extends CommonResult {
+  chatMessages?: ChatMessageWithUserAndChat[];
+}
+
+const ChatDetail = () => {
+  const me = useMe();
+  const router: NextRouter = useRouter();
+  const { data, mutate } = useSWR<ChatDetailResult>(
+    router.query.id ? `/api/chats/${router.query.id}` : null,
+    {
+      refreshInterval: 1000,
+    }
+  );
+  const [chatMessageAddMutation, { loading: chatMessageAddLoading }] =
+    useMutation<CommonResult>(`/api/chats/${router.query.id}`);
+  const [
+    chatDeleteMutation,
+    { data: chatDeleteData, loading: chatDeleteLoading },
+  ] = useMutation<CommonResult>(`/api/chats/${router.query.id}/delete`);
+  const { register, handleSubmit, getValues, reset, watch } =
+    useForm<ChatDetailFormData>({ defaultValues: { text: "" } });
+  const opponent = data?.chatMessages?.find(
+    (chatMessage) => chatMessage.userId !== me?.id
+  );
+
+  const onValid = async () => {
+    if (chatMessageAddLoading === true) {
+      return;
+    }
+    const { text } = getValues();
+    const newMessage = {
+      id: Date.now(),
+      text,
+      userId: me?.id,
+      chatId: router.query.id,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      user: {
+        id: me?.id as number,
+        phone: me?.phone,
+        email: me?.email,
+        username: me?.username as string,
+        chatId: router.query.id,
+        createdAt: me?.createdAt,
+        updatedAt: me?.updatedAt,
+      },
+    };
+    await chatMessageAddMutation({ text });
+    mutate((prev) => {
+      if (prev && prev.chatMessages) {
+        return {
+          ...prev,
+          chatMessages: [...prev.chatMessages, newMessage],
+        } as any;
+      }
+    }, false);
+    reset();
+  };
+
+  const handleDeleteChat = async () => {
+    if (chatDeleteLoading === true) {
+      return;
+    }
+    await chatDeleteMutation();
+  };
+
+  useEffect(() => {
+    if (chatDeleteData?.ok === true) {
+      router.push("/chats");
+    }
+  }, [chatDeleteData, router]);
+
   return (
-    <Layout canGoBack title="채팅">
-      <div className="py-10 pb-16 px-4 space-y-4">
-        <div className="flex items-start space-x-2">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>Hi how much are you selling them for?</p>
-          </div>
-        </div>
-        <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>I want ￦20,000</p>
-          </div>
-        </div>
-        <div className="flex  items-start space-x-2 ">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>미쳤다 미쳤어</p>
-          </div>
-        </div>
-        <div className="flex items-start space-x-2">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>Hi how much are you selling them for?</p>
-          </div>
-        </div>
-        <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>I want ￦20,000</p>
-          </div>
-        </div>
-        <div className="flex  items-start space-x-2 ">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>미쳤어</p>
-          </div>
-        </div>
-        <div className="flex items-start space-x-2">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>Hi how much are you selling them for?</p>
-          </div>
-        </div>
-        <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>I want ￦20,000</p>
-          </div>
-        </div>
-        <div className="flex  items-start space-x-2 ">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>미쳤어</p>
-          </div>
-        </div>
-        <div className="flex items-start space-x-2">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>Hi how much are you selling them for?</p>
-          </div>
-        </div>
-        <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>I want ￦20,000</p>
-          </div>
-        </div>
-        <div className="flex  items-start space-x-2 ">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>미쳤어</p>
-          </div>
-        </div>
-        <div className="flex items-start space-x-2">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>Hi how much are you selling them for?</p>
-          </div>
-        </div>
-        <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>I want ￦20,000</p>
-          </div>
-        </div>
-        <div className="flex  items-start space-x-2 ">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>미쳤어</p>
-          </div>
-        </div>
-        <div className="flex items-start space-x-2">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>Hi how much are you selling them for?</p>
-          </div>
-        </div>
-        <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>I want ￦20,000</p>
-          </div>
-        </div>
-        <div className="flex  items-start space-x-2 ">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>미쳤어</p>
-          </div>
-        </div>
-        <div className="flex items-start space-x-2">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>Hi how much are you selling them for?</p>
-          </div>
-        </div>
-        <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>I want ￦20,000</p>
-          </div>
-        </div>
-        <div className="flex  items-start space-x-2 ">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>미쳤어</p>
-          </div>
-        </div>
-        <div className="flex items-start space-x-2">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>Hi how much are you selling them for?</p>
-          </div>
-        </div>
-        <div className="flex flex-row-reverse items-start space-x-2 space-x-reverse">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>I want ￦20,000</p>
-          </div>
-        </div>
-        <div className="flex  items-start space-x-2 ">
-          <div className="w-8 h-8 rounded-full bg-slate-400" />
-          <div className="w-1/2 text-sm text-gray-700 p-2 border border-gray-300 rounded-md">
-            <p>미쳤어</p>
-          </div>
-        </div>
-        <div className="fixed py-2 bg-white  bottom-0 inset-x-0">
-          <div className="flex relative border bordermax-w-md items-center  w-full mx-auto">
-            <input
-              type="text"
-              className="shadow-sm rounded-full w-full border-gray-500 focus:ring-blue-500 focus:outline-none pr-12 focus:border-blue-500"
+    <MainLayout
+      pageTitle={`${
+        opponent?.user.username ? `${opponent?.user.username}님과 채팅` : "채팅"
+      }`}
+      hasFooter={false}
+    >
+      <ChatLayout>
+        <div className="h-full pb-3">
+          <div className="relative h-[calc(100%_-_110px)]">
+            {/* 채팅방 상단 */}
+            <Link href={`/users/${opponent?.user.username}/posts`}>
+              <a className="flex h-[61px] max-h-[61px] items-center space-x-3 border-b px-3">
+                <Username
+                  text={opponent?.user.username}
+                  size="text-base"
+                  textDecoration={false}
+                />
+              </a>
+            </Link>
+
+            {/* 채팅방 나가기 버튼 */}
+            <DeleteButton
+              onClick={handleDeleteChat}
+              text="채팅방 나가기"
+              style="top-4 mr-3"
+              loading={chatDeleteLoading}
             />
-            <div className="absolute inset-y-0 flex py-1.5 pr-1.5 right-0">
-              <button className="flex focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 items-center bg-blue-500 rounded-full px-3 hover:bg-blue-600 text-sm text-white">
-                &rarr;
-              </button>
+
+            {/* 채팅방 메인 */}
+            <div className="h-full pb-16">
+              <div className="h-full overflow-auto px-3 pt-4">
+                {data?.chatMessages?.map((chatMessage) => (
+                  <Message
+                    key={chatMessage.id}
+                    isMe={chatMessage.userId === me?.id}
+                    text={chatMessage.text}
+                    createdAt={chatMessage.createdAt}
+                    cloudflareImageId={chatMessage.user.cloudflareImageId || ""}
+                  />
+                ))}
+              </div>
             </div>
           </div>
+
+          {/* 채팅 메세지 전송 */}
+          <form onSubmit={handleSubmit(onValid)} className="px-3">
+            <div className="relative h-[110px] max-h-28 w-full rounded-md border bg-white px-2.5 py-2 outline-none">
+              <textarea
+                {...register("text", { required: "메세지를 입력해주세요." })}
+                rows={2}
+                maxLength={190}
+                placeholder="메세지를 입력해주세요."
+                className="w-full resize-none text-[15px] outline-none placeholder:text-gray-300"
+              />
+              <div className="absolute bottom-2 right-2 flex items-end">
+                <div className="mb-1 mr-3 text-sm text-gray-300">
+                  <span>{watch("text").length}</span>/190
+                </div>
+                <button
+                  type="submit"
+                  className="h-8 rounded-md bg-orange-400 px-4 py-1.5 text-sm text-white hover:bg-orange-500"
+                >
+                  {chatMessageAddLoading === true ? (
+                    <div className="flex">
+                      <Loading color="" size={13} />
+                    </div>
+                  ) : (
+                    "전송"
+                  )}
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-      </div>
-    </Layout>
+      </ChatLayout>
+    </MainLayout>
   );
 };
 
