@@ -3,7 +3,12 @@ import Layout from "@/components/navbar";
 import Link from "next/link";
 import useSWR from "swr";
 import useUser from "@/libs/client/useUser";
+import { Service } from "@prisma/client";
 
+interface ServiceResponse {
+  ok: boolean;
+  services: Service[];
+}
 const Home: NextPage = () => {
   //const { user, isLoading } = useUser();
   const { data } = useSWR("/api/services");
@@ -14,11 +19,11 @@ const Home: NextPage = () => {
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div
             key={i}
-            className="flex px-4 border-b pb-3 cursor-pointer hover:bg-gray-200 justify-between"
+            className="flex cursor-pointer justify-between border-b px-4 pb-3 hover:bg-gray-200"
           >
             <div className="flex space-x-3">
-              <div className="pt-5 flex flex-col">
-                <h3 className="text-[25px] font-bold mb-3 text-black">
+              <div className="flex flex-col pt-5">
+                <h3 className="mb-3 text-[25px] font-bold text-black">
                   강아지 산책
                 </h3>
                 <span className="text-lg text-gray-500">
@@ -27,15 +32,15 @@ const Home: NextPage = () => {
                 <span className="text-lg text-gray-500">
                   2023년 4월 3일 오후 12시 까지
                 </span>
-                <span className="text-[20px] font-medium mt-3 text-gray-900">
+                <span className="mt-3 text-[20px] font-medium text-gray-900">
                   200만원
                 </span>
               </div>
             </div>
-            <div className="flex space-x-2 items-end justify-end">
-              <div className="flex space-x-0.5 items-center text-5  text-gray-600">
+            <div className="flex items-end justify-end space-x-2">
+              <div className="text-5 flex items-center space-x-0.5  text-gray-600">
                 <svg
-                  className="w-7 h-7"
+                  className="h-7 w-7"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -50,9 +55,9 @@ const Home: NextPage = () => {
                 </svg>
                 <span>1</span>
               </div>
-              <div className="flex space-x-0.5 items-center text-5  text-gray-600">
+              <div className="text-5 flex items-center space-x-0.5  text-gray-600">
                 <svg
-                  className="w-7 h-7"
+                  className="h-7 w-7"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -71,7 +76,7 @@ const Home: NextPage = () => {
           </div>
         ))}
         <Link href="/services/upload">
-          <button className="flex justify-center fixed hover:bg-blue-400 transition-colors cursor-pointer bottom-20 right-5 shadow-xl bg-blue-500 rounded-full px-5 py-4 text-xl text-white">
+          <button className="fixed bottom-20 right-5 flex cursor-pointer justify-center rounded-full bg-blue-500 px-5 py-4 text-xl text-white shadow-xl transition-colors hover:bg-blue-400">
             <svg
               className="h-7 w-7"
               xmlns="http://www.w3.org/2000/svg"

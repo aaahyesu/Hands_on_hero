@@ -13,31 +13,26 @@ datasource db {
 
 model User {
   id                Int            @id @default(autoincrement())
-  username          String         @unique
-  phone             String?         @db.VarChar(11)
-  gender            Int
-  birthdate         String?
+  // name              String         @db.VarChar(10)
+  // phoneNumber       String?         @db.VarChar(11)
+  // gender            Int
+  // birthdate         String?
   password          String        @db.VarChar(20)
-  email             String?        @unique
-  introduction      String?
-  virtualAccount    Int?            
-  virtualAccountId  Int?
-  tokens            Token[]
-  chat              Chat[]
-  chatMessages      ChatMessage[]
-  createdAt          DateTime    @default(now())
-  updatedAt          DateTime    @updatedAt()
-  services          Service[]
-  licenseCerts      LicenseCert[]
-  writtenReviews    Review[]        @relation(name: "WrittenReviews")
-  receivedReviews   Review[]        @relation(name: "ReceivedReviews")   
-  // @@map("users")
+  email             String         @db.VarChar(30)
+  // introduction      String?
+  // virtualAccount    Int?            
+  // virtualAccountId  Int?
+   tokens            Token[]
+  // services           Service[]
+  // licenseCerts      LicenseCert[]
+  // reviews           Review[]       
+  //@@map("users")
 }
 
 
 model Token {
   id        Int       @id @default(autoincrement())
-  pay       String    @unique
+  payload   String    @unique
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   createdAt DateTime  @default(now())
@@ -54,11 +49,11 @@ model Service {
   userId    Int
   title     String
   content   String    @db.MediumText
-  serviceDate DateTime
-  startTime DateTime
-  endTime   DateTime
+  serviceDate String
+  startTime String
+  endTime   String
   Cost      Int
-  Method    Int
+  Method    String
 
   @@index([userId])
 }
