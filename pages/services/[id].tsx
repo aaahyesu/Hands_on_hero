@@ -1,6 +1,15 @@
 import type { NextPage } from "next";
 import Layout from "@/components/layout";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+
 const ServiceDetail: NextPage = () => {
+  const router = useRouter();
+  console.log(router.query)
+  const { data, error } = useSWR(
+    `/api/services/{router.query.id}`
+  );
+  console.log(data);
   return (
     <Layout hasTabBar canGoBack title="요청서 상세내용">
       <div className="px-4 py-4">
@@ -13,29 +22,29 @@ const ServiceDetail: NextPage = () => {
             </div>
           </div>
           <div className="pt-4">
-            <h1 className="text-xl font-bold text-gray-900">강아지 산책</h1>
+            <h1 className="text-xl font-bold text-gray-900">{data?.service.title}</h1>
             <div className="flex flex-col pt-2" />
             <div className="flex items-center space-x-3 rounded-lg border border-gray-400 py-10">
               <span className="px-4 text-sm text-black">
-                강아지 산책 부탁드려요!!
+                {data?.service?.content}
               </span>
             </div>
             <div className="pt-4" />
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
               <p className="mb-2 px-4 text-xl font-bold">요청시간</p>
               <span className="px-2 text-sm text-black">
-                2023년 4월 1일 오전 10시 ~ 4월 3일 오후 12시 까지
+              {data?.service?.startTime}  {data?.service?.endTime}
               </span>
             </div>
             <div className="pt-4" />
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
               <p className="mb-2 px-4 text-xl font-bold">서비스 비용</p>
-              <span className="px-2 text-sm text-black">50000 원</span>
+              <span className="px-2 text-sm text-black">{data?.service?.Cost}</span>
             </div>
             <div className="pt-4" />
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
               <p className="mb-2 px-4 text-xl font-bold">서비스 방법</p>
-              <span className="px-2 text-sm text-black">화상통화</span>
+              <span className="px-2 text-sm text-black">{data?.service?.Method}</span>
             </div>
             <div className="flex items-center justify-between space-x-2 pt-16">
               <button className="flex-1 rounded-md bg-black py-3 font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-1 ">
