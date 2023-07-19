@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-export interface ResponseType {
+export interface CommonResult {
   ok: boolean;
+  message: string;
   [key: string]: any;
 }
 
@@ -21,7 +22,7 @@ export default function withHandler({
   return async function (
     req: NextApiRequest,
     res: NextApiResponse
-    ): Promise<any> {
+  ): Promise<any> {
     if (req.method && !methods.includes(req.method as any)) {
       return res.status(405).end();
     }

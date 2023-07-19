@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/layout";
+import Layout from "@/components/navbar";
 import Link from "next/link";
 const Profile: NextPage = () => {
   return (
@@ -10,7 +10,10 @@ const Profile: NextPage = () => {
           <div className="flex flex-col">
             <span className="font-bold text-gray-900">김혜수</span>
             <div className="space-y-1">
-              <label htmlFor="number" className="text-sm font-medium text-gray-700">
+              <label
+                htmlFor="number"
+                className="text-sm font-medium text-gray-700"
+              >
                 나의 가상 머니 : 50000원
               </label>
             </div>
@@ -20,7 +23,6 @@ const Profile: NextPage = () => {
           </div>
         </div>
         <div className="mt-10 flex justify-around">
-
           <Link href="\profile\bought">
             <div className="flex flex-col items-center">
               <div className="w-14 h-14 text-white bg-black rounded-full flex items-center justify-center">
@@ -92,7 +94,6 @@ const Profile: NextPage = () => {
               </span>
             </div>
           </Link>
-
         </div>
         <div className="mt-12">
           <div className="flex space-x-4 items-center">
@@ -149,9 +150,7 @@ const Profile: NextPage = () => {
             </div>
           </div>
           <div className="mt-4 text-gray-600 text-sm">
-            <p>
-              아주 친절하시네요. 근데 뒷정리 안해서 4점줄래요..
-            </p>
+            <p>아주 친절하시네요. 근데 뒷정리 안해서 4점줄래요..</p>
           </div>
         </div>
       </div>

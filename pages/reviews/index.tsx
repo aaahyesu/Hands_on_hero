@@ -1,14 +1,13 @@
 import type { NextPage } from "next";
-import Layout from "@/components/layout";
+import Layout from "@/components/navbar";
 import Link from "next/link";
 
 const Review: NextPage = () => {
-    return (
+  return (
     <Layout hasTabBar canGoBack title="리뷰 내역">
-        <div></div>
+      <div></div>
     </Layout>
-    )
-}
-
+  );
+};
 
 export default Review;

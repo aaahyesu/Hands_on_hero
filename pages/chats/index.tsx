@@ -1,28 +1,21 @@
 import type { NextPage } from "next";
-import Layout from "@/components/layout";
+import Layout from "@/components/navbar";
 import Link from "next/link";
+import ChatLayout from "@/components/layouts/chat-layout";
+import MainLayout from "@/components/layouts/main-layout";
 
 const Chats: NextPage = () => {
   return (
-    <Layout hasTabBar title="채팅">
-      <div className="py-10 divide-y-[1px] ">
-        {[1, 1, 1, 1, 1, 1, 1].map((_, i) => (
-          <div
-            key={i}
-            className="flex px-4 cursor-pointer hover:bg-gray-200 py-3 items-center space-x-3"
-          >
-            <div className="w-12 h-12 rounded-full bg-slate-300" />
-            <div>
-              <p className="text-gray-700">이가영</p>
-              <p className="text-sm  text-gray-500">
-                바보
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </Layout>
+    <MainLayout pageTitle="채팅">
+      <ChatLayout>
+        <div className="flex h-full flex-col items-center justify-center text-gray-300">
+          <p className="mt-3 text-sm font-medium">
+            채팅할 상대를 선택해주세요 .
+          </p>
+        </div>
+      </ChatLayout>
+    </Mainlayout>
   );
 };
 
-export default Chats;   
+export default Chats;

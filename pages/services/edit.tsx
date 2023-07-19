@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/layout";
+import Layout from "@/components/navbar";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
@@ -140,4 +140,4 @@ const ServicesEdit: NextPage = () => {
   );
 };
 
-export default  ServicesEdit;
+export default ServicesEdit;
