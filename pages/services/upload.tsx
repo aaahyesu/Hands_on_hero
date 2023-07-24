@@ -46,6 +46,7 @@ const Upload: NextPage = () => {
             required
             //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
             type="text"
+            placeholder="제목을 입력해주세요."
             label="제목"
             name="title"
             kind="text"
@@ -59,22 +60,20 @@ const Upload: NextPage = () => {
           //className="h-24 w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
           type="text"
           label="상세 요청내용"
+          placeholder="요청서 내용을 입력해주세요."
           name="content"
           kind="textArea"
         />
 
         <div className="my-4">
-          <label className="mb-2 block text-sm font-bold text-gray-700">
-            서비스 방법을 선택해주세요.
-          </label>
-
           <Input
             register={register("Method", { required: true })}
             //id="serviceMethod"
             required
             //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
             type="text"
-            label=""
+            placeholder="화상통화, 원격접속 등 "
+            label="서비스 방법을 선택해주세요."
             name="Method"
             kind="text"
           />
@@ -93,6 +92,7 @@ const Upload: NextPage = () => {
                 register={register("serviceDate", { required: true })}
                 required
                 type="date"
+                placeholder=""
                 label=""
                 name="serviceDate"
                 kind="time"
@@ -111,6 +111,7 @@ const Upload: NextPage = () => {
                 register={register("startTime", { required: true })}
                 required
                 type="time"
+                placeholder=""
                 label=""
                 name="startTime"
                 kind="time"
@@ -128,6 +129,7 @@ const Upload: NextPage = () => {
               register={register("endTime", { required: true })}
               required
               type="time"
+              placeholder=""
               label=""
               name="endTime"
               kind="time"
@@ -142,6 +144,7 @@ const Upload: NextPage = () => {
               required
               //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 pl-7 shadow-sm focus:border-black focus:outline-none"
               type="number"
+              placeholder=""
               label="서비스 비용을 입력해주세요."
               name="Cost"
               kind="price"

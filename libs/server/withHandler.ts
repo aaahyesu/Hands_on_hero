@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-export interface CommonResult {
+export interface ResponseType {
   ok: boolean;
-  message: string;
+  // message: string;
   [key: string]: any;
 }
 

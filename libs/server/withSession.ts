@@ -24,6 +24,3 @@
 // export function withSsrSession(handler: any) {
 //   return withIronSessionSsr(handler, cookieConfig);
 // }
-
-
-
