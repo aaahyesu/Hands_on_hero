@@ -83,8 +83,9 @@ const Enter: NextPage = () => {
               required
             />
           </div>
-          <div className="mt-50">
-          asdf
+          <div className="flex items-center mb-4">
+            <input type="checkbox" className="default:ring-2 checked:bg-blue-500"/>
+            <b>약관 및 개인정보 보호 정책에 동의합니다.</b>
           </div>
           <button className="mt-5 rounded-md border border-transparent bg-black px-4 py-2 text- font-medium text-white shadow-sm hover:bg-[#050708]/80 focus:outline-none focus:ring-2 focus:ring-[#050708] focus:ring-offset-2 ">
             회원가입

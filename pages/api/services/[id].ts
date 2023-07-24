@@ -1,12 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "@/libs/server/client";
-import withHandler from "@/libs/server/withHandler";
-import { Service } from "@prisma/client";
-
-type ResponseType = {
-  ok: boolean;
-  service: Service | null;
-};
+import withHandler, {ResponseType} from "@/libs/server/withHandler";
 
 async function handler(
   req: NextApiRequest,
@@ -15,10 +9,13 @@ async function handler(
   const { id } = req.query;
   const service = await client.service.findUnique({
     where: {
-      id: Number(id)
+      id: Number(id),
     },
   });
-  return res.json({ ok: true, service });
+  return res.json({
+    ok: true, 
+    service,
+  });
 }
 
 export default withHandler({ methods: ["GET"], handler });

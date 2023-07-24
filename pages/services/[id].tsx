@@ -1,10 +1,13 @@
+import Layout from "@/components/navbar";
 import type { NextPage } from "next";
-import Layout from "@/components/layout";
+import { useRouter } from "next/router";
+import useSWR from "swr";
+
 const ServiceDetail: NextPage = () => {
   const router = useRouter();
-  console.log(router.query)
+  //console.log(router.query.id)
   const { data, error } = useSWR(
-    `/api/services/{router.query.id}`
+    router.query.id && `/api/services/${router.query.id}`
   );
   console.log(data);
   return (
