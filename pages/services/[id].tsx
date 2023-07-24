@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/layout";
+import Layout from "@/components/navbar";
 const ServiceDetail: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="요청서 상세내용">
