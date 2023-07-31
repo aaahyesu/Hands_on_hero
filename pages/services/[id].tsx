@@ -5,10 +5,7 @@ import useSWR from "swr";
 
 const ServiceDetail: NextPage = () => {
   const router = useRouter();
-  //console.log(router.query.id)
-  const { data, error } = useSWR(
-    router.query.id && `/api/services/${router.query.id}`
-  );
+  const { data, error } = useSWR(router.query.id ? `/api/services/${router.query.id}` : null);
   console.log(data);
   return (
     <Layout hasTabBar canGoBack title="요청서 상세내용">
@@ -22,7 +19,7 @@ const ServiceDetail: NextPage = () => {
             </div>
           </div>
           <div className="pt-4">
-            <h1 className="text-xl font-bold text-gray-900">{data?.service.title}</h1>
+            <h1 className="text-xl font-bold text-gray-900">{data?.service?.title}</h1>
             <div className="flex flex-col pt-2" />
             <div className="flex items-center space-x-3 rounded-lg border border-gray-400 py-10">
               <span className="px-4 text-sm text-black">
