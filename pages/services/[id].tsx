@@ -1,4 +1,4 @@
-import Layout from "@/components/navbar";
+import Layout from "@/components/Navbar";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
@@ -22,7 +22,9 @@ const ServiceDetail: NextPage = () => {
             </div>
           </div>
           <div className="pt-4">
-            <h1 className="text-xl font-bold text-gray-900">{data?.service.title}</h1>
+            <h1 className="text-xl font-bold text-gray-900">
+              {data?.service.title}
+            </h1>
             <div className="flex flex-col pt-2" />
             <div className="flex items-center space-x-3 rounded-lg border border-gray-400 py-10">
               <span className="px-4 text-sm text-black">
@@ -33,18 +35,22 @@ const ServiceDetail: NextPage = () => {
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
               <p className="mb-2 px-4 text-xl font-bold">요청시간</p>
               <span className="px-2 text-sm text-black">
-              {data?.service?.startTime}  {data?.service?.endTime}
+                {data?.service?.startTime} {data?.service?.endTime}
               </span>
             </div>
             <div className="pt-4" />
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
               <p className="mb-2 px-4 text-xl font-bold">서비스 비용</p>
-              <span className="px-2 text-sm text-black">{data?.service?.Cost}</span>
+              <span className="px-2 text-sm text-black">
+                {data?.service?.Cost}
+              </span>
             </div>
             <div className="pt-4" />
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
               <p className="mb-2 px-4 text-xl font-bold">서비스 방법</p>
-              <span className="px-2 text-sm text-black">{data?.service?.Method}</span>
+              <span className="px-2 text-sm text-black">
+                {data?.service?.Method}
+              </span>
             </div>
             <div className="flex items-center justify-between space-x-2 pt-16">
               <button className="flex-1 rounded-md bg-black py-3 font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-1 ">

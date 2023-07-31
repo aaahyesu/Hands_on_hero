@@ -1,33 +1,43 @@
-// import { NextApiRequest, NextApiResponse } from "next";
-// import withHandler, { ResponseType } from "@/libs/server/withHandler";
-// import client from "@/libs/server/client";
-// import { withApiSession } from "@/libs/server/withSession";
+import { NextApiRequest, NextApiResponse } from "next";
+import prisma from "libs/client/prisma";
+import withHandler, { ResponseType } from "@/libs/server/withHandler";
+import { withApiSession } from "@/libs/server/withSession";
 
-// declare module "iron-session" {
-//   interface IronSessionData {
-//     user?: {
-//       id: number;
-//     };
-//   }
-// }
+async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<ResponseType>
+) {
+  const { serviceId } = req.query;
 
-// async function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse<ResponseType>
-// ) {
-//   console.log(req.session.user);
-//   const profile = await client.user.findUnique({
-//     where: { id: req.session.user?.id },
-//   });
-//   res.json({
-//     ok: true,
-//     profile,
-//   });
-// }
+  try {
+    const roomWithUser = await prisma.room.findMany({
+      where: {
+        users: { some: { id: Number(serviceId) } },
+      },
+      include: {
+        users: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
 
-// export default withApiSession(
-//   withHandler({
-//     methods: ["GET"],
-//     handler,
-//   })
-// );
+    return res.status(200).json({
+      ok: true,
+      message: "성공",
+      roomWithUser,
+    });
+  } catch (error) {
+    console.error("/api/services error >> ", error);
+
+    res.status(500).json({
+      ok: false,
+      message: "서버측 에러입니다.\n잠시후에 다시 시도해주세요",
+      error,
+    });
+  }
+}
+
+export default withApiSession(withHandler({ methods: ["GET"], handler }));

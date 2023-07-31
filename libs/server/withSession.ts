@@ -1,26 +1,22 @@
-// import { IronSessionOptions } from "iron-session";
-// import { withIronSessionApiRoute, withIronSessionSsr } from "iron-session/next";
+import { withIronSessionApiRoute, withIronSessionSsr } from "iron-session/next";
 
-// declare module "iron-session" {
-//   interface IronSessionData {
-//     user?: {
-//       id: number;
-//     };
-//   }
-// }
+declare module "iron-session" {
+  interface IronSessionData {
+    user?: {
+      id: number;
+    };
+  }
+}
 
-// const cookieConfig: IronSessionOptions = {
-//   cookieName: "session",
-//   password: process.env.SECRET_COOKIE_PASSWORD as string,
-//   cookieOptions: {
-//     secure: process.env.NODE_ENV === "production",
-//   },
-// };
+const cookieOptions = {
+  cookieName: "session",
+  password: process.env.SECRET_COOKIE_SECRETE!,
+};
 
-// export function withApiSession(fn: any) {
-//   return withIronSessionApiRoute(fn, cookieConfig);
-// }
+export function withApiSession(fn: any) {
+  return withIronSessionApiRoute(fn, cookieOptions);
+}
 
-// export function withSsrSession(handler: any) {
-//   return withIronSessionSsr(handler, cookieConfig);
-// }
+export function withSsrSession(handler: any) {
+  return withIronSessionApiRoute(handler, cookieOptions);
+}

@@ -1,174 +1,251 @@
-import useSWR from "swr";
-import Link from "next/link";
-import useMe from "libs/client/useMe";
-import Message from "components/message";
-import Username from "components/username";
-import useMutation from "libs/client/useMutation";
-import ChatLayout from "components/layouts/chat-layout";
-// import MainLayout from "components/layouts/main-layout";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import type { NextPage } from "next";
 import { useForm } from "react-hook-form";
-import { ChatMessage, User } from "@prisma/client";
-import { NextRouter, useRouter } from "next/router";
-import { CommonResult } from "libs/server/withHandler";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { Socket, io } from "socket.io-client";
 
-interface ChatDetailFormData {
-  text: string;
+// common-component
+import Button from "@/components/Button";
+
+// component
+import Message from "components/Message";
+
+// type
+import {
+  ApiResponse,
+  ClientToServerEvents,
+  ServerToClientEvents,
+  SimpleUser,
+} from "@/types/index";
+import { Chat } from "@prisma/client";
+
+// hook
+import useMe from "@/libs/client/useMe";
+import useSWRInfinite from "swr/infinite";
+import Spinner from "@/components/spinner";
+
+interface IChatWithUser extends Chat {
+  User: SimpleUser;
 }
-
-interface ChatMessageWithUserAndChat extends ChatMessage {
-  user: User;
+interface IChatResponse extends ApiResponse {
+  chats: IChatWithUser[];
+  isMine: boolean;
 }
+type ChatForm = {
+  chat: string;
+};
 
-interface ChatDetailResult extends CommonResult {
-  chatMessages?: ChatMessageWithUserAndChat[];
-}
+const ChatDetail: NextPage = () => {
+  const router = useRouter();
+  const { me } = useMe();
 
-const ChatDetail = () => {
-  const me = useMe();
-  const router: NextRouter = useRouter();
-  const { data, mutate } = useSWR<ChatDetailResult>(
-    router.query.id ? `/api/chats/${router.query.id}` : null,
-    {
-      refreshInterval: 1000,
+  const { register, handleSubmit, reset } = useForm<ChatForm>();
+  const [socket, setSocket] = useState<null | Socket<
+    ServerToClientEvents,
+    ClientToServerEvents
+  >>(null);
+
+  // 기존 채팅 load
+  const [hasMoreChat, setHasMoreChat] = useState(true);
+  const {
+    data: chatsResponse,
+    mutate: chatMutate,
+    setSize,
+    isValidating: loadChatsLoading,
+  } = useSWRInfinite<IChatResponse>((pageIndex, prevPageData) => {
+    if (!router.query.id) return;
+    if (prevPageData && !prevPageData.chats.length) {
+      setHasMoreChat(false);
+      return null;
     }
-  );
-  const [chatMessageAddMutation, { loading: chatMessageAddLoading }] =
-    useMutation<CommonResult>(`/api/chats/${router.query.id}`);
-  const [
-    chatDeleteMutation,
-    { data: chatDeleteData, loading: chatDeleteLoading },
-  ] = useMutation<CommonResult>(`/api/chats/${router.query.id}/delete`);
-  const { register, handleSubmit, getValues, reset, watch } =
-    useForm<ChatDetailFormData>({ defaultValues: { text: "" } });
-  const opponent = data?.chatMessages?.find(
-    (chatMessage) => chatMessage.userId !== me?.id
-  );
 
-  const onValid = async () => {
-    if (chatMessageAddLoading === true) {
-      return;
-    }
-    const { text } = getValues();
-    const newMessage = {
-      id: Date.now(),
-      text,
-      userId: me?.id,
-      chatId: router.query.id,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      user: {
-        id: me?.id as number,
-        phone: me?.phone,
-        email: me?.email,
-        username: me?.username as string,
-        chatId: router.query.id,
-        createdAt: me?.createdAt,
-        updatedAt: me?.updatedAt,
-      },
-    };
-    await chatMessageAddMutation({ text });
-    mutate((prev) => {
-      if (prev && prev.chatMessages) {
-        return {
-          ...prev,
-          chatMessages: [...prev.chatMessages, newMessage],
-        } as any;
-      }
-    }, false);
-    reset();
-  };
+    return `/api/chats/${router.query.id}?page=${pageIndex}&offset=${50}`;
+  });
 
-  const handleDeleteChat = async () => {
-    if (chatDeleteLoading === true) {
-      return;
-    }
-    await chatDeleteMutation();
-  };
-
+  // 채팅 스크롤 -> 가장 아래에서 실행
   useEffect(() => {
-    if (chatDeleteData?.ok === true) {
-      router.push("/chats");
+    if (chatsResponse && chatsResponse.length === 1 && !loadChatsLoading) {
+      document.documentElement.scrollTop =
+        document.documentElement.scrollHeight;
     }
-  }, [chatDeleteData, router]);
+  }, [chatsResponse, loadChatsLoading]);
+
+  // 서버와 소켓 연결 + 채팅방 입장
+  useEffect(() => {
+    if (!me) return;
+
+    const mySocket = io(process.env.NEXT_PUBLIC_VERCEL_URL!, {
+      path: "/api/chats/socketio",
+      // withCredentials: true,
+      // transports: ["websocket"],
+    });
+
+    setSocket((prev) => prev || mySocket);
+
+    // 소켓 연결 성공 했다면
+    mySocket.on("connect", () => {
+      // 채팅방 입장
+      mySocket.emit("onJoinRoom", router.query.id as string);
+
+      // 채팅받기 이벤트 등록
+      mySocket.on("onReceive", ({ user, chat }) => {
+        chatMutate(
+          (prev) =>
+            prev && [
+              ...prev,
+              {
+                ok: true,
+                message: "mutate로 추가",
+                isMine: true,
+                chats: [
+                  {
+                    User: user,
+                    chat,
+                    id: Date.now(),
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
+                    roomId: +(router.query.id as string),
+                    userId: user.id,
+                  },
+                ],
+              },
+            ]
+        );
+      });
+    });
+  }, [me, router, chatMutate]);
+
+  // 채팅 전송
+  const onAddChatting = useCallback(
+    ({ chat }: ChatForm) => {
+      if (!me) return;
+      if (chat.trim() === "") return toast.error("내용을 입력하세요!");
+      if (chat.length > 200)
+        return toast.error(
+          `200자 이내로 입력해주세요( 현재 ${chat.length}자 )`
+        );
+
+      socket?.emit("onSend", {
+        userId: me.id,
+        roomId: router.query.id as string,
+        chat,
+      });
+
+      chatMutate(
+        (prev) =>
+          prev && [
+            ...prev,
+            {
+              ok: true,
+              message: "mutate로 추가",
+              isMine: true,
+              chats: [
+                {
+                  User: {
+                    id: me.id,
+                    name: me.name,
+                  },
+                  chat,
+                  id: Date.now(),
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                  roomId: +(router.query.id as string),
+                  userId: me.id,
+                },
+              ],
+            },
+          ]
+      );
+
+      document.documentElement.scrollTop =
+        document.documentElement.scrollHeight;
+
+      reset();
+    },
+    [me, reset, router, socket, chatMutate]
+  );
+  // 무한 스크롤링 이벤트 함수
+  const infiniteScrollEvent = useCallback(() => {
+    if (window.scrollY <= 200 && hasMoreChat && !loadChatsLoading) {
+      setSize((prev) => prev + 1);
+    }
+  }, [hasMoreChat, loadChatsLoading, setSize]);
+  // 무한 스크롤링 이벤트 등록/해제
+  useEffect(() => {
+    window.addEventListener("scroll", infiniteScrollEvent);
+
+    return () => window.removeEventListener("scroll", infiniteScrollEvent);
+  }, [infiniteScrollEvent]);
+
+  //  권한 없이 채팅방 입장
+  useEffect(() => {
+    if (chatsResponse && !chatsResponse[0].isMine) {
+      toast.error("채팅방에 접근할 권한이 없습니다.");
+      router.replace("/chats");
+    }
+  }, [chatsResponse, router]);
 
   return (
-    <MainLayout
-      pageTitle={`${
-        opponent?.user.username ? `${opponent?.user.username}님과 채팅` : "채팅"
-      }`}
-      hasFooter={false}
-    >
-      <ChatLayout>
-        <div className="h-full pb-3">
-          <div className="relative h-[calc(100%_-_110px)]">
-            {/* 채팅방 상단 */}
-            <Link href={`/users/${opponent?.user.username}/posts`}>
-              <a className="flex h-[61px] max-h-[61px] items-center space-x-3 border-b px-3">
-                <Username
-                  text={opponent?.user.username}
-                  size="text-base"
-                  textDecoration={false}
-                />
-              </a>
-            </Link>
-
-            {/* 채팅방 나가기 버튼 */}
-            <DeleteButton
-              onClick={handleDeleteChat}
-              text="채팅방 나가기"
-              style="top-4 mr-3"
-              loading={chatDeleteLoading}
-            />
-
-            {/* 채팅방 메인 */}
-            <div className="h-full pb-16">
-              <div className="h-full overflow-auto px-3 pt-4">
-                {data?.chatMessages?.map((chatMessage) => (
+    <>
+      <article className="mb-[10vh] min-h-[70vh] space-y-4 rounded-sm bg-slate-200 p-4">
+        {loadChatsLoading && (
+          <h3 className="rounded-md bg-indigo-400 p-2 text-center text-lg text-white">
+            <Spinner kinds="button" />
+            채팅을 불러오는 중입니다...
+          </h3>
+        )}
+        {!hasMoreChat && (
+          <li className="list-none rounded-md bg-indigo-400 py-2 text-center text-lg text-white">
+            더 이상 불러올 채팅이 없습니다.
+          </li>
+        )}
+        {chatsResponse?.[0].isMine ? (
+          <ul className="space-y-2">
+            {[...chatsResponse]
+              .reverse()
+              .map(({ chats }) =>
+                chats.map((chat) => (
                   <Message
-                    key={chatMessage.id}
-                    isMe={chatMessage.userId === me?.id}
-                    text={chatMessage.text}
-                    createdAt={chatMessage.createdAt}
-                    cloudflareImageId={chatMessage.user.cloudflareImageId || ""}
+                    key={chat.id}
+                    message={chat.chat}
+                    user={chat.User}
+                    updatedAt={chat.updatedAt}
+                    $reversed={me?.id === chat.User.id}
                   />
-                ))}
-              </div>
-            </div>
-          </div>
+                ))
+              )}
+          </ul>
+        ) : (
+          <>
+            {!loadChatsLoading && (
+              <span className="block text-center">
+                현재 채팅이 없습니다. 채팅을 입력해주세요!
+              </span>
+            )}
+          </>
+        )}
+      </article>
 
-          {/* 채팅 메세지 전송 */}
-          <form onSubmit={handleSubmit(onValid)} className="px-3">
-            <div className="relative h-[110px] max-h-28 w-full rounded-md border bg-white px-2.5 py-2 outline-none">
-              <textarea
-                {...register("text", { required: "메세지를 입력해주세요." })}
-                rows={2}
-                maxLength={190}
-                placeholder="메세지를 입력해주세요."
-                className="w-full resize-none text-[15px] outline-none placeholder:text-gray-300"
-              />
-              <div className="absolute bottom-2 right-2 flex items-end">
-                <div className="mb-1 mr-3 text-sm text-gray-300">
-                  <span>{watch("text").length}</span>/190
-                </div>
-                <button
-                  type="submit"
-                  className="h-8 rounded-md bg-orange-400 px-4 py-1.5 text-sm text-white hover:bg-orange-500"
-                >
-                  {chatMessageAddLoading === true ? (
-                    <div className="flex">
-                      <Loading color="" size={13} />
-                    </div>
-                  ) : (
-                    "전송"
-                  )}
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </ChatLayout>
-    </MainLayout>
+      <article>
+        <form
+          onSubmit={handleSubmit(onAddChatting)}
+          className="fixed inset-x-0 bottom-24 mx-auto flex w-10/12 max-w-lg"
+        >
+          <input
+            type="text"
+            className="peer flex-[8.5] rounded-l-md border-gray-300 placeholder:text-gray-400 focus:border-orange-400 focus:outline-none focus:ring-1 focus:ring-black"
+            {...register("chat")}
+            autoFocus
+          />
+          <Button
+            type="submit"
+            text="전송"
+            className="flex-[1.5] rounded-r-md bg-black py-[10px] text-white ring-blue-400 hover:bg-black focus:outline-orange-500 peer-focus:ring-1"
+          />
+        </form>
+      </article>
+    </>
   );
 };
 

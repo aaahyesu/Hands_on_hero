@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/navbar";
+import Layout from "@/components/Navbar";
 import Link from "next/link";
 const Loved: NextPage = () => {
   return (
@@ -9,7 +9,7 @@ const Loved: NextPage = () => {
           {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
             <div
               key={i}
-              className="flex cursor-pointer hover:bg-gray-100 justify-between border-b px-4 pb-3 mt-3"
+              className="mt-3 flex cursor-pointer justify-between border-b px-4 pb-3 hover:bg-gray-100"
             >
               <div className="flex space-x-4">
                 <div className="flex flex-col">

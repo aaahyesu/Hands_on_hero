@@ -1,14 +1,12 @@
 import Head from "next/head";
 // import Header from "components/header";
-// import Footer from "components/footer";
 
 interface MainLayoutProps {
   pageTitle?: string;
-  hasFooter: boolean;
   children: React.ReactNode;
 }
 
-const MainLayout = ({ pageTitle, hasFooter, children }: MainLayoutProps) => {
+const MainLayout = ({ pageTitle, children }: MainLayoutProps) => {
   return (
     <div>
       <Head>

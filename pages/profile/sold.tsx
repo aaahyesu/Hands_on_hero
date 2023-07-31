@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/navbar";
+import Layout from "@/components/Navbar";
 const Loved: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="서비스 요청 내역">
@@ -7,7 +7,7 @@ const Loved: NextPage = () => {
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <div
             key={i}
-            className="flex cursor-pointer hover:bg-gray-100 justify-between border-b px-4 pb-3"
+            className="flex cursor-pointer justify-between border-b px-4 pb-3 hover:bg-gray-100"
           >
             <div className="flex space-x-4">
               <div className="h-20 w-20 rounded-md bg-gray-400" />

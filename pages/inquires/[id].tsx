@@ -1,15 +1,15 @@
 import type { NextPage } from "next";
-import Layout from "@/components/navbar";
+import Layout from "@/components/Navbar";
 
 const CommunityPostDetail: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="1:1 문의">
       <div>
-        <span className="inline-flex my-3 ml-4 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+        <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
           1:1 문의
         </span>
-        <div className="flex mb-3 px-4 cursor-pointer pb-3  border-b items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-slate-300" />
+        <div className="mb-3 flex cursor-pointer items-center space-x-3  border-b px-4 pb-3">
+          <div className="h-10 w-10 rounded-full bg-slate-300" />
           <div>
             <p className="text-lg font-medium text-gray-700">이가영</p>
             <p className="text-xs font-medium text-gray-500">프로필 보기</p>
@@ -17,13 +17,13 @@ const CommunityPostDetail: NextPage = () => {
         </div>
         <div>
           <div className="mt-2 px-4 text-gray-700">
-            <span className="text-blue-500 font-medium">Q.</span> 왜 환전
+            <span className="font-medium text-blue-500">Q.</span> 왜 환전
             안해주시나요?
           </div>
-          <div className="flex px-4 space-x-5 mt-3 text-gray-700 py-2.5 border-t border-b-[2px]  w-full">
-            <span className="flex space-x-2 items-center text-sm">
+          <div className="mt-3 flex w-full space-x-5 border-b-[2px] border-t px-4 py-2.5  text-gray-700">
+            <span className="flex items-center space-x-2 text-sm">
               <svg
-                className="w-4 h-4"
+                className="h-4 w-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -38,9 +38,9 @@ const CommunityPostDetail: NextPage = () => {
               </svg>
               <span>궁금해요 1</span>
             </span>
-            <span className="flex space-x-2 items-center text-sm">
+            <span className="flex items-center space-x-2 text-sm">
               <svg
-                className="w-4 h-4"
+                className="h-4 w-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -57,25 +57,25 @@ const CommunityPostDetail: NextPage = () => {
             </span>
           </div>
         </div>
-        <div className="px-4 my-5 space-y-5">
+        <div className="my-5 space-y-5 px-4">
           <div className="flex items-start space-x-3">
-            <div className="w-8 h-8 bg-slate-200 rounded-full" />
+            <div className="h-8 w-8 rounded-full bg-slate-200" />
             <div>
-              <span className="text-sm block font-medium text-gray-700">
+              <span className="block text-sm font-medium text-gray-700">
                 관리자
               </span>
-              <span className="text-xs text-gray-500 block ">2시간 전</span>
-              <p className="text-gray-700 mt-2">저희가 돈이 없으니깐요..</p>
+              <span className="block text-xs text-gray-500 ">2시간 전</span>
+              <p className="mt-2 text-gray-700">저희가 돈이 없으니깐요..</p>
             </div>
           </div>
         </div>
         <div className="px-4">
           <textarea
-            className="mt-1 shadow-sm w-full focus:ring-blue-500 rounded-md border-gray-300 focus:border-blue-500 "
+            className="mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 "
             rows={4}
             placeholder="궁금하신 점에 대해서 질문해주세요!"
           />
-          <button className="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none ">
+          <button className="mt-2 w-full rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ">
             제출하기
           </button>
         </div>

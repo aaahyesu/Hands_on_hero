@@ -1,50 +1,38 @@
-import Image from "next/image";
-import CreatedAt from "components/created-at";
-import basicUser from "public/images/basic_user.png";
+import { SimpleUser } from "@/types";
+import { cls } from "libs/client/utils";
+import { timeFormat } from "@/libs/client/dateFormat";
 
 interface MessageProps {
-  isMe: boolean;
-  cloudflareImageId?: string;
-  createdAt?: Date | string;
-  text: string;
+  message: string;
+  $reversed?: boolean;
+  updatedAt: Date;
+  user: SimpleUser;
 }
-
-const Message = ({
-  isMe,
-  cloudflareImageId,
-  text,
-  createdAt,
-}: MessageProps) => {
+const Message = ({ message, updatedAt, user, $reversed }: MessageProps) => {
   return (
-    <>
-      {isMe === true ? (
-        <div className="flex flex-row-reverse items-end mb-3">
-          <div className="text-sm bg-blue-500 text-white rounded-2xl rounded-tr-none py-2.5 px-3.5">
-            <p>{text}</p>
-          </div>
-          <CreatedAt
-            date={createdAt}
-            size="text-[12px]"
-            style="text-gray-400 mr-2"
-          />
-        </div>
-      ) : (
-        <div className="flex mb-4">
-          <div className=""></div>
-          <div className="text-sm bg-gray-200 rounded-3xl rounded-tl-none ml-2 py-2.5 px-3.5">
-            <p>{text}</p>
-          </div>
-          <div className="flex items-end">
-            <CreatedAt
-              date={createdAt}
-              size="text-[12px]"
-              style="text-gray-400 ml-2"
-            />
-          </div>
-        </div>
+    <li
+      className={cls(
+        "flex space-x-2",
+        $reversed ? "flex-row-reverse space-x-reverse" : ""
       )}
-    </>
+    >
+      {/* 유저명과 채팅내용 */}
+      <div
+        className={cls(
+          "flex flex-grow-0 flex-col",
+          $reversed ? "items-end" : ""
+        )}
+      >
+        <span className="text-sm">{user.name}</span>
+        <p className="max-w-[240px] rounded-md border-2 bg-orange-400 px-4 py-2 text-white">
+          {message}
+        </p>
+      </div>
+      {/* 채팅 작성 시간 */}
+      <span className="self-end text-right text-sm text-gray-500">
+        {timeFormat(updatedAt)}
+      </span>
+    </li>
   );
 };
-
 export default Message;
