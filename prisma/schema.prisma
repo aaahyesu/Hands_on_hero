@@ -32,9 +32,16 @@ model User {
   updatedAt         DateTime    @updatedAt()
   services          Service[]
   // licenseCerts      LicenseCert[]
+<<<<<<< HEAD
+  // reviews           Review[]  
+  // inquiries             Inquiry[]   
+  // answers            Answer[]  
+  //@@map("users")
+=======
   // writtenReviews    Review[]        @relation(name: "WrittenReviews")
   // receivedReviews   Review[]        @relation(name: "ReceivedReviews")       
 
+>>>>>>> c9d7cc7c3606323ca550218be7d1c29364d5fe03
 }
 
 
@@ -55,8 +62,8 @@ model Service {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  user      User      @relation(fields: [userId], references: [id])
-  userId    Int
+ // user      User      @relation(fields: [userId], references: [id])
+  // userId    Int
   title     String
   content   String    @db.MediumText
   room      Room[]
@@ -66,9 +73,110 @@ model Service {
   Cost      Int
   Method    String
 
-  @@index([userId])
+//  @@index([userId])
 }
 
+<<<<<<< HEAD
+model Inquiry {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+ // user      User      @relation(fields: [userId], references: [id])
+  // userId    Int
+  question  String    @db.MediumText
+//  @@index([userId])
+  answer    Answer[]
+}
+
+model Answer {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  answer    String    @db.MediumText
+   // user      User      @relation(fields: [userId], references: [id])
+  // userId    Int
+  inquiry      Inquiry      @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+  inquiryId    Int 
+}
+
+// model LicenseCert {
+//   id                Int      @id @default(autoincrement())
+//   licenseNum        String
+//   licenseIssueDate  DateTime
+//   licenseSerialNum  String
+//   user              User    @relation(fields: [userId], references: [id])
+//   userId            Int      
+
+//   @@map("license_cert")
+// }
+
+// model ServiceMatching {
+//   serviceId        Int      @id
+//   requesterId      Int      @db.Int
+//   createdAt        DateTime
+//   serviceTitle     String   @db.VarChar(30)
+//   serviceContent   String   @db.VarChar(30)
+//   providerId       Int      @db.Int
+//   startTime        DateTime
+//   endTime          DateTime
+//   serviceCost      Int
+//   serviceStatus    Int
+//   serviceMethod    Int
+//   acceptanceStatus Boolean
+//   transactions  TransactionHistory[] 
+
+//   @@map("service_matching")
+// }
+
+// model Review {
+//   id        Int      @id @default(autoincrement())
+//   text      String   @db.MediumText
+//   rating    Int      @default(3)
+//   from      User     @relation(name: "WrittenReviews", fields: [fromId], references: [id])
+//   fromId    Int
+//   to        User     @relation(name: "ReceivedReviews", fields: [toId], references: [id])
+//   toId      Int
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt()
+
+//   @@index([fromId])
+//   @@index([toId])
+// }
+
+// model Chat {
+//   id           Int           @id @default(autoincrement())
+//   users        User[]
+//   chatMessages ChatMessage[]
+//   createdAt    DateTime      @default(now())
+//   updatedAt    DateTime      @updatedAt()
+// }
+
+// model ChatMessage {
+//   id        Int      @id @default(autoincrement())
+//   text      String
+//   user      User     @relation(fields: [userId], references: [id])
+//   userId    Int
+//   chat      Chat?    @relation(fields: [chatId], references: [id], onDelete: Cascade)
+//   chatId    Int?
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt()
+
+//   @@index([userId])
+//   @@index([chatId])
+// }
+
+
+// model TransactionHistory {
+//   paymentId     Int      @id @default(autoincrement())
+//   serviceId     Int      @db.Int
+//   amount        Int
+//   depositTime   DateTime
+//   service       ServiceMatching @relation(fields: [serviceId], references: [serviceId])
+
+//   @@map("transaction_history")
+//   @@index([serviceId])
+// }
+=======
 // model LicenseCert {
 //   id                Int      @id @default(autoincrement())
 //   licenseNum        String
@@ -158,33 +266,34 @@ model Message {
 
   @@index([userId])
 }
+>>>>>>> c9d7cc7c3606323ca550218be7d1c29364d5fe03
 
-model CertificationVerification {
-  certificationId   Int      @id
-  certificationNumber String  @db.VarChar(20)
-  issuanceDate     DateTime
-  certificatePageNumber String @db.VarChar(20)
-  userId           Int      @db.Int
+// model CertificationVerification {
+//   certificationId   Int      @id
+//   certificationNumber String  @db.VarChar(20)
+//   issuanceDate     DateTime
+//   certificatePageNumber String @db.VarChar(20)
+//   userId           Int      @db.Int
 
-  @@map("certification_verification")
-}
+//   @@map("certification_verification")
+// }
 
-model BlockList {
-  blockId           Int      @id
-  blockedUserId     Int
-  userId            Int      @db.Int
+// model BlockList {
+//   blockId           Int      @id
+//   blockedUserId     Int
+//   userId            Int      @db.Int
 
-  @@map("block_list")
-}
+//   @@map("block_list")
+// }
 
-model Notification {
-  notificationId     Int      @id
-  notificationContent String   @db.Text
-  userId             Int      @db.Int
-  isRead             Boolean
+// model Notification {
+//   notificationId     Int      @id
+//   notificationContent String   @db.Text
+//   userId             Int      @db.Int
+//   isRead             Boolean
 
-  @@map("notification")
-}
+//   @@map("notification")
+// }
 
 
 
