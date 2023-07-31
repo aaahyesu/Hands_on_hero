@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/navbar";
+import Layout from "@/components/Navbar";
 import Link from "next/link";
 
 const Review: NextPage = () => {
