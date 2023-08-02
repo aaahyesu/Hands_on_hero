@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-<<<<<<< HEAD
 import Layout from "@/components/navbar";
 import { useForm } from "react-hook-form";
 import useMutation from "@/libs/client/useMutation";
@@ -17,21 +16,18 @@ interface WriteResponse {
   inquiry: Inquiry;
 }
 
-=======
-import Layout from "@/components/Navbar";
->>>>>>> c9d7cc7c3606323ca550218be7d1c29364d5fe03
 const Write: NextPage = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<WriteForm>();
-  const [inquiry, {loading, data}] = useMutation<WriteResponse>("/api/inquiry");
+  const [uploadinquiry, {loading, data}] = useMutation<WriteResponse>("/api/inquiry");
   const onValid = (data: WriteForm) => {
     console.log(data);
-    // if (loading) return;
-    inquiry(data);
+    if (loading) return;
+    uploadinquiry(data);
   };
 
   useEffect(() => {
-    if (data && data.ok) {
+    if (data?.ok) {
       router.push(`/inquires/${data.inquiry.id}`);
     }
   }, [data, router]);

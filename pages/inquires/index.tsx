@@ -1,23 +1,37 @@
 import type { NextPage } from "next";
 import Layout from "@/components/navbar";
 import Link from "next/link";
+import { Inquiry } from "@prisma/client";
+import useSWR from "swr";
+
+interface InquiryWithUser extends Inquiry {
+  // user: User;
+  _count: {
+    answer: number;
+  };
+}
+
+interface InquiryResponse {
+  ok: boolean;
+  inquiries: InquiryWithUser[];
+}
+
 const Community: NextPage = () => {
+  const { data } = useSWR<InquiryResponse>(`/api/inquiry`);
   return (
     <Layout hasTabBar canGoBack title="문의 내역">
       <div className="space-y-5 py-5">
-        {[1, 2, 3, 4, 5, 6].map((_, i) => (
-          <div className="">
-            <Link href="/inquires/id">
+      {data?.inquiries?.map((inquiry) => (
+          <Link key={inquiry.id} href={`/inquires/${inquiry.id}`}>
               <div
-                key={i}
+                key={inquiry.id}
                 className="flex cursor-pointer flex-col items-start hover:bg-gray-200"
               >
                 <span className="ml-4 flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
                   1:1 문의
                 </span>
                 <div className="mt-2 px-4 text-gray-700">
-                  <span className="font-medium text-blue-500">Q.</span> 왜 환전
-                  안해주시나요?
+                  <span className="font-medium text-blue-500">Q.</span> {inquiry.question}
                 </div>
                 <div className="mt-5 flex w-full items-center justify-between px-4 text-xs font-medium text-gray-500">
                   <span>이가영</span>
@@ -36,32 +50,14 @@ const Community: NextPage = () => {
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    <span>궁금해요 1</span>
-                  </span>
-                  <span className="flex items-center space-x-2 text-sm">
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
                         d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                       ></path>
                     </svg>
-                    <span>답변 1</span>
+                    <span>답변 {inquiry._count.answer}</span>
                   </span>
                 </div>
               </div>
             </Link>
-          </div>
         ))}
         <Link href="/inquires/write">
           <button className="fixed bottom-20 right-5 cursor-pointer rounded-full bg-blue-400 p-4 text-white shadow-xl transition-colors hover:bg-blue-500">

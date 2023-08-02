@@ -32,8 +32,15 @@ model User {
   updatedAt         DateTime    @updatedAt()
   // services          Service[]
   // licenseCerts      LicenseCert[]
+
+  // reviews           Review[]  
+  // inquiries             Inquiry[]   
+  // answers            Answer[]  
+  //@@map("users")
+
   // writtenReviews    Review[]        @relation(name: "WrittenReviews")
   // receivedReviews   Review[]        @relation(name: "ReceivedReviews")       
+
 
 }
 
@@ -66,7 +73,33 @@ model Service {
   Cost      Int
   Method    String
 
+
+//  @@index([userId])
+}
+
+model Inquiry {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+ // user      User      @relation(fields: [userId], references: [id])
+  // userId    Int
+  question  String    @db.MediumText
+//  @@index([userId])
+  answer    Answer[]
+}
+
+model Answer {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  answer    String    @db.MediumText
+   // user      User      @relation(fields: [userId], references: [id])
+  // userId    Int
+  inquiry      Inquiry      @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
+  inquiryId    Int 
+
   // @@index([userId])
+
 }
 
 // model LicenseCert {
@@ -76,6 +109,29 @@ model Service {
 //   licenseSerialNum  String
 //   user              User    @relation(fields: [userId], references: [id])
 //   userId            Int      
+
+
+//   @@map("license_cert")
+// }
+
+// model ServiceMatching {
+//   serviceId        Int      @id
+//   requesterId      Int      @db.Int
+//   createdAt        DateTime
+//   serviceTitle     String   @db.VarChar(30)
+//   serviceContent   String   @db.VarChar(30)
+//   providerId       Int      @db.Int
+//   startTime        DateTime
+//   endTime          DateTime
+//   serviceCost      Int
+//   serviceStatus    Int
+//   serviceMethod    Int
+//   acceptanceStatus Boolean
+//   transactions  TransactionHistory[] 
+
+//   @@map("service_matching")
+// }
+
 //   createdAt DateTime @default(now())
 //   updatedAt DateTime @updatedAt()
 
@@ -100,6 +156,7 @@ model ServiceMatching {
   @@map("service_matching")
 }
 
+
 // model Review {
 //   id        Int      @id @default(autoincrement())
 //   text      String   @db.MediumText
@@ -113,6 +170,41 @@ model ServiceMatching {
 
 //   @@index([fromId])
 //   @@index([toId])
+// }
+
+
+// model Chat {
+//   id           Int           @id @default(autoincrement())
+//   users        User[]
+//   chatMessages ChatMessage[]
+//   createdAt    DateTime      @default(now())
+//   updatedAt    DateTime      @updatedAt()
+// }
+
+// model ChatMessage {
+//   id        Int      @id @default(autoincrement())
+//   text      String
+//   user      User     @relation(fields: [userId], references: [id])
+//   userId    Int
+//   chat      Chat?    @relation(fields: [chatId], references: [id], onDelete: Cascade)
+//   chatId    Int?
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt()
+
+//   @@index([userId])
+//   @@index([chatId])
+// }
+
+
+// model TransactionHistory {
+//   paymentId     Int      @id @default(autoincrement())
+//   serviceId     Int      @db.Int
+//   amount        Int
+//   depositTime   DateTime
+//   service       ServiceMatching @relation(fields: [serviceId], references: [serviceId])
+
+//   @@map("transaction_history")
+//   @@index([serviceId])
 // }
 
 
@@ -158,6 +250,7 @@ model Message {
 
   @@index([userId])
 }
+
 
 model CertificationVerification {
   certificationId   Int      @id
