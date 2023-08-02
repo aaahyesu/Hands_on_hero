@@ -1,10 +1,11 @@
 import type { NextPage } from "next";
-import Layout from "@/components/Navbar";
+import Layout from "@/components/navbar";
 import Link from "next/link";
 const Profile: NextPage = () => {
   return (
     <Layout hasTabBar title="프로필">
       <div className="px-4 py-10">
+      <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
         <div className="flex items-center space-x-3">
           <div className="h-16 w-16 rounded-full bg-slate-500" />
           <div className="flex flex-col">
@@ -13,6 +14,7 @@ const Profile: NextPage = () => {
               <span className="text-sm text-gray-700 ">프로필 수정하기</span>
             </Link>
           </div>
+        </div>
         </div>
         <div className="pt-10">
           <label

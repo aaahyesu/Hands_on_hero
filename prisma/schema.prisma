@@ -32,16 +32,10 @@ model User {
   updatedAt         DateTime    @updatedAt()
   services          Service[]
   // licenseCerts      LicenseCert[]
-<<<<<<< HEAD
   // reviews           Review[]  
   // inquiries             Inquiry[]   
   // answers            Answer[]  
   //@@map("users")
-=======
-  // writtenReviews    Review[]        @relation(name: "WrittenReviews")
-  // receivedReviews   Review[]        @relation(name: "ReceivedReviews")       
-
->>>>>>> c9d7cc7c3606323ca550218be7d1c29364d5fe03
 }
 
 
@@ -76,7 +70,6 @@ model Service {
 //  @@index([userId])
 }
 
-<<<<<<< HEAD
 model Inquiry {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
@@ -176,97 +169,6 @@ model Answer {
 //   @@map("transaction_history")
 //   @@index([serviceId])
 // }
-=======
-// model LicenseCert {
-//   id                Int      @id @default(autoincrement())
-//   licenseNum        String
-//   licenseIssueDate  DateTime
-//   licenseSerialNum  String
-//   user              User    @relation(fields: [userId], references: [id])
-//   userId            Int      
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt()
-
-//   @@map("license_cert")
-//   @@index([userId])
-// }
-
-model ServiceMatching {
-  serviceId        Int      @id
-  requesterId      Int      @db.Int
-  createdAt        DateTime
-  serviceTitle     String   @db.VarChar(30)
-  serviceContent   String   @db.VarChar(30)
-  providerId       Int      @db.Int
-  startTime        DateTime
-  endTime          DateTime
-  serviceCost      Int
-  serviceStatus    Int
-  serviceMethod    Int
-  acceptanceStatus Boolean
-
-  @@map("service_matching")
-}
-
-// model Review {
-//   id        Int      @id @default(autoincrement())
-//   text      String   @db.MediumText
-//   rating    Int      @default(3)
-//   from      User     @relation(name: "WrittenReviews", fields: [fromId], references: [id])
-//   fromId    Int
-//   to        User     @relation(name: "ReceivedReviews", fields: [toId], references: [id])
-//   toId      Int
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt()
-
-//   @@index([fromId])
-//   @@index([toId])
-// }
-
-
-model Room {
-  id              Int      @id @default(autoincrement())
-  name            String   @unique
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  chatInvisibleTo Int?
-  Service         Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  serviceId       Int? 
-
-  users User[]
-  chats Chat[]
-  
-
-  @@index([serviceId])
-}
-
-model Chat {
-  id        Int      @id @default(autoincrement())
-  chat      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int?
-  Room   Room? @relation(fields: [roomId], references: [id], onDelete: Cascade)
-  roomId Int?
-
-  @@index([userId])
-  @@index([roomId])
-}
-
-model Message {
-  id        Int      @id @default(autoincrement())
-  message   String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
-
-  @@index([userId])
-}
->>>>>>> c9d7cc7c3606323ca550218be7d1c29364d5fe03
 
 // model CertificationVerification {
 //   certificationId   Int      @id

@@ -10,20 +10,43 @@ async function handler(
         body : {question},
         // session : {user},
     } = req;
-    const inquiry = await client.inquiry.create({
-        data: {
+    if (req.method === "POST") {
+        const inquiry = await client.inquiry.create({
+          data: {
             question,
             // user: {
-            //     connect: {
-            //         id: user?.id
-            //     }
-            // }
-        }
-    })
+            //   connect: {
+            //     id: user?.id,
+            //   },
+            // },
+        },
+    });
     res.json({
-        ok: true,
-        inquiry
-    })
+      ok: true,
+      inquiry,
+    });
+  }
+  if (req.method === "GET") {
+    const inquiries = await client.inquiry.findMany({
+      include: {
+        // user: {
+        //   select: {
+        //     id: true,
+        //     name: true,
+        //   },
+        // },
+        _count: {
+          select: {
+            answer: true,
+          },
+        },
+      },
+    });
+    res.json({
+      ok: true,
+      inquiries,
+    });
+  }
 }
 
-export default withHandler({ methods: ["POST"], handler });
+export default withHandler({ methods:  ["GET", "POST"], handler });

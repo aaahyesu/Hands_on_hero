@@ -9,7 +9,7 @@ import { Socket, io } from "socket.io-client";
 import Button from "@/components/Button";
 
 // component
-import Message from "components/Message";
+import Message from "@/components/message";
 
 // type
 import {
