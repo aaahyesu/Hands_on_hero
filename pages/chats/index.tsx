@@ -7,7 +7,7 @@ import useSWR from "swr";
 import Spinner from "components/spinner";
 
 // type
-import { ApiResponse, SimpleUser } from "types";
+import { ApiResponse, SimpleUser } from "@/types";
 import { Room } from "@prisma/client";
 
 // util
@@ -26,7 +26,8 @@ interface IResponseRooms extends ApiResponse {
 }
 
 const Chats: NextPage = () => {
-  const { data } = useSWR<IResponseRooms>("/api/chats/room");
+  const { data } = useSWR<IResponseRooms>("/api/chats/rooms");
+
   if (!data) return <Spinner kinds="page" />;
 
   return (
@@ -35,7 +36,7 @@ const Chats: NextPage = () => {
       {data.rooms.length > 0 ? (
         data.rooms.map((room, index) => (
           <Link key={room.id} href={`/chats/${room.id}`}>
-            <a className="flex cursor-pointer items-center space-x-3 rounded-md px-4 py-3 transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2">
+            <a className="flex cursor-pointer items-center space-x-3 rounded-md px-4 py-3 transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
               <div>
                 <p className="text-base font-semibold text-gray-700">
                   {room.users[0].name}

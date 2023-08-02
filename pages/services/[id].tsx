@@ -5,7 +5,9 @@ import useSWR from "swr";
 
 const ServiceDetail: NextPage = () => {
   const router = useRouter();
-  const { data, error } = useSWR(router.query.id ? `/api/services/${router.query.id}` : null);
+  const { data, error } = useSWR(
+    router.query.id ? `/api/services/${router.query.id}` : null
+  );
   console.log(data);
   return (
     <Layout hasTabBar canGoBack title="요청서 상세내용">
