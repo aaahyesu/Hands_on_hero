@@ -1,3 +1,4 @@
+import { IronSessionOptions } from "iron-session";
 import { withIronSessionApiRoute, withIronSessionSsr } from "iron-session/next";
 
 declare module "iron-session" {
@@ -8,15 +9,15 @@ declare module "iron-session" {
   }
 }
 
-const cookieOptions = {
-  cookieName: "session",
-  password: process.env.SECRET_COOKIE_SECRETE!,
+const cookieConfig: IronSessionOptions = {
+  cookieName: "hands_on_hero",
+  password: process.env.SECRET_COOKIE_PASSWORD as string,
 };
 
 export function withApiSession(fn: any) {
-  return withIronSessionApiRoute(fn, cookieOptions);
+  return withIronSessionApiRoute(fn, cookieConfig);
 }
 
 export function withSsrSession(handler: any) {
-  return withIronSessionApiRoute(handler, cookieOptions);
+  return withIronSessionSsr(handler, cookieConfig);
 }

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 // helper function
 import withHandler, { ResponseType } from "libs/server/withHandler";
-// import { withApiSession } from "libs/server/withSession";
+import { withApiSession } from "libs/server/withSession";
 import prisma from "libs/client/prisma";
 
 async function handler(
@@ -172,4 +172,6 @@ async function handler(
   }
 }
 
-export default withHandler({ methods: ["GET", "POST", "DELETE"], handler });
+export default withApiSession(
+  withHandler({ methods: ["GET", "POST", "DELETE"], handler })
+);

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/Navbar";
+import Layout from "@/components/navbar";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import useMutation from "@/libs/client/useMutation";

@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Layout from "@/components/Navbar";
+import Layout from "@/components/navbar";
 import Link from "next/link";
 const Profile: NextPage = () => {
   return (

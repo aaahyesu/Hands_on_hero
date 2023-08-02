@@ -4,7 +4,7 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import Layout from "@/components/Navbar";
+import Layout from "@/components/navbar";
 
 interface EnterForm {
   email?: string;

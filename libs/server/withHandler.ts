@@ -30,9 +30,9 @@ export default function withHandler({
     if (req.method && !methods.includes(req.method as any)) {
       return res.status(405).end();
     }
-    if (isPrivate && !req.session.user) {
-      return res.status(401).json({ ok: false, error: "비로그인 상태입니다." });
-    }
+    // if (isPrivate && !req.session.user) {
+    //   return res.status(401).json({ ok: false, error: "비로그인 상태입니다." });
+    // }
     try {
       await handler(req, res);
     } catch (error) {
