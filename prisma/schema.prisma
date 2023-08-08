@@ -23,16 +23,24 @@ model User {
   // introduction      String?
   // virtualAccount    Int?            
   // virtualAccountId  Int?
+
   tokens            Token[]
-  // chats             Chat[]
-  // rooms             Room[]
-  // messages          Message[]
+  chats             Chat[]
+  rooms             Room[]
+  messages          Message[]
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt()
   // services          Service[]
   // licenseCerts      LicenseCert[]
+
+  // reviews           Review[]  
+  // inquiries             Inquiry[]   
+  // answers            Answer[]  
+  //@@map("users")
+
   // writtenReviews    Review[]        @relation(name: "WrittenReviews")
   // receivedReviews   Review[]        @relation(name: "ReceivedReviews")       
+
 
 }
 
@@ -63,6 +71,7 @@ model Service {
   endTime   String
   Cost      Int
   Method    String
+
 
 //  @@index([userId])
 }
@@ -99,6 +108,7 @@ model Answer {
 //   user              User    @relation(fields: [userId], references: [id])
 //   userId            Int      
 
+
 //   @@map("license_cert")
 // }
 
@@ -119,6 +129,31 @@ model Answer {
 
 //   @@map("service_matching")
 // }
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt()
+
+//   @@map("license_cert")
+//   @@index([userId])
+// }
+
+model ServiceMatching {
+  serviceId        Int      @id
+  requesterId      Int      @db.Int
+  createdAt        DateTime
+  serviceTitle     String   @db.VarChar(30)
+  serviceContent   String   @db.VarChar(30)
+  providerId       Int      @db.Int
+  startTime        DateTime
+  endTime          DateTime
+  serviceCost      Int
+  serviceStatus    Int
+  serviceMethod    Int
+  acceptanceStatus Boolean
+
+  @@map("service_matching")
+}
+
 
 // model Review {
 //   id        Int      @id @default(autoincrement())
@@ -188,32 +223,76 @@ model Answer {
 //   @@index([serviceId])
 // }
 
-// model CertificationVerification {
-//   certificationId   Int      @id
-//   certificationNumber String  @db.VarChar(20)
-//   issuanceDate     DateTime
-//   certificatePageNumber String @db.VarChar(20)
-//   userId           Int      @db.Int
 
-//   @@map("certification_verification")
-// }
+model Room {
+  id              Int      @id @default(autoincrement())
+  name            String   @unique
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  chatInvisibleTo Int?
+  Service         Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId       Int? 
 
-// model BlockList {
-//   blockId           Int      @id
-//   blockedUserId     Int
-//   userId            Int      @db.Int
+  users User[]
+  chats Chat[]
+  
 
-//   @@map("block_list")
-// }
+  @@index([serviceId])
+}
 
-// model Notification {
-//   notificationId     Int      @id
-//   notificationContent String   @db.Text
-//   userId             Int      @db.Int
-//   isRead             Boolean
+model Chat {
+  id        Int      @id @default(autoincrement())
+  chat      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-//   @@map("notification")
-// }
+  User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int?
+  Room   Room? @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId Int?
 
+  // @@index([userId])
+  @@index([roomId])
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  message   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@index([userId])
+}
+
+
+model CertificationVerification {
+  certificationId   Int      @id
+  certificationNumber String  @db.VarChar(20)
+  issuanceDate     DateTime
+  certificatePageNumber String @db.VarChar(20)
+  userId           Int      @db.Int
+
+  @@map("certification_verification")
+}
+
+model BlockList {
+  blockId           Int      @id
+  blockedUserId     Int
+  userId            Int      @db.Int
+
+  @@map("block_list")
+}
+
+model Notification {
+  notificationId     Int      @id
+  notificationContent String   @db.Text
+  userId             Int      @db.Int
+  isRead             Boolean
+
+  @@map("notification")
+}
 
 

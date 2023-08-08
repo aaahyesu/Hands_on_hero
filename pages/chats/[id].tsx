@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Socket, io } from "socket.io-client";
 
 // common-component
-import Button from "@/components/Button";
+import Button from "@/components/button";
 
 // component
 import Message from "@/components/message";
@@ -165,18 +165,18 @@ const ChatDetail: NextPage = () => {
     },
     [me, reset, router, socket, chatMutate]
   );
-  // 무한 스크롤링 이벤트 함수
-  const infiniteScrollEvent = useCallback(() => {
-    if (window.scrollY <= 200 && hasMoreChat && !loadChatsLoading) {
-      setSize((prev) => prev + 1);
-    }
-  }, [hasMoreChat, loadChatsLoading, setSize]);
+  // // 무한 스크롤링 이벤트 함수
+  // const infiniteScrollEvent = useCallback(() => {
+  //   if (window.scrollY <= 200 && hasMoreChat && !loadChatsLoading) {
+  //     setSize((prev) => prev + 1);
+  //   }
+  // }, [hasMoreChat, loadChatsLoading, setSize]);
   // 무한 스크롤링 이벤트 등록/해제
-  useEffect(() => {
-    window.addEventListener("scroll", infiniteScrollEvent);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", infiniteScrollEvent);
 
-    return () => window.removeEventListener("scroll", infiniteScrollEvent);
-  }, [infiniteScrollEvent]);
+  //   return () => window.removeEventListener("scroll", infiniteScrollEvent);
+  // }, [infiniteScrollEvent]);
 
   //  권한 없이 채팅방 입장
   useEffect(() => {

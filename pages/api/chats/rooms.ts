@@ -1,9 +1,9 @@
 // import { NextApiRequest, NextApiResponse } from "next";
 
-// // helper function
-// import withHandler, { ResponseType } from "libs/server/withHandler";
-// // import { withApiSession } from "libs/server/withSession";
-// import prisma from "libs/client/prisma";
+// helper function
+import withHandler, { ResponseType } from "libs/server/withHandler";
+import { withApiSession } from "libs/server/withSession";
+import prisma from "libs/client/prisma";
 
 // async function handler(
 //   req: NextApiRequest,

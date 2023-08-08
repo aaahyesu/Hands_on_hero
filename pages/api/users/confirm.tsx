@@ -24,10 +24,11 @@ async function handler(
     },
   });
   res.json({
-      ok: true,
+    ok: true,
+    message: "good",
   });
 }
 
 export default withApiSession(
-    withHandler({ methods: ["POST"], handler, isPrivate: false })
-  );
+  withHandler({ methods: ["POST"], handler, isPrivate: false })
+);
