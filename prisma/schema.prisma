@@ -13,7 +13,7 @@ datasource db {
 
 model User {
   id                Int            @id @default(autoincrement())
-  name              String         @unique
+  // name              String         @unique
   // phone             String?        @db.VarChar(11)
   // gender            Int
   // avatar            String?
@@ -24,7 +24,7 @@ model User {
   // virtualAccount    Int?            
   // virtualAccountId  Int?
 
-  // tokens            Token[]
+  tokens            Token[]
   chats             Chat[]
   rooms             Room[]
   messages          Message[]
@@ -45,16 +45,16 @@ model User {
 }
 
 
-// model Token {
-//   id        Int       @id @default(autoincrement())
-//   payload   String    @unique
-//   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   userId    Int
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
+model Token {
+  id        Int       @id @default(autoincrement())
+  payload   String    @unique
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
-//   @@index([userId])
-// }
+  @@index([userId])
+}
 
 
 

@@ -15,6 +15,7 @@ async function handler(
   return res.json({
     ok: true,
     service,
+    message: "good",
   });
 }
 

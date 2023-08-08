@@ -1,20 +1,28 @@
 import { NextApiRequest, NextApiResponse } from "next";
+
+// prisma
 import prisma from "libs/client/prisma";
-import withHandler, { ResponseType } from "@/libs/server/withHandler";
-import { withApiSession } from "@/libs/server/withSession";
+
+// helper function
+import withHandler, { ResponseType } from "libs/server/withHandler";
+import { withApiSession } from "libs/server/withSession";
 
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { serviceId } = req.query;
+  const serviceId = req.query;
 
   try {
+    // 특정 요청서에 대한 채팅 유저를 찾음
     const roomWithUser = await prisma.room.findMany({
       where: {
-        users: { some: { id: Number(serviceId) } },
+        serviceId,
       },
-      include: {
+      select: {
+        id: true,
+        name: true,
+        serviceId: true,
         users: {
           select: {
             id: true,
@@ -30,7 +38,7 @@ async function handler(
       roomWithUser,
     });
   } catch (error) {
-    console.error("/api/services error >> ", error);
+    console.error("/api/products error >> ", error);
 
     res.status(500).json({
       ok: false,

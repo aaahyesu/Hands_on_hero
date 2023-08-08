@@ -38,7 +38,8 @@ async function handler(
   console.log(token);
   return res.json({
     ok: true,
+    message: "gg",
   });
 }
 
-export default withHandler({ method: ["POST"], handler, isPrivate: false });
+export default withHandler({ methods: ["POST"], handler, isPrivate: false });
