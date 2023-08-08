@@ -41,6 +41,7 @@ const Enter: NextPage = () => {
               label="이메일 주소"
               type="email"
               required
+              placeholder=""
             />
           </div>
           <div className="mt-1">
@@ -52,6 +53,7 @@ const Enter: NextPage = () => {
               label="비밀번호"
               type="password"
               required
+              placeholder=""
             />
           </div>
           <button className="mt-5 rounded-md border border-transparent bg-black px-4 py-2 text- font-medium text-white shadow-sm hover:bg-[#050708]/80 focus:outline-none focus:ring-2 focus:ring-[#050708] focus:ring-offset-2 ">

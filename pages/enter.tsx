@@ -1,4 +1,3 @@
-import Input from "@/components/input";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
