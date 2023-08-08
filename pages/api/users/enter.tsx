@@ -8,17 +8,10 @@ async function handler(
 ) {
   const { email, password } = req.body;
   const user = email ? { email } : {};
-  const payload = Math.floor(10000 + Math.random() * 12345) + "";
-  // const user = await client.user.upsert({
-  //     where: {
-  //       ...payload,
-  //     },
-  //     create: {
-  //       ...payload,
-  //       ...(password && { password }),
-  //     },
-  //     update: {},
-  //   });
+  if (!user) return res.status(400).json({
+    ok: false,
+  });
+  const payload = Math.floor(100000 + Math.random() * 900000) + "";
   const token = await client.token.create({
     data: {
       payload,
@@ -40,5 +33,4 @@ async function handler(
     ok: true,
   });
 }
-
-export default withHandler({ method: ["POST"], handler, isPrivate: false });
+export default withHandler({ methods: ["POST"], handler });

@@ -30,7 +30,7 @@ const Enter: NextPage = () => {
           className="mt-8 flex flex-col space-y-4"
         >
           <div className="mt-1">
-            <Input
+            {/* <Input
               register={register("name", { required: true })}
               name="name"
               label="이름"
@@ -38,7 +38,7 @@ const Enter: NextPage = () => {
               kind="text"
               placeholder="이름을 입력해주세요."
               required
-            />
+            /> */}
           </div>
           <div className="mt-1">
             <Input

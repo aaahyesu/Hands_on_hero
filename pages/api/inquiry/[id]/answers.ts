@@ -31,6 +31,7 @@ async function handler(
   res.json({
     ok: true,
     answer: newAnswer,
+    message: ""
   });
 }
 

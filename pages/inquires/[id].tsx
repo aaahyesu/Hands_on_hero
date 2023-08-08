@@ -68,8 +68,8 @@ const CommunityPostDetail: NextPage = () => {
           <div className="mt-2 px-4 text-gray-700">
             <span className="text-blue-500 font-medium">Q.</span>{data?.inquiry?.question}
           </div>
-          <div className="mt-3 flex w-full space-x-5 border-b-[2px] border-t px-4 py-2.5  text-gray-700">
-            <span className="flex items-center space-x-2 text-sm">
+          <div className="mt-3 flex w-full space-x-5 border-b-[2px]  px-4 py-2.5  text-gray-700">
+            {/* <span className="flex items-center space-x-2 text-sm">
               <svg
                 className="h-4 w-4"
                 fill="none"
@@ -85,7 +85,7 @@ const CommunityPostDetail: NextPage = () => {
                 ></path>
               </svg>
               <span>답변 1</span>
-            </span>
+            </span> */}
           </div>
         </div>
         <div className="px-4 my-5 space-y-5">
