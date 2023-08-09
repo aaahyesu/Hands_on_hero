@@ -79,7 +79,7 @@ const ChatDetail: NextPage = () => {
     if (!me) return;
 
     const mySocket = io("http://localhost:3000", {
-      path: "/api/chats/socketio",
+      path: "/api/chats/socket.io",
       withCredentials: true,
       transports: ["websocket"],
     });
