@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import client from "@/libs/server/client";
+import { withApiSession } from "@/libs/server/withSession";
 
 async function handler(
   req: NextApiRequest,
@@ -8,17 +9,17 @@ async function handler(
 ): Promise<void> {
   const {
     query: { id },
-    // session: { user },
+    session: { user },
     body: { answer },
   } = req;
 
   const newAnswer = await client.answer.create({
     data: {
-    //   user: {
-    //     connect: {
-    //       id: user?.id,
-    //     },
-    //   },
+      user: {
+        connect: {
+          id: user?.id,
+        },
+      },
       inquiry: {
         connect: {
           id: +id.toString(),
@@ -35,4 +36,9 @@ async function handler(
   });
 }
 
-export default withHandler({ methods: ["POST"], handler });
+export default withApiSession(
+  withHandler({
+    methods: ["POST"],
+    handler,
+  })
+);

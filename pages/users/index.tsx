@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 interface EnterForm {
   email?: string;
   password?: string;
+  name?: string;
 }
 
 interface TokenForm {
@@ -92,6 +93,17 @@ const Enter: NextPage = () => {
                 type="password"
                 kind="text"
                 placeholder="비밀번호를 입력해주세요."
+                required          
+              />
+            </div>
+            <div className="mt-1">
+              <Input
+                register={register("name", {required: true,})}
+                name="name"
+                label="이름"
+                type="name"
+                kind="text"
+                placeholder="이름을 입력해주세요."
                 required          
               />
             </div>

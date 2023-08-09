@@ -34,7 +34,7 @@ const Upload: NextPage = () => {
   };
   useEffect(() => {
     if (data?.ok) {
-      router.push(`/services/${data.service.id}`);
+      router.replace(`/services/${data.service.id}`);
     }
   }, [data, router]);
   return (

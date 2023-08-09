@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Layout from "@/components/navbar";
 import Link from "next/link";
-const Loved: NextPage = () => {
+const MyList: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="나의 요청서 목록">
       <div className="flex flex-col space-y-5 py-2">
@@ -69,4 +69,4 @@ const Loved: NextPage = () => {
   );
 };
 
-export default Loved;
+export default MyList;

@@ -1,5 +1,6 @@
 import Layout from "@/components/navbar";
 import type { NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
@@ -14,12 +15,14 @@ const ServiceDetail: NextPage = () => {
       <div className="px-4 py-4">
         <label className="py-2 text-xl font-bold">요청자 프로필</label>
         <div className="pt-2">
+          <Link href={`/profile/`}>
           <div className="flex cursor-pointer items-center space-x-3 rounded-lg border border-gray-400 py-3">
             <div className="px-4">
-              <p className="text-lg font-medium text-black">김혜수</p>
+              <p className="text-lg font-medium text-black">{data?.service.user?.name}</p>
               <p className="text-xs font-medium text-gray-500">프로필 보기</p>
             </div>
           </div>
+          </Link>
           <div className="pt-4">
             <h1 className="text-xl font-bold text-gray-900">{data?.service?.title}</h1>
             <div className="flex flex-col pt-2" />

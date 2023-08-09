@@ -25,11 +25,9 @@ export default function List({
                   {title}
                 </h3>
                 <span className="text-lg text-gray-500">
-                  {/* 2023년 4월 1일 오전 10시 부터 */}
                   {serviceDate}
                 </span>
                 <span className="text-lg text-gray-500">
-                  {/* 2023년 4월 3일 오후 12시 까지 */}
                   {startTime} ~ {endTime} 
                 </span>
                 <span className="mt-3 text-[20px] font-medium text-gray-900">{Cost}원

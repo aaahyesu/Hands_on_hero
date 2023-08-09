@@ -13,7 +13,7 @@ datasource db {
 
 model User {
   id                Int            @id @default(autoincrement())
-  // name              String         @unique
+  name              String         @unique
   // phone             String?        @db.VarChar(11)
   // gender            Int
   // avatar            String?
@@ -30,12 +30,13 @@ model User {
   messages          Message[]
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt()
-  // services          Service[]
+  services          Service[]
   // licenseCerts      LicenseCert[]
 
   // reviews           Review[]  
-  // inquiries             Inquiry[]   
-  // answers            Answer[]  
+  inquiries          Inquiry[]   
+  answers            Answer[]
+  liked              Liked[]  
   //@@map("users")
 
   // writtenReviews    Review[]        @relation(name: "WrittenReviews")
@@ -61,30 +62,44 @@ model Service {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
- // user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  // userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
   title     String
   content   String    @db.MediumText
-  // room      Room[]
+  room      Room[]
   serviceDate String
   startTime String
   endTime   String
   Cost      Int
   Method    String
+  liked     Liked[]  
 
+  @@index([userId])
+}
 
-//  @@index([userId])
+model Liked {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  service     Service     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId   Int
+
+  @@index([serviceId])
+  @@index([userId])
 }
 
 model Inquiry {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
- // user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  // userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
   question  String    @db.MediumText
-//  @@index([userId])
   answer    Answer[]
+
+  @@index([userId])
 }
 
 model Answer {
@@ -92,11 +107,12 @@ model Answer {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   answer    String    @db.MediumText
-   // user      User      @relation(fields: [userId], references: [id])
-  // userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int
   inquiry      Inquiry  @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
   inquiryId    Int 
 
+  @@index([userId])
   @@index([inquiryId])
 }
 
@@ -137,22 +153,6 @@ model Answer {
 //   @@index([userId])
 // }
 
-model ServiceMatching {
-  serviceId        Int      @id
-  requesterId      Int      @db.Int
-  createdAt        DateTime
-  serviceTitle     String   @db.VarChar(30)
-  serviceContent   String   @db.VarChar(30)
-  providerId       Int      @db.Int
-  startTime        DateTime
-  endTime          DateTime
-  serviceCost      Int
-  serviceStatus    Int
-  serviceMethod    Int
-  acceptanceStatus Boolean
-
-  @@map("service_matching")
-}
 
 
 // model Review {
@@ -168,48 +168,6 @@ model ServiceMatching {
 
 //   @@index([fromId])
 //   @@index([toId])
-// }
-// model Room {
-//   id              Int      @id @default(autoincrement())
-//   name            String   @unique
-//   createdAt       DateTime @default(now())
-//   updatedAt       DateTime @updatedAt
-//   chatInvisibleTo Int?
-//   Service         Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-//   serviceId       Int? 
-
-//   users User[]
-//   chats Chat[]
-  
-
-//   @@index([serviceId])
-// }
-
-// model Chat {
-//   id        Int      @id @default(autoincrement())
-//   chat      String
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   User   User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   userId Int?
-//   Room   Room? @relation(fields: [roomId], references: [id], onDelete: Cascade)
-//   roomId Int?
-
-//   @@index([userId])
-//   @@index([roomId])
-// }
-
-// model Message {
-//   id        Int      @id @default(autoincrement())
-//   message   String
-//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-//   userId    Int
-  
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt()
-
-//   @@index([userId])
 // }
 
 // model TransactionHistory {
@@ -251,7 +209,7 @@ model Chat {
   Room   Room? @relation(fields: [roomId], references: [id], onDelete: Cascade)
   roomId Int?
 
-  // @@index([userId])
+  @@index([userId])
   @@index([roomId])
 }
 
