@@ -2,6 +2,7 @@ import { NextApiRequest } from "next";
 import { NextApiResponseServerIO } from "@/@types/chat";
 import { Server as ServerIO } from "socket.io";
 import { Server as NetServer } from "http";
+import client from "@/libs/server/client";
 import {
   ClientToServerEvents,
   InterServerEvents,
@@ -29,14 +30,13 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
       InterServerEvents,
       SocketData
     >(httpServer, {
-      path: "/chats/socketio",
+      path: "/api/chats/socket.io",
     });
 
     res.socket.server.io = io;
 
     io.on("connection", (socket) => {
       console.log("소켓 연결 완료 >> ", socket.id);
-
       // 소켓 연결 후 방에 입장
       socket.on("onJoinRoom", (roomId) => {
         console.log("채팅방 입장 >> ", roomId);
@@ -45,7 +45,7 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
       });
 
       socket.on("onSend", async ({ userId, roomId, chat }) => {
-        const chatPromise = prisma.chat.create({
+        const chatPromise = await client.chat.create({
           data: {
             chat,
             User: {

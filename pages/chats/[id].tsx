@@ -24,6 +24,7 @@ import { Chat } from "@prisma/client";
 import useMe from "@/libs/client/useMe";
 import useSWRInfinite from "swr/infinite";
 import Spinner from "@/components/spinner";
+import { error } from "console";
 
 interface IChatWithUser extends Chat {
   User: SimpleUser;
@@ -40,7 +41,9 @@ const ChatDetail: NextPage = () => {
   const router = useRouter();
   const { me } = useMe();
 
+  // 채팅 폼
   const { register, handleSubmit, reset } = useForm<ChatForm>();
+  // 연결한 소켓
   const [socket, setSocket] = useState<null | Socket<
     ServerToClientEvents,
     ClientToServerEvents
@@ -76,7 +79,7 @@ const ChatDetail: NextPage = () => {
     if (!me) return;
 
     const mySocket = io("http://localhost:3000", {
-      path: "/chats/socketio",
+      path: "/api/chats/socketio",
       withCredentials: true,
       transports: ["websocket"],
     });
@@ -85,6 +88,7 @@ const ChatDetail: NextPage = () => {
 
     // 소켓 연결 성공 했다면
     mySocket.on("connect", () => {
+      console.log("소켓 연결 성공 >> ", mySocket.id);
       // 채팅방 입장
       mySocket.emit("onJoinRoom", router.query.id as string);
 
@@ -119,12 +123,9 @@ const ChatDetail: NextPage = () => {
   // 채팅 전송
   const onAddChatting = useCallback(
     ({ chat }: ChatForm) => {
+      console.log("chat : " + chat);
       if (!me) return;
       if (chat.trim() === "") return toast.error("내용을 입력하세요!");
-      if (chat.length > 200)
-        return toast.error(
-          `200자 이내로 입력해주세요( 현재 ${chat.length}자 )`
-        );
 
       socket?.emit("onSend", {
         userId: me.id,
@@ -165,18 +166,6 @@ const ChatDetail: NextPage = () => {
     },
     [me, reset, router, socket, chatMutate]
   );
-  // // 무한 스크롤링 이벤트 함수
-  // const infiniteScrollEvent = useCallback(() => {
-  //   if (window.scrollY <= 200 && hasMoreChat && !loadChatsLoading) {
-  //     setSize((prev) => prev + 1);
-  //   }
-  // }, [hasMoreChat, loadChatsLoading, setSize]);
-  // 무한 스크롤링 이벤트 등록/해제
-  // useEffect(() => {
-  //   window.addEventListener("scroll", infiniteScrollEvent);
-
-  //   return () => window.removeEventListener("scroll", infiniteScrollEvent);
-  // }, [infiniteScrollEvent]);
 
   //  권한 없이 채팅방 입장
   useEffect(() => {
