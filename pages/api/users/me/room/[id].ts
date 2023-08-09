@@ -11,7 +11,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const serviceId = req.query;
+  const serviceId = +req.query.id;
 
   try {
     // 특정 요청서에 대한 채팅 유저를 찾음
@@ -38,7 +38,7 @@ async function handler(
       roomWithUser,
     });
   } catch (error) {
-    console.error("/api/products error >> ", error);
+    console.error("/api/services error >> ", error);
 
     res.status(500).json({
       ok: false,
