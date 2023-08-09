@@ -5,26 +5,25 @@ import useSWR from "swr";
 import { useForm } from "react-hook-form";
 import useMutation from "@/libs/client/useMutation";
 import { useEffect } from "react";
-import { Answer, Inquiry } from "@prisma/client";
+import { Answer, Inquiry, User } from "@prisma/client";
 import Textarea from "@/components/textarea";
 import inquiry from "../api/inquiry";
 
-// interface AnswerWithUser extends Answer {
-//   user: User;
-// }
+interface AnswerWithUser extends Answer {
+  user: User;
+}
 
-// interface InquiryWithUser extends Inquiry {
-//   user: User;
-//   _count: {
-//     answer: number;
-//   };
-//   answer: AnswerWithUser[];
-// }
+interface InquiryWithUser extends Inquiry {
+  user: User;
+  _count: {
+    answer: number;
+  };
+  answer: AnswerWithUser[];
+}
 
 interface InquiryResponse {
   ok: boolean;
-  inquiry: Inquiry;
-  // inquiry: InquiryWithUser;
+  inquiry: InquiryWithUser;
 }
 
 interface AnswerForm{
@@ -69,7 +68,7 @@ const CommunityPostDetail: NextPage = () => {
             <span className="text-blue-500 font-medium">Q.</span>{data?.inquiry?.question}
           </div>
           <div className="mt-3 flex w-full space-x-5 border-b-[2px]  px-4 py-2.5  text-gray-700">
-            {/* <span className="flex items-center space-x-2 text-sm">
+            <span className="flex items-center space-x-2 text-sm">
               <svg
                 className="h-4 w-4"
                 fill="none"
@@ -84,8 +83,8 @@ const CommunityPostDetail: NextPage = () => {
                   d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                 ></path>
               </svg>
-              <span>답변 1</span>
-            </span> */}
+              <span>답변 {data?.inquiry?._count?.answer}</span>
+            </span>
           </div>
         </div>
         <div className="px-4 my-5 space-y-5">

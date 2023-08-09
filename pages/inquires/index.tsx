@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Layout from "@/components/navbar";
 import Link from "next/link";
-import { Inquiry } from "@prisma/client";
+import { Inquiry, User } from "@prisma/client";
 import useSWR from "swr";
 
 interface InquiryWithUser extends Inquiry {
-  // user: User;
+  user: User;
   _count: {
     answer: number;
   };

@@ -4,7 +4,6 @@ import Link from "next/link";
 import useSWR from "swr";
 import useUser from "@/libs/client/useUser";
 import { Service } from "@prisma/client";
-import services from "./api/services";
 import List from "@/components/list";
 
 interface ServiceResponse {

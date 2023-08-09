@@ -6,10 +6,11 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { email, password } = req.body;
+  const { email, password, name } = req.body;
   const user = email ? { email } : {};
   if (!user) return res.status(400).json({
     ok: false,
+    message: ""
   });
   const payload = Math.floor(100000 + Math.random() * 900000) + "";
   const token = await client.token.create({
@@ -23,6 +24,7 @@ async function handler(
           create: {
             ...user,
             ...(password && { password }),
+            ...(name && { name }),
           },
         },
       },

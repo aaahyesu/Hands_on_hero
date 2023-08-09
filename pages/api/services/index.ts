@@ -8,7 +8,8 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   if (req.method === "GET") {
-    const services = await client.service.findMany({});
+    const services = await client.service.findMany({
+    });
     res.json({
       ok: true,
       services,
@@ -18,7 +19,7 @@ async function handler(
   if (req.method === "POST") {
     const {
       body: { title, content, Method, Cost, serviceDate, startTime, endTime },
-      //session: { user },
+      session: { user },
     } = req;
     const service = await client.service.create({
       data: {
@@ -29,11 +30,11 @@ async function handler(
         serviceDate,
         startTime,
         endTime,
-        //   user: {
-        //     connect: {
-        //       id: user?.id,
-        //     },
-        // },
+          user: {
+            connect: {
+              id: user?.id,
+            },
+        },
       },
     });
     res.json({
@@ -44,4 +45,6 @@ async function handler(
   }
 }
 
-export default withHandler({ methods: ["GET", "POST"], handler });
+export default withApiSession(
+  withHandler({ methods: ["GET", "POST"], handler })
+);

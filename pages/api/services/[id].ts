@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "@/libs/server/client";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
+import { withApiSession } from "@/libs/server/withSession";
 
 async function handler(
   req: NextApiRequest,
@@ -9,7 +10,15 @@ async function handler(
   const { id } = req.query;
   const service = await client.service.findUnique({
     where: {
-      id: Number(id),
+      id: +id.toString(),
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
     },
   });
   return res.json({
@@ -19,4 +28,7 @@ async function handler(
   });
 }
 
-export default withHandler({ methods: ["GET"], handler });
+export default withApiSession(
+  withHandler({ methods: ["GET", "POST"], handler })
+);
+
