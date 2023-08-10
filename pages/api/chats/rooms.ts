@@ -16,7 +16,54 @@ async function handler(
   const ownerId = +req.body.ownerId;
 
   try {
-    if (method === "GET") {
+    if (req.method === "POST") {
+      const title = req.body.title;
+      const serviceId = +req.body.serviceId;
+      const exRoom = await prisma.room.findUnique({
+        where: {
+          name: title + user?.id + ownerId,
+        },
+      });
+
+      // 이미 채팅방이 존재하면
+      if (exRoom) {
+        if (exRoom.chatInvisibleTo === user?.id) {
+          await prisma.room.update({
+            where: { id: exRoom.id },
+            data: { chatInvisibleTo: null },
+          });
+        }
+
+        return res.status(200).json({
+          ok: true,
+          message: "이미 채팅방이 존재합니다.",
+          roomId: exRoom.id,
+        });
+      }
+
+      const { id: roomId } = await prisma.room.create({
+        data: {
+          users: {
+            connect: [
+              {
+                id: +user?.id!,
+              },
+              {
+                id: ownerId,
+              },
+            ],
+          },
+          name: title + user?.id + ownerId,
+        },
+      });
+
+      return res.status(201).json({
+        ok: true,
+        message: "채팅방을 생성했습니다.",
+        roomId,
+      });
+    }
+    else if (req.method === "GET") {
       const rooms = await prisma.room.findMany({
         where: {
           users: {
@@ -85,53 +132,8 @@ async function handler(
         rooms: sortRooms,
         roomsOfLastChat: roomsOfLastChat,
       });
-    } else if (method === "POST") {
-      const title = req.body.title;
-      const serviceId = +req.body.serviceId;
-      const exRoom = await prisma.room.findUnique({
-        where: {
-          name: title + user?.id + ownerId,
-        },
-      });
-
-      // 이미 채팅방이 존재하면
-      if (exRoom) {
-        if (exRoom.chatInvisibleTo === user?.id) {
-          await prisma.room.update({
-            where: { id: exRoom.id },
-            data: { chatInvisibleTo: null },
-          });
-        }
-
-        return res.status(200).json({
-          ok: true,
-          message: "이미 채팅방이 존재합니다.",
-          roomId: exRoom.id,
-        });
-      }
-
-      const { id: roomId } = await prisma.room.create({
-        data: {
-          users: {
-            connect: [
-              {
-                id: +user?.id!,
-              },
-              {
-                id: ownerId,
-              },
-            ],
-          },
-          name: title + user?.id + ownerId,
-        },
-      });
-
-      return res.status(201).json({
-        ok: true,
-        message: "채팅방을 생성했습니다.",
-        roomId,
-      });
-    } else if (method === "DELETE") {
+      
+    } else if (req.method === "DELETE") {
       const roomId = +req.body.roomId;
 
       const exRoom = await prisma.room.findUnique({ where: { id: roomId } });
@@ -166,7 +168,7 @@ async function handler(
 
     res.status(500).json({
       ok: false,
-      message: "서버측 에러입니다.\n잠시후에 다시 시도해주세요",
+      message: "(api/chats/room)서버측 에러입니다.\n잠시후에 다시 시도해주세요",
       error,
     });
   }

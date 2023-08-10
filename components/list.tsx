@@ -7,6 +7,7 @@ interface ListProps {
     startTime: Date;
     endTime: Date;
     Cost: number; 
+    liked: number;
 }
 
 export default function List({
@@ -16,6 +17,7 @@ export default function List({
     startTime, 
     endTime,
     Cost, 
+    liked,
 }: ListProps) {
     return (
         <Link href={`/services/${id}`}>
@@ -50,7 +52,7 @@ export default function List({
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   ></path>
                 </svg>
-                <span>1</span>
+                <span>{liked}</span>
               </div>
               <div className="text-5 flex items-center space-x-0.5  text-gray-600">
                 <svg

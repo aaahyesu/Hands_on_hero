@@ -11,6 +11,12 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum Kind {
+  Before
+  Reserved
+  End
+}
+
 model User {
   id                Int            @id @default(autoincrement())
   name              String         @unique
@@ -34,9 +40,10 @@ model User {
   // licenseCerts      LicenseCert[]
 
   // reviews           Review[]  
-  inquiries          Inquiry[]   
-  answers            Answer[]
-  liked              Liked[]  
+  inquiries         Inquiry[]   
+  answers           Answer[]
+  liked             Liked[] 
+  states            States[] 
   //@@map("users")
 
   // writtenReviews    Review[]        @relation(name: "WrittenReviews")
@@ -73,6 +80,7 @@ model Service {
   Cost      Int
   Method    String
   liked     Liked[]  
+  states    States[]  
 
   @@index([userId])
 }
@@ -115,6 +123,23 @@ model Answer {
   @@index([userId])
   @@index([inquiryId])
 }
+
+model States {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  kind      Kind
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId Int
+
+  @@index([userId])
+  @@index([serviceId])
+}
+
 
 // model LicenseCert {
 //   id                Int      @id @default(autoincrement())
