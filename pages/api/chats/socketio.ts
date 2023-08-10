@@ -29,7 +29,7 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
       InterServerEvents,
       SocketData
     >(httpServer, {
-      path: "/chats/socketio",
+      path: "/api/chats/socketio",
     });
 
     res.socket.server.io = io;
