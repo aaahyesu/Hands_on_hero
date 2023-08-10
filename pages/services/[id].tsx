@@ -13,7 +13,7 @@ import { useCallback, useEffect } from "react";
 import me from "../api/users/me";
 import useMe from "@/libs/client/useMe";
 import { toast } from "react-toastify";
-import Button from "@/components/Button";
+import Button from "@/components/button";
 
 interface ConnectUser extends Service {
   user: User;
@@ -42,26 +42,28 @@ const ServiceDetail: NextPage<IProductResponse> = ({ service }) => {
 
   const { me } = useMe();
   const states = service?.states?.map((v) => v.kind);
-  // 2022/04/13 - 채팅방 생성 메서드 - by 1-blue
+  // 채팅방 생성 메서드
   const [createRoom, { data: createRoomResponse, loading: createRoomLoading }] =
-    useMutation<ICreateRoomResponse>(`/api/chats/room`);
-  // 2022/04/12 - 채팅방 생성 - by 1-blue
+    useMutation<ICreateRoomResponse>(`/api/chats/rooms`);
+  // 채팅방 생성
   const onCreateRoom = useCallback(() => {
     if (service?.userId === me?.id)
-      return toast.error("본인의 상품에는 채팅을 할 수 없습니다.");
+      return toast.error("본인 요청서에는 채팅을 할 수 없습니다.");
     if (createRoomLoading)
       return toast.warning("채팅방을 생성중입니다.\n잠시 기다려주세요!");
     if (states?.includes("Reserved"))
       return toast.warning("예약중인 상품이면 판매자와 대화할 수 없습니다.");
     if (states?.includes("End"))
-      return toast.warning("이미 판매한 상품이면 판매자와 대화할 수 없습니다.");
+      return toast.warning(
+        "이미 매칭중인 상품이면 판매자와 대화할 수 없습니다."
+      );
     createRoom({
       ownerId: service?.userId,
       title: service?.title,
       serviceId: service?.id,
     });
   }, [createRoom, service, me, createRoomLoading, states]);
-  // 2022/04/12 - 채팅방 생성 시 채팅방으로 이동 - by 1-blue
+  // 채팅방 생성 시 채팅방으로 이동
   useEffect(() => {
     if (!createRoomResponse?.ok) return;
 
