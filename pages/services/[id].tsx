@@ -83,7 +83,7 @@ const ServiceDetail: NextPage<IProductResponse> = ({ service }) => {
   };
   console.log(data);
   return (
-    <Layout hasTabBar canGoBack title="요청서 상세내용">
+    <Layout canGoBack title="요청서 상세내용">
       <div className="px-4 py-4">
         <label className="py-2 text-xl font-bold">요청자 프로필</label>
         <div className="pt-2">

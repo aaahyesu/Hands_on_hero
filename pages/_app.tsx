@@ -21,10 +21,18 @@ const fetcher = async (url: string) => {
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SWRConfig value={{ fetcher }}>
-      <Layout hasTabBar>
-        <Component {...pageProps} />
-      </Layout>
+    <SWRConfig
+      value={{
+        refreshInterval: 1000,
+        fetcher: (url: string) =>
+          fetch(url).then((response) => response.json()),
+      }}
+    >
+      <div className="mx-auto w-full max-w-xl">
+        <Layout hasTabBar>
+          <Component {...pageProps} />
+        </Layout>
+      </div>
       <ToastContainer
         position="top-right"
         autoClose={2000}

@@ -16,7 +16,7 @@ model User {
   name              String         @unique
   // phone             String?        @db.VarChar(11)
   // gender            Int
-  // avatar            String?
+  avatar            String?
   // birthdate         String?
   password          String        @db.VarChar(20)
   email             String?        @unique
@@ -32,15 +32,13 @@ model User {
   updatedAt         DateTime    @updatedAt()
   services          Service[]
   // licenseCerts      LicenseCert[]
-
-  // reviews           Review[]  
   inquiries          Inquiry[]   
   answers            Answer[]
   liked              Liked[]  
-  //@@map("users")
+  @@map("users")
 
-  // writtenReviews    Review[]        @relation(name: "WrittenReviews")
-  // receivedReviews   Review[]        @relation(name: "ReceivedReviews")       
+  writtenReviews    Review[]        @relation(name: "WrittenReviews")
+  receivedReviews   Review[]        @relation(name: "ReceivedReviews")       
 
 
 }
@@ -155,20 +153,21 @@ model Answer {
 
 
 
-// model Review {
-//   id        Int      @id @default(autoincrement())
-//   text      String   @db.MediumText
-//   rating    Int      @default(3)
-//   from      User     @relation(name: "WrittenReviews", fields: [fromId], references: [id])
-//   fromId    Int
-//   to        User     @relation(name: "ReceivedReviews", fields: [toId], references: [id])
-//   toId      Int
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt()
+model Review {
+  id        Int      @id @default(autoincrement())
+  review    String   @db.MediumText
+  score     Int      
+  createBy      User     @relation(name: "WrittenReviews", fields: [createById], references: [id])
+  createById    Int
+  createTo        User     @relation(name: "ReceivedReviews", fields: [createToId], references: [id])
+  createToId      Int
 
-//   @@index([fromId])
-//   @@index([toId])
-// }
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@index([createById])
+  @@index([createToId])
+}
 
 // model TransactionHistory {
 //   paymentId     Int      @id @default(autoincrement())

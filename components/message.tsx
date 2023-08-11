@@ -16,18 +16,25 @@ const Message = ({ message, updatedAt, user, $reversed }: MessageProps) => {
         $reversed ? "flex-row-reverse space-x-reverse" : ""
       )}
     >
-      {/* 유저명과 채팅내용 */}
-      <div
-        className={cls(
-          "flex flex-grow-0 flex-col",
-          $reversed ? "items-end" : ""
-        )}
-      >
-        <span className="text-sm">{user.name}</span>
-        <p className="max-w-[240px] rounded-md border-2 bg-orange-400 px-4 py-2 text-white">
-          {message}
-        </p>
-      </div>
+      {/* 동그란 원 (상대방 메시지일 때만) */}
+      {!$reversed && (
+        <div
+          className={cls(
+            "flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full  bg-black", // 동그란 원 스타일
+            "mr-1" // 오른쪽 여백
+          )}
+        >
+          <img
+            src="/superman_bg_white.png"
+            alt="Avatar"
+            className="h-full w-full rounded-full shadow-md"
+          />
+        </div>
+      )}
+      {/* 채팅 내용 */}
+      <p className="max-w-[240px] rounded-2xl border-2 bg-black px-4 py-2 text-white">
+        {message}
+      </p>
       {/* 채팅 작성 시간 */}
       <span className="self-end text-right text-sm text-gray-500">
         {timeFormat(updatedAt)}

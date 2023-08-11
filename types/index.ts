@@ -47,6 +47,7 @@ export type ApiResponse = {
 export type SimpleUser = {
   id: number;
   name: string;
+  avatar?: string | null;
 };
 
 export interface IAnswerForm {
