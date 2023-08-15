@@ -36,14 +36,14 @@ const Chats: NextPage = () => {
       {data.rooms.length > 0 ? (
         data.rooms.map((room, index) => (
           <Link key={room.id} href={`/chats/${room.id}`}>
-            <a className="flex cursor-pointer items-center space-x-3 rounded-md px-4 py-3 transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
+            <p className="flex cursor-pointer items-center space-x-3 rounded-md px-4 py-3 transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
               <div>
                 <p className="text-base font-semibold text-gray-700">
-                  {room.users[0].name}
+                  {room?.users[0]?.name}
                 </p>
                 <p className="text-sm text-gray-500">
-                  {data.roomsOfLastChat?.[index].chat
-                    ? data.roomsOfLastChat?.[index].chat
+                  {data?.roomsOfLastChat?.[index].chat
+                    ? data?.roomsOfLastChat?.[index].chat
                     : "아직 입력된 채팅이 없습니다."}
                 </p>
               </div>
@@ -51,7 +51,7 @@ const Chats: NextPage = () => {
               <span className="self-start text-xs text-gray-500">
                 {timeFormat(data.roomsOfLastChat?.[index].updatedAt)}
               </span>
-            </a>
+            </p>
           </Link>
         ))
       ) : (

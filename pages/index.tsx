@@ -10,6 +10,9 @@ interface Count extends Service {
   _count: {
     liked: number;
   };
+  list?: {
+    kind: "Liked" | "Requestlist" | "Responselist";
+  }[]
 }
 
 interface ServiceResponse {
@@ -32,6 +35,7 @@ const Home: NextPage = () => {
             startTime={service.startTime}
             endTime={service.endTime}
             liked={service._count.liked}
+            list={service.list}
           />
         ))}
         <Link href="/services/upload">

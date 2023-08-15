@@ -3,25 +3,23 @@ import Layout from "@/components/navbar";
 import Link from "next/link";
 import useSWR from "swr";
 import List from "@/components/list";
-const MyList: NextPage = () => {
-  const {data} = useSWR(`/api/users/me/requestlist`);
+const ResponseList: NextPage = () => {
+  const {data} = useSWR(`/api/users/me/responselist`);
   return (
-    <Layout hasTabBar canGoBack title="나의 요청서 목록">
+    <Layout hasTabBar canGoBack title="수락 요청서 목록">
       <div className="flex flex-col space-y-5 py-2">
-        <Link href="/">
-          {data?.requestlist?.map((requestlist) => (
+          {data?.responselist?.map((responselist) => (
             <List
-              key={requestlist.id}
-              id={requestlist.service.id}
-              title={requestlist.service.title}
-              serviceDate={requestlist.service.serviceDate}
-              startTime={requestlist.service.startTime}
-              endTime ={requestlist.service.endTime}
-              Cost={requestlist.service.Cost}
-              liked={requestlist.service._count.liked}
+              key={responselist.id}
+              id={responselist.service.id}
+              title={responselist.service.title}
+              serviceDate={responselist.service.serviceDate}
+              startTime={responselist.service.startTime}
+              endTime ={responselist.service.endTime}
+              Cost={responselist.service.Cost}
+              liked={responselist.service._count.liked}
             />
               ))} 
-            </Link>
         </div>
     </Layout>
     // <Layout hasTabBar canGoBack title="나의 요청서 목록">
@@ -90,4 +88,4 @@ const MyList: NextPage = () => {
   );
 };
 
-export default MyList;
+export default ResponseList;

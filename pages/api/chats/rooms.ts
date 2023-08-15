@@ -16,12 +16,80 @@ async function handler(
   const ownerId = +req.body.ownerId;
 
   try {
-    if (req.method === "POST") {
+    if (method === "GET") {
+      const rooms = await prisma.room.findMany({
+        where: {
+          users: {
+            some: {
+              id: user?.id,
+            },
+          },
+          OR: [
+            {
+              chatInvisibleTo: {
+                equals: null,
+              },
+            },
+            {
+              chatInvisibleTo: {
+                not: user?.id,
+              },
+            },
+          ],
+        },
+        include: {
+          users: {
+            where: {
+              NOT: {
+                id: user?.id,
+              },
+            },
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      });
+      console.dir(rooms);
+
+      // 방들의 마지막 채팅 기준으로 시간 순 정렬
+      const chatPromises = rooms.map((room) =>
+        prisma.chat.findMany({
+          take: 1,
+          where: {
+            roomId: room.id,
+          },
+          select: {
+            chat: true,
+            updatedAt: true,
+            roomId: true,
+          },
+          orderBy: {
+            updatedAt: "desc",
+          },
+        })
+      );
+      const roomsOfLastChat = (await Promise.all(chatPromises)).flat(1);
+      roomsOfLastChat.sort((x, y) => (+x.updatedAt > +y.updatedAt ? -1 : 1));
+
+      // 마지막 채팅을 기준으로 방들을 정렬
+      const sortRooms = roomsOfLastChat.map((chat) =>
+        rooms.find((room) => room.id === chat.roomId)
+      );
+
+      return res.status(200).json({
+        ok: true,
+        message: "모든 채팅방을 가져왔습니다.",
+        rooms: sortRooms,
+        roomsOfLastChat: roomsOfLastChat,
+      });
+    } else if (method === "POST") {
       const title = req.body.title;
       const serviceId = +req.body.serviceId;
       const exRoom = await prisma.room.findUnique({
         where: {
-          name: title + user?.id + ownerId,
+          name: title + user?.id,
         },
       });
 
@@ -62,78 +130,7 @@ async function handler(
         message: "채팅방을 생성했습니다.",
         roomId,
       });
-    }
-    else if (req.method === "GET") {
-      const rooms = await prisma.room.findMany({
-        where: {
-          users: {
-            some: {
-              id: user?.id,
-            },
-          },
-          OR: [
-            {
-              chatInvisibleTo: {
-                equals: null,
-              },
-            },
-            {
-              chatInvisibleTo: {
-                not: user?.id,
-              },
-            },
-          ],
-        },
-        include: {
-          users: {
-            where: {
-              NOT: {
-                id: user?.id,
-              },
-            },
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-      });
-
-      console.dir(rooms);
-
-      // 방들의 마지막 채팅 기준으로 시간 순 정렬
-      const chatPromises = rooms.map((room) =>
-        prisma.chat.findMany({
-          take: 1,
-          where: {
-            roomId: room.id,
-          },
-          select: {
-            chat: true,
-            updatedAt: true,
-            roomId: true,
-          },
-          orderBy: {
-            updatedAt: "desc",
-          },
-        })
-      );
-      const roomsOfLastChat = (await Promise.all(chatPromises)).flat(1);
-      roomsOfLastChat.sort((x, y) => (+x.updatedAt > +y.updatedAt ? -1 : 1));
-
-      // 마지막 채팅을 기준으로 방들을 정렬
-      const sortRooms = roomsOfLastChat.map((chat) =>
-        rooms.find((room) => room.id === chat.roomId)
-      );
-
-      return res.status(200).json({
-        ok: true,
-        message: "모든 채팅방을 가져왔습니다.",
-        rooms: sortRooms,
-        roomsOfLastChat: roomsOfLastChat,
-      });
-      
-    } else if (req.method === "DELETE") {
+    } else if (method === "DELETE") {
       const roomId = +req.body.roomId;
 
       const exRoom = await prisma.room.findUnique({ where: { id: roomId } });
@@ -168,7 +165,7 @@ async function handler(
 
     res.status(500).json({
       ok: false,
-      message: "(api/chats/room)서버측 에러입니다.\n잠시후에 다시 시도해주세요",
+      message: "서버측 에러입니다.\n잠시후에 다시 시도해주세요",
       error,
     });
   }

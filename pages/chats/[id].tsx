@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { Socket, io } from "socket.io-client";
 
 // common-component
-import Button from "@/components/button";
+import Button from "@/components/Button";
 
 // component
 import Message from "@/components/message";
@@ -79,7 +79,7 @@ const ChatDetail: NextPage = () => {
     if (!me) return;
 
     const mySocket = io("http://localhost:3000", {
-      path: "/api/chats/socket.io",
+      path: "/api/chats/socketio",
       withCredentials: true,
       transports: ["websocket"],
     });
