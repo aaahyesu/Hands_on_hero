@@ -41,26 +41,28 @@ const ServiceDetail: NextPage<IProductResponse> = ( {service} ) => {
   const router = useRouter();
   const { me } = useMe();
   const states = service?.states?.map((v) => v.kind);
-  //채팅방 생성 메서드
+  // 채팅방 생성 메서드
   const [createRoom, { data: createRoomResponse, loading: createRoomLoading }] =
     useMutation<ICreateRoomResponse>(`/api/chats/rooms`);
-  //채팅방 생성
+  // 채팅방 생성
   const onCreateRoom = useCallback(() => {
-    // if (service?.userId === me?.id)
-    //   return toast.error("본인의 상품에는 채팅을 할 수 없습니다.");
-    // if (createRoomLoading)
-    //   return toast.warning("채팅방을 생성중입니다.\n잠시 기다려주세요!");
-    // if (states?.includes("Reserved"))
-    //   return toast.warning("예약중인 상품이면 판매자와 대화할 수 없습니다.");
-    // if (states?.includes("End"))
-    //   return toast.warning("이미 판매한 상품이면 판매자와 대화할 수 없습니다.");
+    if (service?.userId === me?.id)
+      return toast.error("본인 요청서에는 채팅을 할 수 없습니다.");
+    if (createRoomLoading)
+      return toast.warning("채팅방을 생성중입니다.\n잠시 기다려주세요!");
+    if (states?.includes("Reserved"))
+      return toast.warning("예약중인 상품이면 판매자와 대화할 수 없습니다.");
+    if (states?.includes("End"))
+      return toast.warning(
+        "이미 매칭중인 상품이면 판매자와 대화할 수 없습니다."
+      );
     createRoom({
       ownerId: service?.userId,
       title: service?.title,
       serviceId: service?.id,
     });
   }, [createRoom, service, me, createRoomLoading, states]);
-  //채팅방 생성 시 채팅방으로 이동
+  // 채팅방 생성 시 채팅방으로 이동
   useEffect(() => {
     if (!createRoomResponse?.ok) return;
     toast.success("채팅방으로 이동합니다.");
@@ -81,7 +83,7 @@ const ServiceDetail: NextPage<IProductResponse> = ( {service} ) => {
   };
   console.log(data);
   return (
-    <Layout hasTabBar canGoBack title="요청서 상세내용">
+    <Layout canGoBack title="요청서 상세내용">
       <div className="px-4 py-4">
         <label className="py-2 text-xl font-bold">요청자 프로필</label>
         <div className="pt-2">

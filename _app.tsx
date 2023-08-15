@@ -6,16 +6,25 @@ import { ToastContainer } from "react-toastify";
 
 import Layout from "@/components/navbar";
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
-
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SWRConfig value={{
-      refreshInterval:2000,
-      fetcher: (url: string) => fetch(url).then((response) => response.json()),}}>
+        <SWRConfig
+      value={{
+        fetcher: (url: string) =>
+          fetch(url).then((response) => response.json()),
+      }}
+    >
       <div className="w-full max-w-xl mx-auto">
+      <Layout hasTabBar>
         <Component {...pageProps} />
-        </div>
+      </Layout>
+      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        theme="light"
+        closeOnClick
+      />
     </SWRConfig>
   );
 }

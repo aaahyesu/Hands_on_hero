@@ -47,6 +47,7 @@ async function handler(
             select: {
               id: true,
               name: true,
+              // avatar: true,
             },
           },
         },
@@ -153,13 +154,17 @@ async function handler(
           where: { id: roomId },
           data: { chatInvisibleTo: user?.id },
         });
+        return res.status(200).json({
+          ok: true,
+          message: "채팅방을 나갔습니다.",
+        });
       }
     }
 
-    return res.status(200).json({
-      ok: true,
-      message: "채팅방을 나갔습니다.",
-    });
+    // return res.status(200).json({
+    //   ok: true,
+    //   message: "채팅방을 나갔습니다.",
+    // });
   } catch (error) {
     console.error("/chats/room error >> ", error);
 

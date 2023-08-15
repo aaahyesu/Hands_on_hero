@@ -1,6 +1,27 @@
 import type { NextPage } from "next";
 import Layout from "@/components/navbar";
 import Link from "next/link";
+
+import useSWR from "swr";
+
+import { ICON_SHAPE, ApiResponse, SimpleUser } from "types";
+import { Review, User } from "prisma";
+
+import UserProfile from "components/Profile";
+import UserReview from "components/Review";
+
+interface IReviewWithWriter extends Review {
+  createdBy: SimpleUser;
+}
+
+interface IReviewResponse extends ApiResponse {
+  reviews: IReviewWithWriter[];
+}
+
+interface IMeResponse extends ApiResponse {
+  user: User;
+}
+
 const Profile: NextPage = () => {
   return (
     <Layout hasTabBar title="프로필">
@@ -13,8 +34,8 @@ const Profile: NextPage = () => {
             <Link href="/profile/edit">
               <span className="text-sm text-gray-700 ">프로필 수정하기</span>
             </Link>
+            </div>
           </div>
-        </div>
         </div>
         <div className="pt-10">
           <label

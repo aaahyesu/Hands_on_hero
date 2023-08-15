@@ -5,11 +5,14 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { Socket, io } from "socket.io-client";
 
+import Link from "next/link";
+
 // common-component
 import Button from "@/components/Button";
 
 // component
 import Message from "@/components/message";
+import Complete from "@/pages/services/complete";
 
 // type
 import {
@@ -23,8 +26,10 @@ import { Chat } from "@prisma/client";
 // hook
 import useMe from "@/libs/client/useMe";
 import useSWRInfinite from "swr/infinite";
+import useMutation from "@/libs/client/useMutation";
 import Spinner from "@/components/spinner";
 import { error } from "console";
+import Layout from "@/components/navbar";
 
 interface IChatWithUser extends Chat {
   User: SimpleUser;
@@ -33,13 +38,37 @@ interface IChatResponse extends ApiResponse {
   chats: IChatWithUser[];
   isMine: boolean;
 }
+
+interface IExitRoomResponse extends ApiResponse {}
 type ChatForm = {
   chat: string;
 };
 
+// 0부터 99999 사이의 랜덤한 숫자를 생성하고, 5자리로 만듭니다.
+function generateRandom5DigitNumber() {
+  const min = 0;
+  const max = 99999;
+  const randomInRange = Math.floor(Math.random() * (max - min + 1)) + min;
+  const random5DigitNumber = randomInRange.toString().padStart(5, "0");
+  return random5DigitNumber;
+}
+
+const randomNumber = generateRandom5DigitNumber();
+console.log(randomNumber); // 랜덤한 5자리 숫자 출력
+
 const ChatDetail: NextPage = () => {
   const router = useRouter();
   const { me } = useMe();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   // 채팅 폼
   const { register, handleSubmit, reset } = useForm<ChatForm>();
@@ -146,6 +175,7 @@ const ChatDetail: NextPage = () => {
                   User: {
                     id: me.id,
                     name: me.name,
+                    // avatar: me.avatar,
                   },
                   chat,
                   id: Date.now(),
@@ -175,8 +205,28 @@ const ChatDetail: NextPage = () => {
     }
   }, [chatsResponse, router]);
 
+  // 채팅방 나가기 메서드
+  const [exitRoom, { data: exitRoomResponse, loading: exitRoomLoading }] =
+    useMutation<IExitRoomResponse>(`/api/chats/room`, "DELETE");
+  // 채팅방 나가기
+  const onExitRoom = useCallback(
+    () =>
+      exitRoom({
+        roomId: router.query.id,
+      }),
+    [exitRoom, router]
+  );
+
+  // 채팅방 나가기 성공 메시지
+  useEffect(() => {
+    if (exitRoomResponse?.ok) {
+      toast.success(exitRoomResponse.message);
+      router.back();
+    }
+  }, [exitRoomResponse, router]);
+
   return (
-    <>
+    <Layout canGoBack title="채팅">
       <article className="mb-[10vh] min-h-[70vh] space-y-4 rounded-sm bg-slate-200 p-4">
         {loadChatsLoading && (
           <h3 className="rounded-md bg-indigo-400 p-2 text-center text-lg text-white">
@@ -215,26 +265,184 @@ const ChatDetail: NextPage = () => {
           </>
         )}
       </article>
-
       <article>
+        <div>
+          <button
+            onClick={openModal}
+            className="fixed bottom-24 flex items-center justify-center rounded-md p-3 text-gray-400 hover:text-gray-500"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="h-6 w-6"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M12 6v12m6-6H6"
+              />
+            </svg>
+          </button>
+          {isModalOpen && (
+            <div
+              className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0"
+              id="crypto-modal"
+              tabIndex={-1}
+              aria-hidden="true"
+            >
+              <div className="relative max-h-full w-full max-w-md">
+                <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
+                  <button
+                    type="button"
+                    className="absolute right-2.5 top-3 ml-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+                    onClick={closeModal}
+                    data-modal-hide="crypto-modal"
+                  >
+                    <svg
+                      className="h-3 w-3"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 14 14"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                      />
+                    </svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
+
+                  {/* Modal header */}
+                  <div className="rounded-t border-b px-6 py-4 dark:border-gray-600">
+                    <h3 className="text-base font-semibold text-gray-900 dark:text-white lg:text-xl">
+                      추가 기능
+                    </h3>
+                  </div>
+
+                  {/* Modal body */}
+                  <div className="space-y-6 p-6">
+                    <nav className="flex w-full max-w-xl justify-between bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
+                      <Link href="http://localhost:3001/">
+                        <span className="flex flex-col items-center space-y-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
+                            />
+                          </svg>
+
+                          <span>화상통화</span>
+                          <span>{randomNumber}</span>
+                        </span>
+                      </Link>
+                      <Link href="/chats">
+                        <span className="flex flex-col items-center space-y-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59"
+                            />
+                          </svg>
+
+                          <span>원격접속</span>
+                        </span>
+                      </Link>
+                      <Link href="api/services/block">
+                        <span className="flex flex-col items-center space-y-2">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            className="h-6 w-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
+                            />
+                          </svg>
+
+                          <span>사용자 차단</span>
+                        </span>
+                      </Link>
+                    </nav>
+
+                    {/* 하단 선택 버튼 */}
+                    <div className="flex flex-col items-center space-x-1">
+                      <nav className="flex w-full max-w-xl flex-col justify-between border-t border-gray-200 bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
+                        <div className="flex items-center space-x-2 rounded-b p-6 dark:border-gray-600 ">
+                          <Link href="/services/complete">
+                            <button
+                              data-modal-hide="small-modal"
+                              type="button"
+                              className="rounded-lg bg-black px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-black focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            >
+                              서비스 완료
+                            </button>
+                          </Link>
+                          <div className="rounded-b p-6 dark:border-gray-600">
+                            <Link href="">
+                              <button
+                                data-modal-hide="medium-modal"
+                                type="button"
+                                className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
+                              >
+                                서비스 미완료
+                              </button>
+                            </Link>
+                          </div>
+                        </div>
+                      </nav>
+                    </div>
+                    <ul className="my-4 space-y-3">{/* Wallet options */}</ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
         <form
           onSubmit={handleSubmit(onAddChatting)}
-          className="fixed inset-x-0 bottom-24 mx-auto flex w-10/12 max-w-lg"
+          className="fixed inset-x-0 bottom-24 mx-12 flex w-10/12 max-w-lg justify-start rounded-md border border-black"
         >
           <input
             type="text"
-            className="peer flex-[8.5] rounded-l-md border-gray-300 placeholder:text-gray-400 focus:border-orange-400 focus:outline-none focus:ring-1 focus:ring-black"
+            className="peer flex-[8.5] rounded-l-md placeholder:text-gray-400 focus:border-orange-400 focus:outline-none focus:ring-1"
             {...register("chat")}
             autoFocus
           />
           <Button
             type="submit"
             text="전송"
-            className="flex-[1.5] rounded-r-md bg-black py-[10px] text-white ring-blue-400 hover:bg-black focus:outline-orange-500 peer-focus:ring-1"
+            className="flex-[1.5] rounded-r-md bg-black py-[10px] text-white  hover:bg-black focus:outline-orange-500 peer-focus:ring-1"
           />
         </form>
       </article>
-    </>
+    </Layout>
   );
 };
 

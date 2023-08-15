@@ -22,7 +22,7 @@ model User {
   name              String         @unique
   // phone             String?        @db.VarChar(11)
   // gender            Int
-  // avatar            String?
+  avatar            String?
   // birthdate         String?
   password          String        @db.VarChar(20)
   email             String?        @unique
@@ -45,7 +45,7 @@ model User {
   requestlists      Requestlist[] 
   responselists     Responselist[] 
   liked             Liked[] 
-  states            States[] 
+  // states            States[] 
   Lists             List[]
   //@@map("users")
 
@@ -84,7 +84,7 @@ model Service {
   liked             Liked[]
   requestlists      Requestlist[] 
   responselists     Responselist[]   
-  states            States[]
+  // states            States[]
   room              Room[]  
   Lists             List[]
 
@@ -160,7 +160,7 @@ model Answer {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   answer    String    @db.MediumText
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   inquiry      Inquiry  @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
   inquiryId    Int 
@@ -169,21 +169,7 @@ model Answer {
   @@index([inquiryId])
 }
 
-model States {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  kind      Kind
-
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  serviceId Int
-
-  @@index([userId])
-  @@index([serviceId])
-}
+// s
 
 // model ServiceMatching {
 //   serviceId        Int      @id
@@ -212,17 +198,18 @@ model States {
 
 model Review {
   id        Int      @id @default(autoincrement())
-  text      String   @db.MediumText
-  rating    Int      @default(3)
-  from      User     @relation(name: "WrittenReviews", fields: [fromId], references: [id])
-  fromId    Int
-  to        User     @relation(name: "ReceivedReviews", fields: [toId], references: [id])
-  toId      Int
+  review    String   @db.MediumText
+  score     Int      
+  createBy      User     @relation(name: "WrittenReviews", fields: [createById], references: [id], onDelete: Cascade)
+  createById    Int
+  createTo        User     @relation(name: "ReceivedReviews", fields: [createToId], references: [id], onDelete: Cascade)
+  createToId      Int
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
-  @@index([fromId])
-  @@index([toId])
+  @@index([createById])
+  @@index([createToId])
 }
 
 // model TransactionHistory {

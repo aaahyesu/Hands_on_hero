@@ -1,14 +1,11 @@
 import Image from "next/image";
 
 // type
-import { SimpleUser } from "@/types";
+import { SimpleUser } from "types";
 import { User } from "@prisma/client";
 
 // util
-import {
-  combineClassNames,
-  //   combinePhotoUrl,
-} from "libs/client/utils";
+import { combineClassNames, combinePhotoUrl } from "libs/client/utils";
 import Link from "next/link";
 
 type Props = {

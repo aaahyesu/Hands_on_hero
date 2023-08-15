@@ -26,7 +26,7 @@ async function handler(
       return res.status(200).json({
         ok: true,
         message: "로그인된 유저의 정보입니다.",
-        profile: exUser,
+        user: exUser,
       });
     }
 

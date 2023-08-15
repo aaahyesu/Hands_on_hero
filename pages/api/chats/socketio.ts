@@ -32,7 +32,7 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
       path: "/api/chats/socketio",
     });
 
-    res.socket.server.io = io;
+    // res.socket.server.io = io;
 
     io.on("connection", (socket) => {
       console.log("소켓 연결 완료 >> ", socket.id);
@@ -68,6 +68,7 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
           select: {
             id: true,
             name: true,
+            // avatar: true,
           },
         });
 
