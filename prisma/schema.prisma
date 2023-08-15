@@ -11,6 +11,12 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum Kind {
+  Liked
+  Requestlist
+  Responselist
+}
+
 model User {
   id                Int            @id @default(autoincrement())
   name              String         @unique
@@ -21,7 +27,7 @@ model User {
   password          String        @db.VarChar(20)
   email             String?        @unique
   // introduction      String?
-  // virtualAccount    Int?            
+  virtualAccount    Int           @default(0)
   // virtualAccountId  Int?
 
   tokens            Token[]
@@ -32,10 +38,16 @@ model User {
   updatedAt         DateTime    @updatedAt()
   services          Service[]
   // licenseCerts      LicenseCert[]
-  inquiries          Inquiry[]   
-  answers            Answer[]
-  liked              Liked[]  
-  @@map("users")
+
+  // reviews           Review[]  
+  inquiries         Inquiry[]   
+  answers           Answer[]
+  requestlists      Requestlist[] 
+  responselists     Responselist[] 
+  liked             Liked[] 
+  // states            States[] 
+  Lists             List[]
+  //@@map("users")
 
   writtenReviews    Review[]        @relation(name: "WrittenReviews")
   receivedReviews   Review[]        @relation(name: "ReceivedReviews")       
@@ -57,25 +69,68 @@ model Token {
 
 
 model Service {
-  id        Int       @id @default(autoincrement())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  title     String
-  content   String    @db.MediumText
-  room      Room[]
-  serviceDate String
-  startTime String
-  endTime   String
-  Cost      Int
-  Method    String
-  liked     Liked[]  
+  id                Int         @id @default(autoincrement())
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            Int
+  title             String
+  content           String      @db.MediumText
+  serviceDate       String
+  startTime         String
+  endTime           String
+  Cost              Int
+  Method            String
+  liked             Liked[]
+  requestlists      Requestlist[] 
+  responselists     Responselist[]   
+  // states            States[]
+  room              Room[]  
+  Lists             List[]
 
   @@index([userId])
 }
 
+model List {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  service     Service     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId   Int
+  kind        Kind
+  @@index([serviceId])
+  @@index([userId])
+}
+
 model Liked {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  service     Service     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId   Int
+
+  @@index([serviceId])
+  @@index([userId])
+}
+
+model Requestlist {
+  id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  service     Service     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId   Int
+
+  @@index([serviceId])
+  @@index([userId])
+}
+
+model Responselist {
   id          Int         @id @default(autoincrement())
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -105,7 +160,7 @@ model Answer {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   answer    String    @db.MediumText
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   inquiry      Inquiry  @relation(fields: [inquiryId], references: [id], onDelete: Cascade)
   inquiryId    Int 
@@ -114,17 +169,7 @@ model Answer {
   @@index([inquiryId])
 }
 
-// model LicenseCert {
-//   id                Int      @id @default(autoincrement())
-//   licenseNum        String
-//   licenseIssueDate  DateTime
-//   licenseSerialNum  String
-//   user              User    @relation(fields: [userId], references: [id])
-//   userId            Int      
-
-
-//   @@map("license_cert")
-// }
+// s
 
 // model ServiceMatching {
 //   serviceId        Int      @id
@@ -147,19 +192,17 @@ model Answer {
 //   createdAt DateTime @default(now())
 //   updatedAt DateTime @updatedAt()
 
-//   @@map("license_cert")
 //   @@index([userId])
 // }
-
 
 
 model Review {
   id        Int      @id @default(autoincrement())
   review    String   @db.MediumText
   score     Int      
-  createBy      User     @relation(name: "WrittenReviews", fields: [createById], references: [id])
+  createBy      User     @relation(name: "WrittenReviews", fields: [createById], references: [id], onDelete: Cascade)
   createById    Int
-  createTo        User     @relation(name: "ReceivedReviews", fields: [createToId], references: [id])
+  createTo        User     @relation(name: "ReceivedReviews", fields: [createToId], references: [id], onDelete: Cascade)
   createToId      Int
 
   createdAt DateTime @default(now())
@@ -189,7 +232,6 @@ model Room {
   chatInvisibleTo Int?
   Service         Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
   serviceId       Int? 
-
   users User[]
   chats Chat[]
   
@@ -224,17 +266,6 @@ model Message {
   @@index([userId])
 }
 
-
-model CertificationVerification {
-  certificationId   Int      @id
-  certificationNumber String  @db.VarChar(20)
-  issuanceDate     DateTime
-  certificatePageNumber String @db.VarChar(20)
-  userId           Int      @db.Int
-
-  @@map("certification_verification")
-}
-
 model BlockList {
   blockId           Int      @id
   blockedUserId     Int
@@ -251,5 +282,3 @@ model Notification {
 
   @@map("notification")
 }
-
-
