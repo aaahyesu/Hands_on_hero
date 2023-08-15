@@ -24,7 +24,7 @@ model User {
   // gender            Int
   avatar            String?
   // birthdate         String?
-  password          String        @db.VarChar(20)
+  // password          String        @db.VarChar(20)
   email             String?        @unique
   // introduction      String?
   virtualAccount    Int           @default(0)

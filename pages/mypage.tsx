@@ -4,25 +4,50 @@ import Link from "next/link";
 import useUser from "@/libs/client/useUser";
 
 const MyPage: NextPage = () => {
-  const {user} = useUser();
+  const { user } = useUser();
   return (
     <Layout hasTabBar title="마이페이지">
       <div className="px-4 py-4">
         <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
           <div className="h-12 w-12 rounded-full bg-gray-500" />
           <div className="flex-col-2 flex px-4">
-            <span className="text-md font-bold text-gray-900">{user?.name}</span>
+            <span className="text-md font-bold text-gray-900">
+              {user?.name}
+            </span>
           </div>
+
+          <div className="flex items-center">
+            <svg
+              className="mr-1 h-4 w-4 text-yellow-300"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 22 20"
+            >
+              <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+            </svg>
+            <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+              4.95
+            </p>
+            <span className="mx-1.5 h-1 w-1 rounded-full bg-gray-500 dark:bg-gray-400"></span>
+            <a
+              href="#"
+              className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+            >
+              73 reviews
+            </a>
+          </div>
+
           <div className="flex flex-grow justify-end"></div>
           <Link href="/profile">
-            <p className="rounded-lg hover hover:bg-gray-700 bg-black px-1.5 py-2 text-sm text-white shadow-3xl">
+            <p className="hover shadow-3xl rounded-lg bg-black px-1.5 py-2 text-sm text-white hover:bg-gray-700">
               프로필 보기
             </p>
           </Link>
         </div>
         <p className="mb-2 mt-6 text-lg font-bold">나의 서비스 관리</p>
         <Link href="/profile/mylist">
-          <div className="flex-col-2 flex py-1 hover hover:text-gray-600">
+          <div className="flex-col-2 hover flex py-1 hover:text-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -43,26 +68,26 @@ const MyPage: NextPage = () => {
           </div>
         </Link>
         <Link href="/profile/like">
-          <div className="flex-col-2 flex py-1 hover hover:text-gray-600">
-          <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          fill="none" 
-          viewBox="0 0 24 24" 
-          stroke-width="1.5" 
-          stroke="currentColor" 
-          className="w-8 h-8">
-          <path 
-          stroke-linecap="round" 
-          stroke-linejoin="round" 
-          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-          </svg>
-            <span className="flex items-center px-3">
-              찜한 요청서 목록
-            </span>
+          <div className="flex-col-2 hover flex py-1 hover:text-gray-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="h-8 w-8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+              />
+            </svg>
+            <span className="flex items-center px-3">찜한 요청서 목록</span>
           </div>
         </Link>
         <Link href="/reviews">
-          <div className="flex-col-2 flex py-1 hover hover:text-gray-600">
+          <div className="flex-col-2 hover flex py-1 hover:text-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -83,7 +108,7 @@ const MyPage: NextPage = () => {
           </div>
         </Link>
         <Link href="/block">
-          <div className="flex-col-2 flex py-1 hover hover:text-gray-600">
+          <div className="flex-col-2 hover flex py-1 hover:text-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -102,7 +127,7 @@ const MyPage: NextPage = () => {
           </div>
         </Link>
         <Link href="/money">
-          <div className="flex-col-2 flex py-1 hover hover:text-gray-600">
+          <div className="flex-col-2 hover flex py-1 hover:text-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -121,7 +146,7 @@ const MyPage: NextPage = () => {
           </div>
         </Link>
         <Link href="/inquires">
-          <div className="flex-col-2 flex py-1 hover hover:text-gray-600">
+          <div className="flex-col-2 hover flex py-1 hover:text-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -142,27 +167,27 @@ const MyPage: NextPage = () => {
         <div className="border border-gray-200"></div>
         <div className="py-2 text-lg font-bold">슈퍼맨</div>
         <Link href="/profile/response">
-        <div className="flex-col-2 flex py-1 hover hover:text-gray-600">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="h-8 w-8"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
-            />
-          </svg>
-          <span className="flex items-center px-3">수락 요청서 목록</span>
-        </div>
+          <div className="flex-col-2 hover flex py-1 hover:text-gray-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="h-8 w-8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184"
+              />
+            </svg>
+            <span className="flex items-center px-3">수락 요청서 목록</span>
+          </div>
         </Link>
         <div className="border border-gray-200"></div>
         <div className="py-2 text-lg font-bold">설정</div>
-        <div className="flex-col-2 mb-2 flex py-1 hover hover:text-gray-600">
+        <div className="flex-col-2 hover mb-2 flex py-1 hover:text-gray-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -180,7 +205,7 @@ const MyPage: NextPage = () => {
 
           <span className="flex items-center px-3">로그아웃</span>
         </div>
-        <div className="flex-col-2 flex hover hover:text-gray-600">
+        <div className="flex-col-2 hover flex hover:text-gray-600">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 .image-style {
+  width: 400px;
+  height: auto;
+}
+
+.image-size {
   width: 300px;
   height: auto;
 }
