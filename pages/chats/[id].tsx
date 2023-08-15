@@ -8,7 +8,7 @@ import { Socket, io } from "socket.io-client";
 import Link from "next/link";
 
 // common-component
-import Button from "@/components/button";
+import Button from "@/components/Button";
 
 // component
 import Message from "@/components/message";

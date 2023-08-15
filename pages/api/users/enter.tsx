@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import client from "@/libs/server/client";
-import bcrypt from "bcrypt";
 
 async function handler(
   req: NextApiRequest,
@@ -13,7 +12,6 @@ async function handler(
     ok: false,
     message: ""
   });
-  const hashedPassword = await bcrypt.hash(password, 10);
   const payload = Math.floor(100000 + Math.random() * 900000) + "";
   const token = await client.token.create({
     data: {
@@ -25,7 +23,7 @@ async function handler(
           },
           create: {
             ...user,
-            password: hashedPassword,
+            ...(password && { password }),
             ...(name && { name }),
           },
         },

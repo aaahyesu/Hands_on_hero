@@ -64,7 +64,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     res.status(500).json({
       ok: false,
-      message: "서버측 에러입니다.\n잠시후에 다시 시도해주세요",
+      message: "(api/chats/[id])서버측 에러입니다.\n잠시후에 다시 시도해주세요",
       error,
     });
   }

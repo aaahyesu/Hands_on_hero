@@ -9,6 +9,13 @@ async function handler(
 ) {
   if (req.method === "GET") {
     const services = await client.service.findMany({
+      include: {
+        _count: {
+          select: {
+            liked: true,
+          },
+        },
+      },
     });
     res.json({
       ok: true,

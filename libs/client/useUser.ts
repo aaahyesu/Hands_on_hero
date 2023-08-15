@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import useSWR from "swr";
 
-
 export default function useUser() {
   const { data, error } = useSWR("/api/users/me");
   const router = useRouter();
@@ -11,5 +10,5 @@ export default function useUser() {
       router.replace("/enter");
     }
   }, [data, router]);
-  return { user: data?.id, isLoading: !data && !error };
+  return { user: data?.user, isLoading: !data && !error };
 }

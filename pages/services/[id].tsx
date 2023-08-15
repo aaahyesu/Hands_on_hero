@@ -8,15 +8,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
 import services from "../api/services";
-import { ApiResponse } from "@/types";
+import { ApiResponse, SimpleUser } from "@/types";
 import { useCallback, useEffect } from "react";
 import me from "../api/users/me";
 import useMe from "@/libs/client/useMe";
 import { toast } from "react-toastify";
-import Button from "@/components/button";
+import Button from "@/components/Button";
 
 interface ConnectUser extends Service {
-  user: User;
+  user: SimpleUser;
   states: {
     kind: "Before" | "Reserved" | "End";
   }[];
@@ -36,10 +36,9 @@ interface ICreateRoomResponse extends ApiResponse {
   roomId: number;
 }
 
-const ServiceDetail: NextPage<IProductResponse> = ({ service }) => {
+const ServiceDetail: NextPage<IProductResponse> = ( {service} ) => {
   const { user, isLoading } = useUser();
   const router = useRouter();
-
   const { me } = useMe();
   const states = service?.states?.map((v) => v.kind);
   // 채팅방 생성 메서드
@@ -66,10 +65,11 @@ const ServiceDetail: NextPage<IProductResponse> = ({ service }) => {
   // 채팅방 생성 시 채팅방으로 이동
   useEffect(() => {
     if (!createRoomResponse?.ok) return;
-
     toast.success("채팅방으로 이동합니다.");
     router.push(`/chats/${createRoomResponse.roomId}`);
   }, [router, createRoomResponse]);
+
+
 
   const { mutate } = useSWRConfig();
   const { data, mutate: boundMutate } = useSWR<ListDetail>(
@@ -129,56 +129,48 @@ const ServiceDetail: NextPage<IProductResponse> = ({ service }) => {
               </span>
             </div>
             <div className="flex items-center justify-between space-x-2 pt-16">
-              <Button
-                text="판매자와 대화하기"
-                type="button"
-                className="flex-1"
-                $primary
-                onClick={onCreateRoom}
-                $loading={createRoomLoading}
-              />
-              {/* <button className="flex-1 rounded-md bg-black py-3 font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-1 ">
-                채팅 보내기
-              </button> */}
+            <Button
+              text="채팅 보내기"
+              type="button"
+              className="flex-1"
+              $primary
+              onClick={onCreateRoom}
+              $loading={createRoomLoading}
+            />
               <button
-                onClick={onLikeClick}
-                className={cls(
-                  "flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500",
-                  data?.liked
-                    ? "text-red-500 hover:text-red-600"
-                    : "text-gray-400 hover:text-gray-500"
-                )}
+              onClick={onLikeClick} 
+              className= {cls("flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500",
+              data?.liked ? "text-red-500 hover:text-red-600" : "text-gray-400 hover:text-gray-500")}>
+              {data?.liked ? (
+                <svg
+                className="h-6 w-6 "
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 23 23"
               >
-                {data?.liked ? (
-                  <svg
-                    className="h-6 w-6 "
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 23 23"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
                 ) : (
                   <svg
-                    className="h-6 w-6 "
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
+                  className="h-6 w-6 "
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>
                 )}
               </button>
             </div>

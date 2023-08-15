@@ -6,11 +6,21 @@ import useUser from "@/libs/client/useUser";
 import { Service } from "@prisma/client";
 import List from "@/components/list";
 
+interface Count extends Service {
+  _count: {
+    liked: number;
+  };
+  list?: {
+    kind: "Liked" | "Requestlist" | "Responselist";
+  }[]
+}
+
 interface ServiceResponse {
   ok: boolean;
-  services: Service[];
+  services: Count[];
 }
 const Home: NextPage = () => {
+  const {user, isLoading} = useUser();
   const { data } = useSWR<ServiceResponse>("/api/services");
   console.log(data);
   return (
@@ -24,6 +34,8 @@ const Home: NextPage = () => {
             serviceDate={service.serviceDate}
             startTime={service.startTime}
             endTime={service.endTime}
+            liked={service._count.liked}
+            list={service.list}
           />
         ))}
         <Link href="/services/upload">
