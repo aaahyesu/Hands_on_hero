@@ -1,6 +1,7 @@
 import useSWR, { mutate } from "swr";
 import { User } from ".prisma/client";
 import error from "next/error";
+
 export interface MeResult {
   ok: boolean;
   message: string;

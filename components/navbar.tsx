@@ -52,11 +52,12 @@ export default function Layout({
           </span>
         ) : null}
       </div>
-      <div className={cls("pt-12", hasTabBar ? "pb-24" : "")}>{children}</div>
+      <div className={cls("pt-6", hasTabBar ? "pb-24" : "")}>{children}</div>
       {hasTabBar ? (
         <nav className="fixed bottom-0 flex w-full max-w-xl justify-between border-t bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
           <Link href="/">
-            <span className="flex flex-col items-center space-y-2">
+            <span className={cls("flex flex-col items-center space-y-2",
+            router.pathname === "/" ? "text-blue-500" : "hover:text-gray-500 transition-colors")}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -73,7 +74,8 @@ export default function Layout({
             </span>
           </Link>
           <Link href="/chats">
-            <span className="flex flex-col items-center space-y-2">
+            <span className={cls("flex flex-col items-center space-y-2",
+            router.pathname === "/chats" ? "text-blue-500" : "hover:text-gray-500 transition-colors")}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -90,7 +92,8 @@ export default function Layout({
             </span>
           </Link>
           <Link href="">
-            <span className="flex flex-col items-center space-y-2">
+            <span className={cls("flex flex-col items-center space-y-2",
+            router.pathname === "" ? "text-blue-500" : "hover:text-gray-500 transition-colors")}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
@@ -107,7 +110,8 @@ export default function Layout({
             </span>
           </Link>
           <Link href="/mypage">
-            <span className="flex flex-col items-center space-y-2">
+            <span className={cls("flex flex-col items-center space-y-2",
+            router.pathname === "/mypage" ? "text-blue-500" : "hover:text-gray-500 transition-colors")}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"

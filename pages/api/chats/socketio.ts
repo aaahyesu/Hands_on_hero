@@ -10,8 +10,8 @@ import {
   SocketData,
 } from "@/types";
 import prisma from "libs/client/prisma";
-import { withApiSession } from "libs/server/withSession";
 import withHandler from "libs/server/withHandler";
+import { withApiSession } from "libs/server/withSession";
 
 export const config = {
   api: {

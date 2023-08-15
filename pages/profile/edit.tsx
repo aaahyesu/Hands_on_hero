@@ -1,7 +1,9 @@
+import Layout from "@/components/navbar";
 import type { NextPage } from "next";
 
 const EditProfile: NextPage = () => {
   return (
+    <Layout canGoBack hasTabBar title="프로필 수정">
     <div className="py-10 px-4 space-y-4">
       <div className="flex items-center space-x-3">
         <div className="w-20 h-20 rounded-full bg-slate-500" />
@@ -48,6 +50,7 @@ const EditProfile: NextPage = () => {
         수정하기
       </button>
     </div>
+    </Layout>
   );
 };
 

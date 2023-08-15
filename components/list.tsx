@@ -1,3 +1,4 @@
+import { Kind } from "@prisma/client";
 import Link from "next/link";
 
 interface ListProps {
@@ -7,6 +8,10 @@ interface ListProps {
     startTime: Date;
     endTime: Date;
     Cost: number; 
+    liked: number;
+    list?: {
+      kind: "Liked" | "Requestlist" | "Responselist";
+    }[]
 }
 
 export default function List({
@@ -16,14 +21,16 @@ export default function List({
     startTime, 
     endTime,
     Cost, 
+    liked,
+    list
 }: ListProps) {
     return (
         <Link href={`/services/${id}`}>
-            <div className="flex space-x-3">
+            <div className="flex space-x-3  ">
               <div className="flex flex-col pt-5">
-                <h3 className="mb-3 text-[25px] font-bold text-black">
+                <span className="mb-3 text-[25px] font-bold text-black">
                   {title}
-                </h3>
+                </span>
                 <span className="text-lg text-gray-500">
                   {serviceDate}
                 </span>
@@ -34,6 +41,20 @@ export default function List({
                 </span>
               </div>
             </div>
+            {list?.includes("Like") && (
+                  <li>
+                  <span className="bg-orange-500 text-white p-2 rounded-md text-xs">
+                    예약중
+                  </span>
+                  </li>
+                )}
+                {list?.includes("Requestlist") && (
+                  <li>
+                  <span className="bg-orange-500 text-white p-2 rounded-md text-xs">
+                    예약중
+                  </span>
+                  </li>
+                )}
             <div className="flex items-end justify-end space-x-2">
               <div className="text-5 flex items-center space-x-0.5  text-gray-600">
                 <svg
@@ -50,7 +71,7 @@ export default function List({
                     d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
                   ></path>
                 </svg>
-                <span>1</span>
+                <span>{liked}</span>
               </div>
               <div className="text-5 flex items-center space-x-0.5  text-gray-600">
                 <svg

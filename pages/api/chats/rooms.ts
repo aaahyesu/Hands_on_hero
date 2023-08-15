@@ -52,7 +52,6 @@ async function handler(
           },
         },
       });
-
       console.dir(rooms);
 
       // 방들의 마지막 채팅 기준으로 시간 순 정렬
@@ -91,7 +90,7 @@ async function handler(
       const serviceId = +req.body.serviceId;
       const exRoom = await prisma.room.findUnique({
         where: {
-          name: title + user?.id + ownerId,
+          name: title + user?.id,
         },
       });
 

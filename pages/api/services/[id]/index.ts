@@ -7,7 +7,10 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { id } = req.query;
+  const {
+    query: { id },
+    session: { user },
+  } = req;
   const service = await client.service.findUnique({
     where: {
       id: +id.toString(),
@@ -21,9 +24,21 @@ async function handler(
       },
     },
   });
+  const liked = Boolean(
+    await client.liked.findFirst({
+      where: {
+        serviceId: service?.id,
+        userId: user?.id,
+      },
+      select: {
+        id: true,
+      }
+    })
+  )
   return res.json({
     ok: true,
     service,
+    liked,
     message: "good",
   });
 }
