@@ -5,10 +5,10 @@ import Link from "next/link";
 import useSWR from "swr";
 
 import { ICON_SHAPE, ApiResponse, SimpleUser } from "types";
-import { Review, User } from "prisma";
+import { Review, User } from "@prisma/client";
 
-import UserProfile from "components/Profile";
 import UserReview from "components/Review";
+import useUser from "@/libs/client/useUser";
 
 interface IReviewWithWriter extends Review {
   createdBy: SimpleUser;
@@ -23,14 +23,15 @@ interface IMeResponse extends ApiResponse {
 }
 
 const Profile: NextPage = () => {
+  const {user} = useUser();
   return (
-    <Layout hasTabBar title="프로필">
+    <Layout canGoBack hasTabBar title="프로필">
       <div className="px-4 py-10">
       <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
         <div className="flex items-center space-x-3">
           <div className="h-16 w-16 rounded-full bg-slate-500" />
           <div className="flex flex-col">
-            <span className="font-bold text-gray-900">김혜수</span>
+            <span className="font-bold text-gray-900">{user?.name}</span>
             <Link href="/profile/edit">
               <span className="text-sm text-gray-700 ">프로필 수정하기</span>
             </Link>
@@ -42,7 +43,7 @@ const Profile: NextPage = () => {
             htmlFor="number"
             className="text-sm font-semibold text-gray-700"
           >
-            나의 가상 머니 : 50000원
+            나의 가상 머니 : {user?.virtualAccount} 원
           </label>
         </div>
         <div className="mt-10 flex justify-around">

@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   console.log(data);
   return (
     <Layout hasTabBar title="요청서 리스트">
-      <div className="flex flex-col space-y-5 divide-y">
+      <div className="flex flex-col space-y-5 divide-y px-6">
         {data?.services?.map((service) => (
           <List
             id={service.id}
