@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import useSWR from "swr";
 import Layout from "@/components/navbar";
+import { cls } from "libs/client/utils";
 
 // common-components
 import Spinner from "components/spinner";
@@ -40,6 +41,18 @@ const Chats: NextPage = () => {
           data.rooms.map((room, index) => (
             <Link key={room.id} href={`/chats/${room.id}`}>
               <p className="flex cursor-pointer items-center space-x-3 rounded-md px-4 py-3 transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
+                <div
+                  className={cls(
+                    "flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full  bg-black", // 동그란 원 스타일
+                    "mr-1" // 오른쪽 여백
+                  )}
+                >
+                  <img
+                    src="/superman_bg_white.png"
+                    alt="Avatar"
+                    className="h-full w-full rounded-full shadow-md"
+                  />
+                </div>
                 {/* <Avatar user={room.users[0]} /> */}
                 <div>
                   <p className="text-base font-semibold text-gray-700">

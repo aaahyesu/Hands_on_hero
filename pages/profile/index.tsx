@@ -1,20 +1,41 @@
 import type { NextPage } from "next";
 import Layout from "@/components/navbar";
 import Link from "next/link";
+
+import useSWR from "swr";
+
+import { ICON_SHAPE, ApiResponse, SimpleUser } from "types";
+import { Review, User } from "prisma";
+
+import UserProfile from "components/Profile";
+import UserReview from "components/Review";
+
+interface IReviewWithWriter extends Review {
+  createdBy: SimpleUser;
+}
+
+interface IReviewResponse extends ApiResponse {
+  reviews: IReviewWithWriter[];
+}
+
+interface IMeResponse extends ApiResponse {
+  user: User;
+}
+
 const Profile: NextPage = () => {
   return (
     <Layout hasTabBar title="프로필">
       <div className="px-4 py-10">
-      <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
-        <div className="flex items-center space-x-3">
-          <div className="h-16 w-16 rounded-full bg-slate-500" />
-          <div className="flex flex-col">
-            <span className="font-bold text-gray-900">김혜수</span>
-            <Link href="\profile\edit">
-              <span className="text-sm text-gray-700 ">프로필 수정하기</span>
-            </Link>
+        <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
+          <div className="flex items-center space-x-3">
+            <div className="h-16 w-16 rounded-full bg-slate-500" />
+            <div className="flex flex-col">
+              <span className="font-bold text-gray-900">김혜수</span>
+              <Link href="\profile\edit">
+                <span className="text-sm text-gray-700 ">프로필 수정하기</span>
+              </Link>
+            </div>
           </div>
-        </div>
         </div>
         <div className="pt-10">
           <label

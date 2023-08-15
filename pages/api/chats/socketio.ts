@@ -1,6 +1,6 @@
 import { NextApiRequest } from "next";
 import { NextApiResponseServerIO } from "@/@types/chat";
-import { Server as ServerIO, Socket } from "socket.io";
+import { Server as ServerIO } from "socket.io";
 import { Server as NetServer } from "http";
 import {
   ClientToServerEvents,
@@ -18,9 +18,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
-// Variables to keep track of connected peers and their state
-const peers: Record<string, RTCPeerConnection> = {};
 
 // eslint-disable-next-line import/no-anonymous-default-export
 async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
@@ -84,9 +81,6 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
       });
     });
   }
-  Socket.on("onAnswer", ({ answer, targetSocketId }) => {
-    Socket.toString(targetSocketId).emit("onAnswer", { answer });
-  });
 
   res.end();
 }

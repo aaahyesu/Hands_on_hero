@@ -44,6 +44,18 @@ type ChatForm = {
   chat: string;
 };
 
+// 0부터 99999 사이의 랜덤한 숫자를 생성하고, 5자리로 만듭니다.
+function generateRandom5DigitNumber() {
+  const min = 0;
+  const max = 99999;
+  const randomInRange = Math.floor(Math.random() * (max - min + 1)) + min;
+  const random5DigitNumber = randomInRange.toString().padStart(5, "0");
+  return random5DigitNumber;
+}
+
+const randomNumber = generateRandom5DigitNumber();
+console.log(randomNumber); // 랜덤한 5자리 숫자 출력
+
 const ChatDetail: NextPage = () => {
   const router = useRouter();
   const { me } = useMe();
@@ -204,6 +216,7 @@ const ChatDetail: NextPage = () => {
       }),
     [exitRoom, router]
   );
+
   // 채팅방 나가기 성공 메시지
   useEffect(() => {
     if (exitRoomResponse?.ok) {
@@ -316,7 +329,7 @@ const ChatDetail: NextPage = () => {
                   {/* Modal body */}
                   <div className="space-y-6 p-6">
                     <nav className="flex w-full max-w-xl justify-between bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
-                      <Link href="/">
+                      <Link href="http://localhost:3001/">
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -333,6 +346,7 @@ const ChatDetail: NextPage = () => {
                           </svg>
 
                           <span>화상통화</span>
+                          <span>{randomNumber}</span>
                         </span>
                       </Link>
                       <Link href="/chats">
@@ -355,7 +369,7 @@ const ChatDetail: NextPage = () => {
                           <span>원격접속</span>
                         </span>
                       </Link>
-                      <Link href="/api/services/complte">
+                      <Link href="api/services/block">
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
