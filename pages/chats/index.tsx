@@ -34,7 +34,7 @@ const Chats: NextPage = () => {
   if (!data) return <Spinner kinds="page" />;
 
   return (
-    <Layout canGoBack title="채팅방">
+    <Layout canGoBack title="채팅방 💬">
       <article className="divide-y-[1px]">
         <div />
         {data.rooms.length > 0 ? (

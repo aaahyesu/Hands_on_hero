@@ -24,7 +24,7 @@ const Home: NextPage = () => {
   const { data } = useSWR<ServiceResponse>("/api/services");
   console.log(data);
   return (
-    <Layout hasTabBar title="요청서 리스트">
+    <Layout hasTabBar title="요청서 리스트 📝">
       <div className="flex flex-col space-y-5 divide-y px-6">
         <form>
           <div className="flex pt-2">

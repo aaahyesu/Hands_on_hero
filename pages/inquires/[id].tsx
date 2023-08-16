@@ -26,7 +26,7 @@ interface InquiryResponse {
   inquiry: InquiryWithUser;
 }
 
-interface AnswerForm{
+interface AnswerForm {
   answer: string;
 }
 
@@ -38,8 +38,11 @@ interface AnswerResponse {
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
   const { register, handleSubmit, reset } = useForm<AnswerForm>();
-  const { data, mutate } = useSWR<InquiryResponse>(router.query.id ? `/api/inquiry/${router.query.id}` : null);
-  const [sendAnswer, { data: answerData, loading: answerLoading }] = useMutation<AnswerResponse>(`/api/inquiry/${router.query.id}/answers`);
+  const { data, mutate } = useSWR<InquiryResponse>(
+    router.query.id ? `/api/inquiry/${router.query.id}` : null
+  );
+  const [sendAnswer, { data: answerData, loading: answerLoading }] =
+    useMutation<AnswerResponse>(`/api/inquiry/${router.query.id}/answers`);
   const onValid = (form: AnswerForm) => {
     if (answerLoading) return;
     sendAnswer(form);
@@ -65,7 +68,8 @@ const CommunityPostDetail: NextPage = () => {
         </div>
         <div>
           <div className="mt-2 px-4 text-gray-700">
-            <span className="text-blue-500 font-medium">Q.</span>{data?.inquiry?.question}
+            <span className="font-medium text-black">Q.</span>
+            {data?.inquiry?.question}
           </div>
           <div className="mt-3 flex w-full space-x-5 border-b-[2px]  px-4 py-2.5  text-gray-700">
             <span className="flex items-center space-x-2 text-sm">
@@ -87,16 +91,18 @@ const CommunityPostDetail: NextPage = () => {
             </span>
           </div>
         </div>
-        <div className="px-4 my-5 space-y-5">
+        <div className="my-5 space-y-5 px-4">
           {data?.inquiry?.answer?.map((answer) => (
             <div key={answer.id} className="flex items-start space-x-3">
-              <div className="w-8 h-8 bg-slate-200 rounded-full" />
+              <div className="h-8 w-8 rounded-full bg-slate-200" />
               <div>
-               <span className="text-sm block font-medium text-gray-700">
-               관리자
-               </span>
-               <span className="text-xs text-gray-500 block ">{answer.createdAt}</span>
-                <p className="text-gray-700 mt-2">{answer.answer}</p>
+                <span className="block text-sm font-medium text-gray-700">
+                  관리자
+                </span>
+                <span className="block text-xs text-gray-500 ">
+                  {answer.createdAt}
+                </span>
+                <p className="mt-2 text-gray-700">{answer.answer}</p>
               </div>
             </div>
           ))}
@@ -105,10 +111,9 @@ const CommunityPostDetail: NextPage = () => {
           <Textarea
             placeholder="궁금하신 점에 대해서 질문해주세요!"
             required
-            register={register("answer", {required:true, minLength: 5})}
-            
+            register={register("answer", { required: true, minLength: 5 })}
           />
-          <button className="mt-2 w-full rounded-md border border-transparent bg-blue-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ">
+          <button className="mt-2 w-full rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ">
             제출하기
           </button>
         </form>

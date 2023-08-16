@@ -8,6 +8,7 @@ interface MessageProps {
   updatedAt: Date;
   user: SimpleUser;
 }
+
 const Message = ({ message, updatedAt, user, $reversed }: MessageProps) => {
   return (
     <li
@@ -20,7 +21,7 @@ const Message = ({ message, updatedAt, user, $reversed }: MessageProps) => {
       {!$reversed && (
         <div
           className={cls(
-            "flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full  bg-black", // 동그란 원 스타일
+            "flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-black", // 동그란 원 스타일
             "mr-1" // 오른쪽 여백
           )}
         >
@@ -31,10 +32,16 @@ const Message = ({ message, updatedAt, user, $reversed }: MessageProps) => {
           />
         </div>
       )}
-      {/* 채팅 내용 */}
-      <p className="max-w-[240px] rounded-2xl border-2 bg-black px-4 py-2 text-white">
-        {message}
-      </p>
+
+      <div className="flex flex-col">
+        {/* 이름 */}
+        {!$reversed && <p className="text-xs text-black">{user.name}</p>}
+
+        {/* 채팅 내용 */}
+        <p className="max-w-[240px] rounded-2xl border-2 bg-black px-4 py-2 text-white">
+          {message}
+        </p>
+      </div>
       {/* 채팅 작성 시간 */}
       <span className="self-end text-right text-sm text-gray-500">
         {timeFormat(updatedAt)}
@@ -42,4 +49,5 @@ const Message = ({ message, updatedAt, user, $reversed }: MessageProps) => {
     </li>
   );
 };
+
 export default Message;
