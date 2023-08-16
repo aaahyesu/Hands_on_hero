@@ -20,7 +20,7 @@ const Button = ({ text, className, $primary, $loading, ...props }: Props) => {
       {...props}
       className={cls(
         $primary
-          ? "rounded-md bg-blue-400 py-3 font-medium text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2"
+          ? "rounded-md bg-black py-3 font-medium text-white hover:bg-gray-800 focus:outline-none"
           : "",
         className ? className : ""
       )}

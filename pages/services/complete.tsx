@@ -15,14 +15,15 @@ const complete: FunctionComponent = () => {
         서비스 완료 ✨
       </div>
       <div
-        className="absolute left-[20px] top-[707px] h-14 w-[353px] cursor-pointer"
+        className="absolute left-[20px] top-[707px] h-14 w-[353px] cursor-pointer items-center"
         onClick={onGroupContainerClick}
       >
-        <Link href="/">
-          <div className="absolute left-[0px] top-[0px] h-14 w-[353px] rounded-[10px] bg-black" />
-          <div className="absolute left-[154px] top-[19px] font-semibold leading-[125%]">
-            확인
-          </div>
+        <Link href="/" className="mx-auto">
+          <button className="rounded-md px-[150px] bg-black py-3 font-semibold shadow-md text-white hover:bg-gray-800">확인</button>
+        </Link>
+        <div className="pt-4"></div>
+        <Link href="/reviews/rating">
+        <button className="rounded-md px-[115px] bg-white py-3 border shadow-md border-gray-500 font-semibold text-black hover:bg-gray-200">리뷰 작성하기</button>
         </Link>
       </div>
 
