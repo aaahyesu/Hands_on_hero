@@ -18,10 +18,10 @@ const Like: NextPage = () => {
               title={liked.service.title}
               serviceDate={liked.service.serviceDate}
               startTime={liked.service.startTime}
-              endTime ={liked.service.endTime}
+              endTime={liked.service.endTime}
               Cost={liked.service.Cost}
-              liked={liked.service._count.liked}
-            />
+              liked={liked.service._count.liked} 
+              Method={""}            />
               ))} 
             </Link>
         </div>

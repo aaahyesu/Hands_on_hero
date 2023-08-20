@@ -12,7 +12,7 @@ export interface MeResult {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const useMe = () => {
-  const { data } = useSWR<MeResult>("/api/users/me");
+  const { data, error, mutate } = useSWR<MeResult>("/api/users/me");
   return { me: data?.user, meLoading: !data && !error, meMutate: mutate };
 };
 

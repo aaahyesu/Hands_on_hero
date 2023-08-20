@@ -17,11 +17,11 @@ export default function List({ id, title, serviceDate, Method }: ListProps) {
   };
 
   return (
-    <div>
+    <div className="pt-6">
+      <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
       <Link href={`/services/${id}`}>
-        <div className="mt-3 border border-gray-200"></div>
         <div className=" flex space-x-3">
-          <div className="flex flex-col pt-5">
+          <div className="flex flex-col">
             <span className="mb-3 text-[25px] font-bold text-black">
               {title}
             </span>
@@ -257,6 +257,7 @@ export default function List({ id, title, serviceDate, Method }: ListProps) {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

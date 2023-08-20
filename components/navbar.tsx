@@ -84,7 +84,7 @@ export default function Layout({
               className={cls(
                 "flex flex-col items-center space-y-2",
                 router.pathname === "/chats"
-                  ? "text-blue-500"
+                  ? "text-gray-500"
                   : "transition-colors hover:text-gray-500"
               )}
             >
