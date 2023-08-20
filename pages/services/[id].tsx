@@ -17,9 +17,9 @@ import Button from "@/components/Button";
 
 interface ConnectUser extends Service {
   user: SimpleUser;
-  states: {
-    kind: "Before" | "Reserved" | "End";
-  }[];
+  // states: {
+  //   kind: "Before" | "Reserved" | "End";
+  // }[];
 }
 
 interface ListDetail {
@@ -28,48 +28,46 @@ interface ListDetail {
   liked: boolean;
 }
 
-interface IProductResponse extends ApiResponse {
+interface ServiceResponse extends ApiResponse {
   service: ConnectUser;
 }
 
-interface ICreateRoomResponse extends ApiResponse {
+interface RoomResponse extends ApiResponse {
   roomId: number;
 }
 
-const ServiceDetail: NextPage<IProductResponse> = ( {service} ) => {
-  const { user, isLoading } = useUser();
+const ServiceDetail: NextPage<ServiceResponse> = ( {service} ) => {
   const router = useRouter();
   const { me } = useMe();
-  const states = service?.states?.map((v) => v.kind);
+  // const states = service?.states?.map((v) => v.kind);
   // 채팅방 생성 메서드
   const [createRoom, { data: createRoomResponse, loading: createRoomLoading }] =
-    useMutation<ICreateRoomResponse>(`/api/chats/rooms`);
+    useMutation<RoomResponse>(`/api/chats/room`);
   // 채팅방 생성
   const onCreateRoom = useCallback(() => {
     if (service?.userId === me?.id)
       return toast.error("본인 요청서에는 채팅을 할 수 없습니다.");
     if (createRoomLoading)
       return toast.warning("채팅방을 생성중입니다.\n잠시 기다려주세요!");
-    if (states?.includes("Reserved"))
-      return toast.warning("예약중인 상품이면 판매자와 대화할 수 없습니다.");
-    if (states?.includes("End"))
-      return toast.warning(
-        "이미 매칭중인 상품이면 판매자와 대화할 수 없습니다."
-      );
+    // if (states?.includes("Reserved"))
+    //   return toast.warning("예약중인 상품이면 판매자와 대화할 수 없습니다.");
+    // if (states?.includes("End"))
+    //   return toast.warning(
+    //     "이미 매칭중인 상품이면 판매자와 대화할 수 없습니다."
+    //   );
     createRoom({
       ownerId: service?.userId,
       title: service?.title,
       serviceId: service?.id,
     });
-  }, [createRoom, service, me, createRoomLoading, states]);
+  },  [createRoom, service, me, createRoomLoading]);
   // 채팅방 생성 시 채팅방으로 이동
   useEffect(() => {
     if (!createRoomResponse?.ok) return;
+
     toast.success("채팅방으로 이동합니다.");
     router.push(`/chats/${createRoomResponse.roomId}`);
   }, [router, createRoomResponse]);
-
-
 
   const { mutate } = useSWRConfig();
   const { data, mutate: boundMutate } = useSWR<ListDetail>(
@@ -81,7 +79,6 @@ const ServiceDetail: NextPage<IProductResponse> = ( {service} ) => {
     boundMutate((prev) => prev && { ...prev, liked: !prev.liked }, false);
     togglelike({});
   };
-  console.log(data);
   return (
     <Layout canGoBack title="요청서 상세내용">
       <div className="px-4 py-4">

@@ -29,7 +29,7 @@ interface IResponseRooms extends ApiResponse {
 }
 
 const Chats: NextPage = () => {
-  const { data } = useSWR<IResponseRooms>("/api/chats/rooms");
+  const { data } = useSWR<IResponseRooms>("/api/chats/room");
 
   if (!data) return <Spinner kinds="page" />;
 

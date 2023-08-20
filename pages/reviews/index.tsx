@@ -9,9 +9,10 @@ import Review from "@/components/Review";
 
 const ReviewList: NextPage = () => {
   const { user, isLoading } = useUser();
-  const { data } = useSWR<ServiceResponse>("/api/services");
+  const { data } = useSWR("/api/services");
   return (
     <Layout hasTabBar canGoBack title="리뷰 내역">
+      <div className="px-4">
       <div className="mb-2 mt-4 flex items-center">
         <svg
           className="mr-1 h-4 w-4 text-yellow-300"
@@ -139,6 +140,7 @@ const ReviewList: NextPage = () => {
           Method={service.Method}
         />
       ))}
+      </div>
     </Layout>
   );
 };

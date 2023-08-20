@@ -14,7 +14,6 @@ async function handler(
     method,
   } = req;
   const ownerId = +req.body.ownerId;
-
   try {
     if (method === "GET") {
       const rooms = await prisma.room.findMany({
@@ -90,7 +89,7 @@ async function handler(
       const serviceId = +req.body.serviceId;
       const exRoom = await prisma.room.findUnique({
         where: {
-          name: title + user?.id,
+          name: title + user?.id + ownerId,
         },
       });
 
@@ -118,11 +117,16 @@ async function handler(
                 id: +user?.id!,
               },
               {
-                id: ownerId,
+                id: +ownerId,
               },
             ],
           },
           name: title + user?.id + ownerId,
+          Service: {
+            connect: {
+              id: serviceId,
+            }
+          }
         },
       });
 
@@ -160,11 +164,6 @@ async function handler(
         });
       }
     }
-
-    // return res.status(200).json({
-    //   ok: true,
-    //   message: "채팅방을 나갔습니다.",
-    // });
   } catch (error) {
     console.error("/chats/room error >> ", error);
 
