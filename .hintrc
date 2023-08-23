@@ -26,6 +26,12 @@
       {
         "duplicate-id-aria": "off"
       }
+    ],
+    "axe/text-alternatives": [
+      "default",
+      {
+        "image-alt": "off"
+      }
     ]
   }
 }

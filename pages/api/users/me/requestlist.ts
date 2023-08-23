@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import client from "@/libs/server/client";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
+import client from "@/libs/server/client";
 import { withApiSession } from "@/libs/server/withSession";
 
 async function handler(
@@ -8,84 +8,26 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const {
-    query: { id },
     session: { user },
   } = req;
-  const service = await client.service.findUnique({
+  const services = await client.service.findMany({
     where: {
-      id: +id.toString(),
+      userId: user?.id,
     },
     include: {
-      user: {
+      _count: {
         select: {
-          id: true,
-          name: true,
+          liked: true,
+          room: true,
         },
       },
     },
   });
-  const liked = Boolean(
-    await client.liked.findFirst({
-      where: {
-        serviceId: service?.id,
-        userId: user?.id,
-      },
-      select: {
-        id: true,
-      }
-    })
-  )
-  return res.json({
+  res.json({
     ok: true,
-    service,
-    liked,
+    services,
     message: "good",
   });
 }
 
-export default withApiSession(
-  withHandler({ methods: ["GET"], handler })
-);
-
-
-// import { NextApiRequest, NextApiResponse } from "next";
-// import withHandler, { ResponseType } from "@/libs/server/withHandler";
-// import client from "@/libs/server/client";
-// import { withApiSession } from "@/libs/server/withSession";
-
-// async function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse<ResponseType>
-// ) {
-//   const {
-//     session: { user },
-//   } = req;
-//   const requestlist = await client.requestlist.findMany({
-//     where: {
-//       userId: user?.id,
-//     },
-//     include: {
-//       service: {
-//         include: {
-//           _count: {
-//             select: {
-//               liked: true,
-//             }
-//           }
-//         }
-//       }
-//     },
-//   });
-//   res.json({
-//       ok: true,
-//       requestlist,
-//       message: "request"
-//   });
-// }
-
-// export default withApiSession(
-//   withHandler({
-//     methods: ["GET"],
-//     handler,
-//   })
-// );
+export default withApiSession(withHandler({ methods: ["GET"], handler }));

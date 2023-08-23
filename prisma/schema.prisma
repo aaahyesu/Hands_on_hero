@@ -169,33 +169,6 @@ model Answer {
   @@index([inquiryId])
 }
 
-// s
-
-// model ServiceMatching {
-//   serviceId        Int      @id
-//   requesterId      Int      @db.Int
-//   createdAt        DateTime
-//   serviceTitle     String   @db.VarChar(30)
-//   serviceContent   String   @db.VarChar(30)
-//   providerId       Int      @db.Int
-//   startTime        DateTime
-//   endTime          DateTime
-//   serviceCost      Int
-//   serviceStatus    Int
-//   serviceMethod    Int
-//   acceptanceStatus Boolean
-//   transactions  TransactionHistory[] 
-
-//   @@map("service_matching")
-// }
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt()
-
-//   @@index([userId])
-// }
-
-
 model Review {
   id        Int      @id @default(autoincrement())
   review    String   @db.MediumText
@@ -211,18 +184,6 @@ model Review {
   @@index([createById])
   @@index([createToId])
 }
-
-// model TransactionHistory {
-//   paymentId     Int      @id @default(autoincrement())
-//   serviceId     Int      @db.Int
-//   amount        Int
-//   depositTime   DateTime
-//   service       ServiceMatching @relation(fields: [serviceId], references: [serviceId])
-
-//   @@map("transaction_history")
-//   @@index([serviceId])
-// }
-
 
 model Room {
   id              Int      @id @default(autoincrement())

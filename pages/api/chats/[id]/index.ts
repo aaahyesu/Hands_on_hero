@@ -12,12 +12,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     if (method === "GET") {
-      const page = +req.query.page;
-      const offset = +req.query.offset;
+      // const page = +req.query.page;
+      // const offset = +req.query.offset;
 
       const chatsPromise = prisma.chat.findMany({
-        take: offset,
-        skip: page * offset,
+        // take: offset,
+        // skip: page * offset,
         where: {
           roomId,
         },
@@ -32,6 +32,22 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
         orderBy: {
           updatedAt: "desc",
+        },
+      });
+
+      const room = await prisma.room.findUnique({
+        where: {
+          id: roomId,
+        },
+        include: {
+          Service: {
+            select: {
+              id: true,
+              title: true,
+              serviceDate: true,
+              Method: true,
+            },
+          },
         },
       });
 
@@ -56,6 +72,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         message: "모든 메시지를 가져왔습니다.",
         chats: chats.reverse(),
         isMine: !!isMine,
+        room,
       });
     } else if (method === "POST") {
     }

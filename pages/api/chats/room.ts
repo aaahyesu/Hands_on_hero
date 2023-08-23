@@ -125,8 +125,8 @@ async function handler(
           Service: {
             connect: {
               id: serviceId,
-            }
-          }
+            },
+          },
         },
       });
 

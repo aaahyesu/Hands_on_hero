@@ -21,7 +21,7 @@ async function handler(
       },
     });
 
-    // 2022/04/13 - 내 정보 요청 - by 1-blue
+    // 내 정보 요청
     if (method === "GET") {
       return res.status(200).json({
         ok: true,
@@ -30,7 +30,7 @@ async function handler(
       });
     }
 
-    // 2022/04/18 - 로그아웃 - by 1-blue
+    // 로그아웃
     else if (method === "PATCH") {
       req.session.destroy();
 
@@ -54,7 +54,6 @@ export default withApiSession(
   withHandler({ methods: ["GET", "POST", "DELETE"], handler })
 );
 
-
 // import { NextApiRequest, NextApiResponse } from "next";
 // import withHandler, { ResponseType } from "@/libs/server/withHandler";
 // import client from "@/libs/server/client";
@@ -76,4 +75,3 @@ export default withApiSession(
 // }
 
 // export default withApiSession(withHandler({ methods: ["GET"], handler }));
-
