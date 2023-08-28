@@ -1,7 +1,12 @@
 import { FunctionComponent, useCallback } from "react";
 import Link from "next/link";
+import useSWR from "swr";
+import { useRouter } from "next/router";
 
 const complete: FunctionComponent = () => {
+  const router = useRouter();
+  const { data } = useSWR(`/api/services/${router.query.id}`);
+  console.log(data);
   const onGroupContainerClick = useCallback(() => {
     // Please sync "new 요청서 리스트" to the project
   }, []);
@@ -19,11 +24,15 @@ const complete: FunctionComponent = () => {
         onClick={onGroupContainerClick}
       >
         <Link href="/" className="mx-auto">
-          <button className="rounded-md px-[150px] bg-black py-3 font-semibold shadow-md text-white hover:bg-gray-800">확인</button>
+          <button className="rounded-md bg-black px-[150px] py-3 font-semibold text-white shadow-md hover:bg-gray-800">
+            확인
+          </button>
         </Link>
         <div className="pt-4"></div>
-        <Link href="/reviews/rating">
-        <button className="rounded-md px-[115px] bg-white py-3 border shadow-md border-gray-500 font-semibold text-black hover:bg-gray-200">리뷰 작성하기</button>
+        <Link href={`/reviews/${data?.service?.id}/rating`}>
+          <button className="rounded-md border border-gray-500 bg-white px-[115px] py-3 font-semibold text-black shadow-md hover:bg-gray-200">
+            리뷰 작성하기
+          </button>
         </Link>
       </div>
 

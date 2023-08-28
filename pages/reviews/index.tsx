@@ -1,148 +1,133 @@
-import type { NextPage } from "next";
-import Layout from "@/components/navbar";
-import Link from "next/link";
+// import { useCallback, useEffect, useState } from "react";
+// import type { NextPage } from "next";
+// import Link from "next/link";
+// import useSWRInfinite from "swr/infinite";
+// import { useRouter } from "next/router";
+// import { useForm } from "react-hook-form";
+// import { toast } from "react-toastify";
+// import useSWR from "swr";
 
-import useSWR from "swr";
-import useUser from "@/libs/client/useUser";
-import { Service } from "@prisma/client";
-import Review from "@/components/Review";
+// // type
+// import { ICON_SHAPE, ApiResponse, SimpleUser } from "@/types";
+// import { Review } from "@prisma/client";
 
-const ReviewList: NextPage = () => {
-  const { user, isLoading } = useUser();
-  const { data } = useSWR("/api/services");
-  return (
-    <Layout hasTabBar canGoBack title="리뷰 내역">
-      <div className="px-4">
-        <div className="mb-2 mt-4 flex items-center">
-          <svg
-            className="mr-1 h-4 w-4 text-yellow-300"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 22 20"
-          >
-            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-          </svg>
-          <svg
-            className="mr-1 h-4 w-4 text-yellow-300"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 22 20"
-          >
-            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-          </svg>
-          <svg
-            className="mr-1 h-4 w-4 text-yellow-300"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 22 20"
-          >
-            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-          </svg>
-          <svg
-            className="mr-1 h-4 w-4 text-yellow-300"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 22 20"
-          >
-            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-          </svg>
-          <svg
-            className="mr-1 h-4 w-4 text-gray-300 dark:text-gray-500"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 22 20"
-          >
-            <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-          </svg>
-          <p className="ml-2 text-sm font-medium text-gray-900 dark:text-white">
-            4.25 out of 5
-          </p>
-        </div>
-        <div className="mt-4 gap-8 sm:grid sm:grid-cols-2">
-          <div>
-            <dl>
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                시간 약속을 잘 지켜요
-              </dt>
-              <dd className="mb-3 flex items-center">
-                <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
-                  <div
-                    className="h-2.5 rounded bg-yellow-300 dark:bg-blue-500"
-                    style={{ width: "95%" }}
-                  ></div>
-                </div>
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  4.8
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                응답 속도가 빨라요
-              </dt>
-              <dd className="mb-3 flex items-center">
-                <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
-                  <div
-                    className="h-2.5 rounded bg-yellow-300 dark:bg-blue-500"
-                    style={{ width: "70%" }}
-                  ></div>
-                </div>
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  3.8
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                매너가 좋아요
-              </dt>
-              <dd className="mb-3 flex items-center">
-                <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
-                  <div
-                    className="h-2.5 rounded bg-yellow-300 dark:bg-blue-500"
-                    style={{ width: "64%" }}
-                  ></div>
-                </div>
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  3.4
-                </span>
-              </dd>
-            </dl>
-            <dl>
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                서비스를 잘 수행해요
-              </dt>
-              <dd className="flex items-center">
-                <div className="mr-2 h-2.5 w-full rounded bg-gray-200 dark:bg-gray-700">
-                  <div
-                    className="h-2.5 rounded bg-yellow-300 dark:bg-blue-500"
-                    style={{ width: "84%" }}
-                  ></div>
-                </div>
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                  4.4
-                </span>
-              </dd>
-            </dl>
-          </div>
-        </div>
-        {data?.services?.map((service) => (
-          <Review
-            id={service.id}
-            title={service.title}
-            Cost={service.Cost}
-            serviceDate={service.serviceDate}
-            Method={service.Method}
-          />
-        ))}
-      </div>
-    </Layout>
-  );
-};
+// // common-component
+// import UserReview from "components/Review";
+// import Textarea from "components/textarea";
+// import Button from "components/Button";
 
-export default ReviewList;
+// // util
+// import prisma from "libs/client/prisma";
+// import { combineClassNames } from "libs/client/utils";
+
+// // hook
+// import useMe from "libs/client/useMe";
+
+// import Icon from "@/components/Icon";
+// import services from "../api/services";
+
+// interface IReviewWithWriter extends Review {
+//   createdBy: SimpleUser;
+// }
+
+// interface IReviewResponse extends ApiResponse {
+//   reviews: IReviewWithWriter[];
+// }
+// interface ICreateReviewResponse extends ApiResponse {
+//   createdReview: IReviewWithWriter;
+// }
+// type ReviewForm = {
+//   review: string;
+//   score: number;
+// };
+
+// interface IUserResponse extends ApiResponse {
+//   user: {
+//     id: number;
+//     name: string;
+//     avatar: string;
+//     _count: {
+//       receivedReviews: number;
+//     };
+//   };
+// }
+
+// const Reviews: NextPage<IUserResponse> = ({ user }) => {
+//   const router = useRouter();
+//   const { me } = useMe();
+//   const { data } = useSWR(`/api/users/me/requestlist`);
+//   console.log(data);
+//   // 평점
+//   const [score, setScore] = useState(1);
+//   // 리뷰 토글
+//   const [toggleReview, setToggleReview] = useState(true);
+//   // 한번에 불러올 리뷰 개수
+//   const [offset] = useState(5);
+
+//   // 리뷰들 순차적 요청
+//   const {
+//     data: reviewsResponse,
+//     size,
+//     setSize,
+//     mutate: reviewMutate,
+//   } = useSWRInfinite<IReviewResponse>(
+//     router.query.id
+//       ? (pageIndex, previousPageData) => {
+//           if (previousPageData && !previousPageData.reviews.length) return null;
+//           return `/api/users/${router.query.id}/reviews?page=${pageIndex}&offset=${offset}`;
+//         }
+//       : () => null
+//   );
+//   console.log(data?.service);
+
+//   return (
+//     <>
+//       {/* 리뷰 */}
+//       <article className="mb-6">
+//         <button type="button" onClick={() => setToggleReview((prev) => !prev)}>
+//           리뷰 ( {user?._count?.receivedReviews}개 )
+//         </button>
+//         {toggleReview && (
+//           <>
+//             <ul className="space-y-4 divide-y-2">
+//               {data?.services?.map((services) => (
+//                 <UserReview
+//                   id={services?.id}
+//                   title={services?.title}
+//                   serviceDate={services?.serviceDate}
+//                   Method={services?.Method}
+//                   score1={services?.review?.score1}
+//                   score2={services?.review?.score2}
+//                   score3={services?.review?.score3}
+//                   score4={services?.review?.score4}
+//                 />
+//               ))}
+//             </ul>
+
+//             <section className="mt-6">
+//               {Math.ceil(user?._count?.receivedReviews / offset) > size ? (
+//                 <Button
+//                   onClick={() => setSize((prev) => prev + 1)}
+//                   text={`리뷰 ${
+//                     user?._count?.receivedReviews - offset * size
+//                   }개 더 불러오기`}
+//                   $primary
+//                   className="mx-auto block px-4"
+//                   $loading={typeof reviewsResponse?.[size - 1] === "undefined"}
+//                 />
+//               ) : (
+//                 <span className="my-2 block text-center text-sm font-semibold">
+//                   더 이상 불러올 리뷰가 존재하지 않습니다.
+//                 </span>
+//               )}
+//             </section>
+//           </>
+//         )}
+//       </article>
+
+//       <hr className="my-8 border" />
+//     </>
+//   );
+// };
+
+// export default Reviews;

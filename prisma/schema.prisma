@@ -74,7 +74,7 @@ model Service {
   updatedAt         DateTime    @updatedAt
   user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId            Int
-  title             String
+  title             String   
   content           String      @db.MediumText
   serviceDate       String
   startTime         String
@@ -83,12 +83,16 @@ model Service {
   Method            String
   liked             Liked[]
   requestlists      Requestlist[] 
-  responselists     Responselist[]   
+  responselists     Responselist[] 
+  reivew            Review[]
+  
   // states            States[]
   room              Room[]  
   Lists             List[]
 
   @@index([userId])
+
+
 }
 
 model List {
@@ -171,23 +175,31 @@ model Answer {
 
 model Review {
   id        Int      @id @default(autoincrement())
-  review    String   @db.MediumText
-  score     Int      
-  createBy      User     @relation(name: "WrittenReviews", fields: [createById], references: [id], onDelete: Cascade)
-  createById    Int
-  createTo        User     @relation(name: "ReceivedReviews", fields: [createToId], references: [id], onDelete: Cascade)
-  createToId      Int
+  score1        Int      @default(3)
+  score2        Int      @default(3)
+  score3        Int      @default(3)
+  score4        Int      @default(3)  
+  createdBy      User     @relation(name: "WrittenReviews", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById    Int
+  createdFor     User?     @relation(name: "ReceivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId   Int
+  serviceId      Int?      
+  serviceInfo    Service?  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
-  @@index([createById])
-  @@index([createToId])
+  @@index([createdById])
+  @@index([createdForId])
+  @@index([serviceId])
+  
 }
 
 model Room {
   id              Int      @id @default(autoincrement())
   name            String   @unique
+  realName        String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   chatInvisibleTo Int?

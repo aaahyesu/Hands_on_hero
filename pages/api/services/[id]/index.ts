@@ -22,6 +22,7 @@ async function handler(
           name: true,
         },
       },
+      reivew: true,
     },
   });
   const liked = Boolean(

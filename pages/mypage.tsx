@@ -6,7 +6,7 @@ import useUser from "@/libs/client/useUser";
 const MyPage: NextPage = () => {
   const { user } = useUser();
   return (
-    <Layout hasTabBar title="마이페이지 👤">
+    <Layout hasTabBar title="마이페이지">
       <div className="px-4 py-4">
         <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
           <div className="h-12 w-12 rounded-full bg-gray-500" />
@@ -86,7 +86,7 @@ const MyPage: NextPage = () => {
             <span className="flex items-center px-3">찜한 요청서 목록</span>
           </div>
         </Link>
-        <Link href="/reviews">
+        <Link href={`/users/${user?.id}/reviewList`}>
           <div className="flex-col-2 hover flex py-1 hover:text-gray-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +102,7 @@ const MyPage: NextPage = () => {
                 d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"
               />
             </svg>
-            <span className="flex items-center px-3">나의 리뷰 내역</span>
+            <span className="flex items-center px-3">받은 리뷰 관리 </span>
           </div>
         </Link>
         <Link href="/block">
@@ -185,41 +185,45 @@ const MyPage: NextPage = () => {
         </Link>
         <div className="border border-gray-200"></div>
         <div className="py-2 text-lg font-bold">설정</div>
-        <div className="flex-col-2 hover mb-2 flex py-1 hover:text-gray-600">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="h-8 w-8"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
-            />
-          </svg>
+        <Link href="/users/logout">
+          <div className="flex-col-2 hover mb-2 flex py-1 hover:text-gray-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="h-8 w-8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"
+              />
+            </svg>
 
-          <span className="flex items-center px-3">로그아웃</span>
-        </div>
-        <div className="flex-col-2 hover flex hover:text-gray-600">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            className="h-8 w-8"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
-            />
-          </svg>
-          <span className="flex items-center px-3">탈퇴하기</span>
-        </div>
+            <span className="flex items-center px-3">로그아웃</span>
+          </div>
+        </Link>
+        <Link href="/users/withdraw">
+          <div className="flex-col-2 hover flex hover:text-gray-600">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="h-8 w-8"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
+              />
+            </svg>
+            <span className="flex items-center px-3">탈퇴하기</span>
+          </div>
+        </Link>
       </div>
     </Layout>
   );

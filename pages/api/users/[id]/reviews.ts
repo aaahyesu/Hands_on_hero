@@ -16,14 +16,13 @@ async function handler(
   // 작성자
   const createdById = +req.session.user?.id!;
 
-  try {
-    if (req.method === "GET") {
-      const page = +req.query.page;
-      const offset = +req.query.offset;
+  // const serviceId = +req.query.id;
 
+  try {
+    // ...
+
+    if (req.method === "GET") {
       const reviews = await prisma.review.findMany({
-        take: offset,
-        skip: page * offset,
         where: {
           createdForId: createdForId,
         },
@@ -32,7 +31,15 @@ async function handler(
             select: {
               id: true,
               name: true,
-              //   avatar: true,
+              avatar: true,
+            },
+          },
+          serviceInfo: {
+            // 연관된 서비스 정보를 가져오기 위한 필드 추가
+            select: {
+              title: true,
+              serviceDate: true,
+              Method: true,
             },
           },
         },
@@ -43,21 +50,78 @@ async function handler(
         ],
       });
 
+      // 리뷰를 가공하여 서비스 정보를 추가한 배열 생성
+      const reviewsWithServiceInfo = reviews.map((review) => ({
+        ...review,
+        serviceTitle: review?.serviceInfo?.title,
+        serviceDate: review?.serviceInfo?.serviceDate,
+        serviceMethod: review?.serviceInfo?.Method,
+        serviceInfo: undefined, // 중첩된 서비스 정보 필드 제거
+      }));
+
+      return res.status(200).json({
+        ok: true,
+        message: "리뷰를 가져왔습니다.",
+        reviews: reviewsWithServiceInfo,
+      });
+
+      // ...
+
+      // if (req.method === "GET") {
+      //   const reviews = await prisma.review.findMany({
+      //     where: {
+      //       createdForId: createdForId,
+      //     },
+      //     include: {
+      //       createdBy: {
+      //         select: {
+      //           id: true,
+      //           name: true,
+      //           avatar: true,
+      //         },
+      //       },
+      //     },
+      //     orderBy: [
+      //       {
+      //         createdAt: "desc",
+      //       },
+      //     ],
+      //   });
+      //   console.log(reviews[0].serviceId);
+
+      //   const service = await prisma.service.findUnique({
+      //     where: {
+      //       id: reviews[0].serviceId,
+      //     },
+      //     select: {
+      //       title: true,
+      //       serviceDate: true,
+      //       Method: true,
+      //     },
+      //   });
+      //   console.log(service);
+
       return res.status(200).json({
         ok: true,
         message: "리뷰를 가져왔습니다.",
         reviews,
       });
     } else if (req.method === "POST") {
-      const review = req.body.review;
-      const score = +req.body.score;
+      const rated1 = +req.body.score1;
+      const rated2 = +req.body.score2;
+      const rated3 = +req.body.score3;
+      const rated4 = +req.body.score4;
+      const serviceId = +req.body.serviceId;
 
       const createdReview = await prisma.review.create({
         data: {
           createdById,
           createdForId,
-          review,
-          score,
+          score1: rated1,
+          score2: rated2,
+          score3: rated3,
+          score4: rated4,
+          serviceId: serviceId,
         },
         include: {
           createdBy: {
@@ -69,7 +133,7 @@ async function handler(
           },
         },
       });
-
+      // 음 그리고 .then()써서 동기 처리 하면 오류 잘 안나던데....
       return res.status(201).json({
         ok: true,
         message: "리뷰를 생성했습니다.",

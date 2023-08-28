@@ -5,6 +5,7 @@ import List from "@/components/list";
 
 const MyList: NextPage = ({}) => {
   const { data } = useSWR(`/api/users/me/requestlist`);
+  console.log(data);
   return (
     <Layout hasTabBar canGoBack title="나의 요청서 목록">
       <div className="flex flex-col space-y-5 py-2">

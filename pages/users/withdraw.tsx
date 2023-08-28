@@ -44,17 +44,6 @@ const Enter: NextPage = () => {
           className="mt-2 flex flex-col space-y-4"
         >
           <div className="mt-1">
-            {/* <Input
-              register={register("name", { required: true })}
-              name="name"
-              label="이름"
-              type="name"
-              kind="text"
-              placeholder="이름을 입력해주세요."
-              required
-            /> */}
-          </div>
-          <div className="mt-1">
             <Input
               register={register("name", { required: true })}
               name="userName"
@@ -113,18 +102,18 @@ const Enter: NextPage = () => {
           </button>
           {isModalOpen && (
             <div
-              id="popup-modal"
+              className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0"
+              id="crypto-modal"
               tabIndex={-1}
-              className="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full overflow-y-auto overflow-x-hidden p-4 md:inset-0"
-              onClick={closeModal}
+              aria-hidden="true"
             >
               <div className="relative max-h-full w-full max-w-md">
                 <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
                   <button
                     type="button"
                     className="absolute right-2.5 top-3 ml-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-hide="popup-modal"
                     onClick={closeModal}
+                    data-modal-hide="crypto-modal"
                   >
                     <svg
                       className="h-3 w-3"
@@ -135,14 +124,16 @@ const Enter: NextPage = () => {
                     >
                       <path
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                       />
                     </svg>
                     <span className="sr-only">Close modal</span>
                   </button>
+
+                  {/* Modal body */}
                   <div className="p-6 text-center">
                     <svg
                       className="mx-auto mb-4 h-12 w-12 text-gray-400 dark:text-gray-200"
@@ -160,22 +151,40 @@ const Enter: NextPage = () => {
                       />
                     </svg>
                     <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                      Are you sure you want to delete this product?
+                      정말 탈퇴하시겠습니까?
                     </h3>
-                    <button
-                      data-modal-hide="popup-modal"
-                      type="button"
-                      className="mr-2 inline-flex items-center rounded-lg bg-red-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
-                    >
-                      Yes, I'm sure
-                    </button>
-                    <button
-                      data-modal-hide="popup-modal"
-                      type="button"
-                      className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
-                    >
-                      No, cancel
-                    </button>
+                    <h3 className="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">
+                      탈퇴 시 회원정보가 삭제되며 <br /> 회원정보를 복구하기
+                      어렵습니다.
+                    </h3>
+                    {/* 하단 선택 버튼 */}
+                    <div className="flex flex-col items-center space-x-1 ">
+                      <nav className="flex w-full max-w-xl flex-col justify-between border-t bg-white px-4 pb-2 pt-1 text-center text-xs text-gray-800">
+                        <div className="flex items-center justify-center space-x-2 rounded-b p-6 py-0  ">
+                          <Link href="/enter">
+                            <button
+                              data-modal-hide="popup-modal"
+                              type="button"
+                              className="mr-2 inline-flex items-center rounded-lg bg-black px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-200  hover:text-gray-900 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800"
+                            >
+                              확인
+                            </button>
+                          </Link>
+                          <div className="rounded-b p-6 dark:border-gray-600">
+                            <Link href="/mypage">
+                              <button
+                                data-modal-hide="popup-modal"
+                                type="button"
+                                className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
+                              >
+                                취소
+                              </button>
+                            </Link>
+                          </div>
+                        </div>
+                      </nav>
+                    </div>
+                    <ul className="my-4 space-y-3">{/* Wallet options */}</ul>
                   </div>
                 </div>
               </div>

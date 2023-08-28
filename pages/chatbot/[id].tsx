@@ -53,7 +53,7 @@ const ChatDetail: NextPage = () => {
   const { user, isLoading } = useUser();
   const { data } = useSWR(`/api/chats/${router.query.id}`);
   const { me } = useMe();
-  console.log(data);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -473,9 +473,7 @@ const ChatDetail: NextPage = () => {
                     <div className="flex flex-col items-center space-x-1">
                       <nav className="flex w-full max-w-xl flex-col justify-between border-t border-gray-200 bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
                         <div className="flex items-center space-x-2 rounded-b p-6 dark:border-gray-600 ">
-                          <Link
-                            href={`/services/${data?.room?.Service?.id}/complete`}
-                          >
+                          <Link href="/services/complete">
                             <button
                               data-modal-hide="small-modal"
                               type="button"
