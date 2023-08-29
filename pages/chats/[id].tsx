@@ -4,7 +4,9 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { Socket, io } from "socket.io-client";
+import useSWR from "swr";
 
+import ServiceInfo from "@/components/Service";
 import Link from "next/link";
 
 // common-component
@@ -12,7 +14,7 @@ import Button from "@/components/Button";
 
 // component
 import Message from "@/components/message";
-import Complete from "@/pages/services/complete";
+import Complete from "@/pages/services/[id]/complete";
 
 // type
 import {
@@ -30,6 +32,8 @@ import useMutation from "@/libs/client/useMutation";
 import Spinner from "@/components/spinner";
 import { error } from "console";
 import Layout from "@/components/navbar";
+import useUser from "@/libs/client/useUser";
+import Service from "@/components/Service";
 
 interface IChatWithUser extends Chat {
   User: SimpleUser;
@@ -44,22 +48,12 @@ type ChatForm = {
   chat: string;
 };
 
-// 0부터 99999 사이의 랜덤한 숫자를 생성하고, 5자리로 만듭니다.
-function generateRandom5DigitNumber() {
-  const min = 0;
-  const max = 99999;
-  const randomInRange = Math.floor(Math.random() * (max - min + 1)) + min;
-  const random5DigitNumber = randomInRange.toString().padStart(5, "0");
-  return random5DigitNumber;
-}
-
-const randomNumber = generateRandom5DigitNumber();
-console.log(randomNumber); // 랜덤한 5자리 숫자 출력
-
 const ChatDetail: NextPage = () => {
   const router = useRouter();
+  const { user, isLoading } = useUser();
+  const { data } = useSWR(`/api/chats/${router.query.id}`);
   const { me } = useMe();
-
+  console.log(data);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -68,6 +62,12 @@ const ChatDetail: NextPage = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const [isBannerOpen, setIsBannerOpen] = useState(true);
+
+  const toggleBanner = () => {
+    setIsBannerOpen((prev) => !prev);
   };
 
   // 채팅 폼
@@ -227,6 +227,85 @@ const ChatDetail: NextPage = () => {
 
   return (
     <Layout canGoBack title="채팅">
+      <div
+        id="banner"
+        tabIndex={-1}
+        className={`fixed z-50 flex w-full items-start justify-between gap-8 border border-b border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-800 sm:items-center lg:py-4`}
+      >
+        {isBannerOpen ? (
+          <div className="flex flex-col space-y-3 px-2">
+            <Service
+              id={data?.room?.serviceId}
+              title={data?.room?.Service?.title}
+              serviceDate={data?.room?.Service?.serviceDate}
+              Method={data?.room?.Service?.Method}
+            />
+            <a
+              className="text-primary-600 dark:text-primary-500 font-medium underline hover:no-underline"
+              href={`/services/${data?.room?.Service?.id}`}
+            >
+              요청서 바로가기
+            </a>{" "}
+            <div className="flex items-center justify-center space-x-8">
+              <button
+                type="button"
+                className="rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                수락하기
+              </button>
+              <button
+                type="button"
+                className="rounded-lg bg-white px-4 py-2.5 text-center text-sm font-medium text-black focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                거절하기
+              </button>
+            </div>
+          </div>
+        ) : (
+          <span className="px-2 text-xl font-bold text-black">
+            {data?.room?.Service?.title}
+          </span>
+        )}
+        <button
+          onClick={toggleBanner}
+          className="text-gray-400 hover:text-gray-500"
+        >
+          {isBannerOpen ? (
+            <svg
+              className="h-[18px] w-[18px] text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 8"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.7"
+                d="m1 1 5.326 5.7a.909.909 0 0 0 1.348 0L13 1"
+              />
+            </svg>
+          ) : (
+            <svg
+              className="h-[18px] w-[18px] text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 8"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.7"
+                d="M13 7 7.674 1.3a.91.91 0 0 0-1.348 0L1 7"
+              />
+            </svg>
+          )}
+        </button>
+      </div>
+
       <article className="mb-[10vh] min-h-[70vh] space-y-4 rounded-sm bg-slate-200 p-4">
         {loadChatsLoading && (
           <h3 className="rounded-md bg-indigo-400 p-2 text-center text-lg text-white">
@@ -346,7 +425,6 @@ const ChatDetail: NextPage = () => {
                           </svg>
 
                           <span>화상통화</span>
-                          <span>{randomNumber}</span>
                         </span>
                       </Link>
                       <Link href="/chats">
@@ -395,7 +473,9 @@ const ChatDetail: NextPage = () => {
                     <div className="flex flex-col items-center space-x-1">
                       <nav className="flex w-full max-w-xl flex-col justify-between border-t border-gray-200 bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
                         <div className="flex items-center space-x-2 rounded-b p-6 dark:border-gray-600 ">
-                          <Link href="/services/complete">
+                          <Link
+                            href={`/services/${data?.room?.Service?.id}/complete`}
+                          >
                             <button
                               data-modal-hide="small-modal"
                               type="button"

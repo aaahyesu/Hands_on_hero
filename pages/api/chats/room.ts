@@ -122,11 +122,12 @@ async function handler(
             ],
           },
           name: title + user?.id + ownerId,
+          realName: title,
           Service: {
             connect: {
               id: serviceId,
-            }
-          }
+            },
+          },
         },
       });
 

@@ -33,7 +33,7 @@ interface RoomResponse extends ApiResponse {
   roomId: number;
 }
 
-const ServiceDetail: NextPage<ServiceResponse> = ( {service} ) => {
+const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
   const router = useRouter();
   const { me } = useMe();
   // const states = service?.states?.map((v) => v.kind);
@@ -124,48 +124,53 @@ const ServiceDetail: NextPage<ServiceResponse> = ( {service} ) => {
               </span>
             </div>
             <div className="flex items-center justify-between space-x-2 pt-16">
-            <Button
-              text="채팅 보내기"
-              type="button"
-              className="flex-1"
-              $primary
-              onClick={onCreateRoom}
-              $loading={createRoomLoading}
-            />
+              <Button
+                text="채팅 보내기"
+                type="button"
+                className="flex-1"
+                $primary
+                onClick={onCreateRoom}
+                $loading={createRoomLoading}
+              />
               <button
-              onClick={onLikeClick} 
-              className= {cls("flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500",
-              data?.liked ? "text-red-500 hover:text-red-600" : "text-gray-400 hover:text-gray-500")}>
-              {data?.liked ? (
-                <svg
-                className="h-6 w-6 "
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 23 23"
+                onClick={onLikeClick}
+                className={cls(
+                  "flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500",
+                  data?.liked
+                    ? "text-red-500 hover:text-red-600"
+                    : "text-gray-400 hover:text-gray-500"
+                )}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
+                {data?.liked ? (
+                  <svg
+                    className="h-6 w-6 "
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor"
+                    viewBox="0 0 23 23"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
                 ) : (
                   <svg
-                  className="h-6 w-6 "
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
+                    className="h-6 w-6 "
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
                 )}
               </button>
             </div>

@@ -22,6 +22,7 @@ async function handler(
           name: true,
         },
       },
+      reivew: true,
     },
   });
   const liked = Boolean(
@@ -32,9 +33,9 @@ async function handler(
       },
       select: {
         id: true,
-      }
+      },
     })
-  )
+  );
   return res.json({
     ok: true,
     service,
@@ -46,4 +47,3 @@ async function handler(
 export default withApiSession(
   withHandler({ methods: ["GET", "POST"], handler })
 );
-

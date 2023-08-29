@@ -30,7 +30,7 @@ interface IResponseRooms extends ApiResponse {
 
 const Chats: NextPage = () => {
   const { data } = useSWR<IResponseRooms>("/api/chats/room");
-
+  console.log(data);
   if (!data) return <Spinner kinds="page" />;
 
   return (
@@ -56,7 +56,7 @@ const Chats: NextPage = () => {
                 {/* <Avatar user={room.users[0]} /> */}
                 <div>
                   <p className="text-base font-semibold text-gray-700">
-                    {room?.users[0]?.name}
+                    {room?.users[0]?.name}-{room?.realName}
                   </p>
                   <p className="text-sm text-gray-500">
                     {data?.roomsOfLastChat?.[index].chat

@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import React, { useState } from "react";
 import Layout from "@/components/navbar";
 import Link from "next/link";
 import useSWR from "swr";
@@ -38,8 +39,9 @@ const Home: NextPage<ServiceResponse> = () => {
   };
 
   const dropdownOptions = ["제목", "서비스 방법", "요청자명"];
-
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(dropdownOptions[0]);
+  
   const handleSearch = (event: React.FormEvent) => {
     event.preventDefault();
     // 검색 기능 구현
@@ -61,11 +63,13 @@ const Home: NextPage<ServiceResponse> = () => {
             </label>
             <button
               id="dropdown-button"
-              data-dropdown-toggle="dropdown"
-              className="z-10 inline-flex flex-shrink-0 items-center rounded-l-lg border border-gray-300 bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700"
+              className={`z-10 inline-flex flex-shrink-0 items-center rounded-l-lg border border-gray-300 bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700 ${
+                isDropdownOpen ? "bg-gray-200" : ""
+              }`}
               type="button"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             >
-              게시순{" "}
+              {selectedOption}{" "}
               <svg
                 className="ml-2.5 h-2.5 w-2.5"
                 aria-hidden="true"
@@ -84,44 +88,30 @@ const Home: NextPage<ServiceResponse> = () => {
             </button>
             <div
               id="dropdown"
-              className="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700"
+              className={`${
+                isDropdownOpen ? "block" : "hidden"
+              } z-10 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow dark:bg-gray-700`}
             >
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-200"
                 aria-labelledby="dropdown-button"
               >
-                <li>
-                  <button
-                    type="button"
-                    className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Mockups
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Templates
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Design
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                  >
-                    Logos
-                  </button>
-                </li>
+                {dropdownOptions.map((option) => (
+                  <li key={option}>
+                    <button
+                      type="button"
+                      className={`inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ${
+                        option === selectedOption ? "font-bold" : ""
+                      }`}
+                      onClick={() => {
+                        setSelectedOption(option);
+                        setIsDropdownOpen(false);
+                      }}
+                    >
+                      {option}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="relative w-full">

@@ -43,10 +43,11 @@ async function handler(
         serviceDate,
         startTime,
         endTime,
-          user: {
-            connect: {
-              id: user?.id,
-            },
+
+        user: {
+          connect: {
+            id: user?.id,
+          },
         },
       },
     });

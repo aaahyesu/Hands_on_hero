@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { ApiResponse, SimpleUser } from "@/types";
 
-
 interface ConnectUser extends Service {
   user: SimpleUser;
 }

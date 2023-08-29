@@ -1,10 +1,9 @@
 import type { NextPage } from "next";
 import Layout from "@/components/navbar";
-import Link from "next/link";
 import useSWR from "swr";
 import List from "@/components/list";
 const ResponseList: NextPage = () => {
-  const {data} = useSWR(`/api/users/me/responselist`);
+  const { data } = useSWR(`/api/users/me/responselist`);
   return (
     <Layout hasTabBar canGoBack title="수락 요청서 목록">
       <div className="flex flex-col space-y-5 py-2 px-4">
