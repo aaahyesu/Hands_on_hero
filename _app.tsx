@@ -3,7 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 import { SWRConfig } from "swr";
 import { ToastContainer } from "react-toastify";
-
+import { NextUIProvider } from '@nextui-org/react';
 import Layout from "@/components/navbar";
 
 const fetcher = async (url: string) => {
@@ -28,6 +28,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           fetch(url).then((response) => response.json()),
       }}
     >
+      <NextUIProvider>
+        <Component {...pageProps} />
+      </NextUIProvider>
       <div className="mx-auto w-full max-w-xl">
         <Layout hasTabBar>
           <Component {...pageProps} />

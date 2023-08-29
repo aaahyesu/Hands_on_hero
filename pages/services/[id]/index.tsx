@@ -1,16 +1,13 @@
 import Layout from "@/components/navbar";
 import useMutation from "@/libs/client/useMutation";
-import useUser from "@/libs/client/useUser";
 import { cls } from "@/libs/client/utils";
-import { Service, User } from "@prisma/client";
+import { Service } from "@prisma/client";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
-import services from "../api/services";
 import { ApiResponse, SimpleUser } from "@/types";
 import { useCallback, useEffect } from "react";
-import me from "../api/users/me";
 import useMe from "@/libs/client/useMe";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
@@ -40,34 +37,6 @@ const ServiceDetail: NextPage<ServiceResponse> = ( {service} ) => {
   const router = useRouter();
   const { me } = useMe();
   // const states = service?.states?.map((v) => v.kind);
-  // 채팅방 생성 메서드
-  const [createRoom, { data: createRoomResponse, loading: createRoomLoading }] =
-    useMutation<RoomResponse>(`/api/chats/room`);
-  // 채팅방 생성
-  const onCreateRoom = useCallback(() => {
-    if (service?.userId === me?.id)
-      return toast.error("본인 요청서에는 채팅을 할 수 없습니다.");
-    if (createRoomLoading)
-      return toast.warning("채팅방을 생성중입니다.\n잠시 기다려주세요!");
-    // if (states?.includes("Reserved"))
-    //   return toast.warning("예약중인 상품이면 판매자와 대화할 수 없습니다.");
-    // if (states?.includes("End"))
-    //   return toast.warning(
-    //     "이미 매칭중인 상품이면 판매자와 대화할 수 없습니다."
-    //   );
-    createRoom({
-      ownerId: service?.userId,
-      title: service?.title,
-      serviceId: service?.id,
-    });
-  },  [createRoom, service, me, createRoomLoading]);
-  // 채팅방 생성 시 채팅방으로 이동
-  useEffect(() => {
-    if (!createRoomResponse?.ok) return;
-
-    toast.success("채팅방으로 이동합니다.");
-    router.push(`/chats/${createRoomResponse.roomId}`);
-  }, [router, createRoomResponse]);
 
   const { mutate } = useSWRConfig();
   const { data, mutate: boundMutate } = useSWR<ListDetail>(
@@ -79,6 +48,35 @@ const ServiceDetail: NextPage<ServiceResponse> = ( {service} ) => {
     boundMutate((prev) => prev && { ...prev, liked: !prev.liked }, false);
     togglelike({});
   };
+  // 채팅방 생성 메서드
+  const [createRoom, { data: createRoomResponse, loading: createRoomLoading }] =
+    useMutation<RoomResponse>(`/api/chats/room`);
+  // 채팅방 생성
+  const onCreateRoom = useCallback(() => {
+    if (data?.service?.userId === me?.id)
+      return toast.error("본인 요청서에는 채팅을 할 수 없습니다.");
+    if (createRoomLoading)
+      return toast.warning("채팅방을 생성중입니다.\n잠시 기다려주세요!");
+    // if (states?.includes("Reserved"))
+    //   return toast.warning("이미 서비스중인 사용자와 대화할 수 없습니다.");
+    // if (states?.includes("End"))
+    //   return toast.warning(
+    //     "이미 완료된 서비스이면 사용자와 대화할 수 없습니다."
+    //   );
+    createRoom({
+      ownerId: data?.service?.userId,
+      title: data?.service?.title,
+      serviceId: data?.service?.id,
+    });
+  },  [createRoom, service, me, createRoomLoading]);
+  // 채팅방 생성 시 채팅방으로 이동
+  useEffect(() => {
+    if (!createRoomResponse?.ok) return;
+
+    toast.success("채팅방으로 이동합니다.");
+    router.push(`/chats/${createRoomResponse.roomId}`);
+  }, [router, createRoomResponse]);
+
   return (
     <Layout canGoBack title="요청서 상세내용">
       <div className="px-4 py-4">
@@ -88,7 +86,7 @@ const ServiceDetail: NextPage<ServiceResponse> = ( {service} ) => {
             <div className="flex cursor-pointer items-center space-x-3 rounded-lg border border-gray-400 py-3">
               <div className="px-4">
                 <p className="text-lg font-medium text-black">
-                  {data?.service.user?.name}
+                  {data?.service?.user?.name}
                 </p>
                 <p className="text-xs font-medium text-gray-500">프로필 보기</p>
               </div>

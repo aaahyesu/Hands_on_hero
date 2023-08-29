@@ -21,7 +21,6 @@ async function handler(
       },
     });
 
-    // 2022/04/13 - 내 정보 요청 - by 1-blue
     if (method === "GET") {
       return res.status(200).json({
         ok: true,
@@ -29,8 +28,81 @@ async function handler(
         user: exUser,
       });
     }
+    if (method === "POST") {
+      const {
+        session: {user},
+        body: {email, name},
+      } = req;
+      const checkUser = await prisma.user.findUnique({
+        where: {
+          id: user?.id,
+        }
+      })
+      if(email && email !== checkUser?.email) {
+        const Exit = Boolean(
+          await prisma.user.findUnique({
+            where: {
+              email,
+            },
+            select: {
+              id: true,
+            }
+          })
+        );
+        if(Exit) {
+          return res.json({
+            ok: false,
+            error:"email alreay",
+            message: "email alreay"
+          });
+        }
+        await prisma.user.update({
+          where: {
+            id: user?.id,
+          },
+          data: {
+            email,
+          }
+        });
+        res.json({
+          ok: true,
+          message: "email update"
+        });
+      }
 
-    // 2022/04/18 - 로그아웃 - by 1-blue
+      if(name && name !== checkUser?.name) {
+        const Exit = Boolean(
+          await prisma.user.findUnique({
+            where: {
+              name,
+            },
+            select: {
+              id: true,
+            }
+          })
+        );
+        if(Exit) {
+          return res.json({
+            ok: false,
+            message: "name alreay",
+            error: "name alreay",
+          });
+        }
+        await prisma.user.update({
+          where: {
+            id: user?.id,
+          },
+          data: {
+            name,
+          }
+        });
+        res.json({
+          ok: true,
+          message: "name update"
+        });
+      }
+    }
+
     else if (method === "PATCH") {
       req.session.destroy();
 
@@ -53,27 +125,3 @@ async function handler(
 export default withApiSession(
   withHandler({ methods: ["GET", "POST", "DELETE"], handler })
 );
-
-
-// import { NextApiRequest, NextApiResponse } from "next";
-// import withHandler, { ResponseType } from "@/libs/server/withHandler";
-// import client from "@/libs/server/client";
-// import { withApiSession } from "@/libs/server/withSession";
-
-// async function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse<ResponseType>
-// ) {
-//   console.log(req.session.user);
-//   const profile = await client.user.findUnique({
-//     where: { id: req.session.user?.id },
-//   });
-//   res.json({
-//       ok: true,
-//       profile,
-//       message: "clear"
-//   });
-// }
-
-// export default withApiSession(withHandler({ methods: ["GET"], handler }));
-

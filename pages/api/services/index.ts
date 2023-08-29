@@ -7,28 +7,34 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
+  const {
+    body: { title, content, Method, Cost, serviceDate, startTime, endTime },
+    session: { user },
+  } = req;
+  
   if (req.method === "GET") {
     const services = await client.service.findMany({
       include: {
         _count: {
           select: {
             liked: true,
+            room: true,
           },
         },
       },
+      orderBy: { createdAt: "desc" },
     });
-    res.json({
+
+    res.status(200).json({
       ok: true,
+      message: "모든 상품들을 가져왔습니다.",
       services,
-      message: "good",
     });
+
   }
   if (req.method === "POST") {
-    const {
-      body: { title, content, Method, Cost, serviceDate, startTime, endTime },
-      session: { user },
-    } = req;
-    const service = await client.service.create({
+
+    const createService = await client.service.create({
       data: {
         title,
         content,
@@ -46,11 +52,12 @@ async function handler(
     });
     res.json({
       ok: true,
-      service,
+      service: createService,
       message: "good",
     });
   }
 }
+
 
 export default withApiSession(
   withHandler({ methods: ["GET", "POST"], handler })

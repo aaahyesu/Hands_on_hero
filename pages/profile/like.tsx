@@ -9,7 +9,7 @@ const Like: NextPage = () => {
   const {data} = useSWR(`/api/users/me/likes`);
   return (
     <Layout hasTabBar canGoBack title="나의 찜목록">
-      <div className="flex flex-col space-y-5 py-2">
+      <div className="flex flex-col space-y-5 py-2 px-4">
         <Link href="/">
           {data?.liked?.map((liked) => (
             <List
@@ -21,7 +21,9 @@ const Like: NextPage = () => {
               endTime={liked.service.endTime}
               Cost={liked.service.Cost}
               liked={liked.service._count.liked} 
-              Method={""}            />
+              room={liked.service._count.room}
+              Method={""}  
+              link={`/services/${liked.service.id}`}          />
               ))} 
             </Link>
         </div>

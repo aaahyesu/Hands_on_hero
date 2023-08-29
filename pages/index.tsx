@@ -2,32 +2,57 @@ import type { NextPage } from "next";
 import Layout from "@/components/navbar";
 import Link from "next/link";
 import useSWR from "swr";
-import useUser from "@/libs/client/useUser";
 import { Service } from "@prisma/client";
 import List from "@/components/list";
+import { useState } from "react";
 
 interface Count extends Service {
   _count: {
     liked: number;
+    room: number;
   };
-  list?: {
-    kind: "Liked" | "Requestlist" | "Responselist";
+  state?: {
+    kind: "Start" | "Complete" | "Incomplete";
   }[];
 }
 
 interface ServiceResponse {
   ok: boolean;
   services: Count[];
+  service_count: number;
 }
-const Home: NextPage = () => {
-  const { user, isLoading } = useUser();
+
+type titleForm = {
+  title: string;
+};
+
+const Home: NextPage<ServiceResponse> = () => {
   const { data } = useSWR<ServiceResponse>("/api/services");
-  console.log(data);
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+
+  const filterSearchResults = (services: Count[]) => {
+    return services.filter(service =>
+      service.title.toLowerCase().includes(searchKeyword.toLowerCase())
+    );
+  };
+
+  const dropdownOptions = ["제목", "서비스 방법", "요청자명"];
+
+
+  const handleSearch = (event: React.FormEvent) => {
+    event.preventDefault();
+    // 검색 기능 구현
+    if (data) {
+      const filteredServices = filterSearchResults(data.services);
+    }
+  };
+  
   return (
     <Layout hasTabBar title="요청서 리스트 📝">
-      <div className="flex flex-col space-y-5 divide-y px-6">
-        <form>
-          <div className="flex pt-2">
+      <div className="flex flex-col px-4">
+        <form onSubmit={handleSearch}>
+          <div className="flex pt-4 ">
             <label
               htmlFor="search-dropdown"
               className="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -106,8 +131,11 @@ const Home: NextPage = () => {
                 className="z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-50 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-l-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
                 placeholder="검색어를 입력하세요 :)"
                 required
+                value = {searchKeyword}
+                onChange={(e) => setSearchKeyword(e.target.value)}
               />
               <button
+              onClick={handleSearch}
                 type="submit"
                 className="border-black-700 absolute right-0 top-0 h-full rounded-r-lg border bg-black p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
@@ -131,8 +159,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         </form>
-
-        {data?.services?.map((service) => (
+        {data && filterSearchResults(data.services).map((service) => (
           <List
             id={service.id}
             title={service.title}
@@ -142,7 +169,10 @@ const Home: NextPage = () => {
             endTime={service.endTime}
             Method={service.Method}
             liked={service._count.liked}
-            list={service.list}
+            state={service.state}
+            room={service._count.room}
+            link={`/services/${service.id}`}
+            // kind="Incomplete"
           />
         ))}
         <Link href="/services/upload">
@@ -165,7 +195,9 @@ const Home: NextPage = () => {
             글쓰기
           </button>
         </Link>
+        <div>
       </div>
+    </div>
     </Layout>
   );
 };
