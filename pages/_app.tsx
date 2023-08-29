@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div className="mx-auto w-full max-w-xl">
         <Layout hasTabBar>
           <Component {...pageProps} />
-        </Layout>
+        </Layout> 
       </div>
       <ToastContainer
         position="top-right"

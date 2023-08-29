@@ -21,7 +21,10 @@ async function handler(
       },
     });
 
+<<<<<<< HEAD
+=======
     // 내 정보 요청
+>>>>>>> 1ce55598ea12409c1b44203a83bf84016f1ffc1c
     if (method === "GET") {
       return res.status(200).json({
         ok: true,
@@ -29,8 +32,85 @@ async function handler(
         user: exUser,
       });
     }
+    if (method === "POST") {
+      const {
+        session: {user},
+        body: {email, name},
+      } = req;
+      const checkUser = await prisma.user.findUnique({
+        where: {
+          id: user?.id,
+        }
+      })
+      if(email && email !== checkUser?.email) {
+        const Exit = Boolean(
+          await prisma.user.findUnique({
+            where: {
+              email,
+            },
+            select: {
+              id: true,
+            }
+          })
+        );
+        if(Exit) {
+          return res.json({
+            ok: false,
+            error:"email alreay",
+            message: "email alreay"
+          });
+        }
+        await prisma.user.update({
+          where: {
+            id: user?.id,
+          },
+          data: {
+            email,
+          }
+        });
+        res.json({
+          ok: true,
+          message: "email update"
+        });
+      }
 
+      if(name && name !== checkUser?.name) {
+        const Exit = Boolean(
+          await prisma.user.findUnique({
+            where: {
+              name,
+            },
+            select: {
+              id: true,
+            }
+          })
+        );
+        if(Exit) {
+          return res.json({
+            ok: false,
+            message: "name alreay",
+            error: "name alreay",
+          });
+        }
+        await prisma.user.update({
+          where: {
+            id: user?.id,
+          },
+          data: {
+            name,
+          }
+        });
+        res.json({
+          ok: true,
+          message: "name update"
+        });
+      }
+    }
+
+<<<<<<< HEAD
+=======
     // 로그아웃
+>>>>>>> 1ce55598ea12409c1b44203a83bf84016f1ffc1c
     else if (method === "PATCH") {
       req.session.destroy();
 
@@ -52,6 +132,9 @@ async function handler(
 
 export default withApiSession(
   withHandler({ methods: ["GET", "POST", "DELETE"], handler })
+<<<<<<< HEAD
+);
+=======
 );
 
 // import { NextApiRequest, NextApiResponse } from "next";
@@ -75,3 +158,4 @@ export default withApiSession(
 // }
 
 // export default withApiSession(withHandler({ methods: ["GET"], handler }));
+>>>>>>> 1ce55598ea12409c1b44203a83bf84016f1ffc1c

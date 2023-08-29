@@ -20,11 +20,13 @@ async function handler(
           _count: {
             select: {
               liked: true,
+              room: true,
             }
           }
         }
       }
     },
+    orderBy: { createdAt: "desc" },
   });
   res.json({
       ok: true,

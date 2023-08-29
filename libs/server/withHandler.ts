@@ -7,6 +7,12 @@ export interface ResponseType {
   [key: string]: any;
 }
 
+export interface CommonResult {
+  ok: boolean;
+  message: string;
+  [key: string]: any;
+}
+
 type method = "GET" | "POST" | "DELETE" | "PUT";
 
 interface ConfigType {

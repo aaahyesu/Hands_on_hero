@@ -12,41 +12,31 @@ datasource db {
 }
 
 enum Kind {
-  Liked
-  Requestlist
-  Responselist
+  Start
+  Complete
+  Incomplete
 }
 
 model User {
   id                Int            @id @default(autoincrement())
   name              String         @unique
   // phone             String?        @db.VarChar(11)
-  // gender            Int
   avatar            String?
-  // birthdate         String?
   // password          String        @db.VarChar(20)
   email             String?        @unique
-  // introduction      String?
   virtualAccount    Int           @default(0)
-  // virtualAccountId  Int?
-
   tokens            Token[]
   chats             Chat[]
   rooms             Room[]
   messages          Message[]
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt()
-  services          Service[]
-  // licenseCerts      LicenseCert[]
-
-  // reviews           Review[]  
+  services          Service[] 
   inquiries         Inquiry[]   
   answers           Answer[]
-  requestlists      Requestlist[] 
   responselists     Responselist[] 
   liked             Liked[] 
-  // states            States[] 
-  Lists             List[]
+  states            State[] 
   //@@map("users")
 
   writtenReviews    Review[]        @relation(name: "WrittenReviews")
@@ -80,22 +70,29 @@ model Service {
   startTime         String
   endTime           String
   Cost              Int
-  Method            String
+ Method            String
+  keywords          Keyword[] 
   liked             Liked[]
-  requestlists      Requestlist[] 
   responselists     Responselist[] 
-  reivew            Review[]
-  
-  // states            States[]
+  reivew            Review[]  
+  states            State[]
   room              Room[]  
-  Lists             List[]
 
   @@index([userId])
 
 
 }
 
-model List {
+model Keyword {
+  id        Int      @id @default(autoincrement())
+  keyword   String   @unique @db.VarChar(20)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  services Service[]
+}
+
+model State {
   id          Int         @id @default(autoincrement())
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -109,19 +106,6 @@ model List {
 }
 
 model Liked {
-  id          Int         @id @default(autoincrement())
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int
-  service     Service     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  serviceId   Int
-
-  @@index([serviceId])
-  @@index([userId])
-}
-
-model Requestlist {
   id          Int         @id @default(autoincrement())
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
@@ -207,7 +191,6 @@ model Room {
   serviceId       Int? 
   users User[]
   chats Chat[]
-  
 
   @@index([serviceId])
 }
@@ -245,13 +228,4 @@ model BlockList {
   userId            Int      @db.Int
 
   @@map("block_list")
-}
-
-model Notification {
-  notificationId     Int      @id
-  notificationContent String   @db.Text
-  userId             Int      @db.Int
-  isRead             Boolean
-
-  @@map("notification")
 }

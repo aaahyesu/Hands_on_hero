@@ -1,16 +1,13 @@
 import Layout from "@/components/navbar";
 import useMutation from "@/libs/client/useMutation";
-import useUser from "@/libs/client/useUser";
 import { cls } from "@/libs/client/utils";
-import { Service, User } from "@prisma/client";
+import { Service } from "@prisma/client";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
-import services from "../api/services";
 import { ApiResponse, SimpleUser } from "@/types";
 import { useCallback, useEffect } from "react";
-import me from "../api/users/me";
 import useMe from "@/libs/client/useMe";
 import { toast } from "react-toastify";
 import Button from "@/components/Button";
@@ -61,17 +58,17 @@ const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
     if (createRoomLoading)
       return toast.warning("채팅방을 생성중입니다.\n잠시 기다려주세요!");
     // if (states?.includes("Reserved"))
-    //   return toast.warning("예약중인 상품이면 판매자와 대화할 수 없습니다.");
+    //   return toast.warning("이미 서비스중인 사용자와 대화할 수 없습니다.");
     // if (states?.includes("End"))
     //   return toast.warning(
-    //     "이미 매칭중인 상품이면 판매자와 대화할 수 없습니다."
+    //     "이미 완료된 서비스이면 사용자와 대화할 수 없습니다."
     //   );
     createRoom({
       ownerId: data?.service?.userId,
       title: data?.service?.title,
       serviceId: data?.service?.id,
     });
-  }, [createRoom, service, me, createRoomLoading]);
+  },  [createRoom, service, me, createRoomLoading]);
   // 채팅방 생성 시 채팅방으로 이동
   useEffect(() => {
     if (!createRoomResponse?.ok) return;

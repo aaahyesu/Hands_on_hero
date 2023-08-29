@@ -26,7 +26,7 @@
     "framer-motion": "^10.16.1",
     "install": "^0.13.0",
     "iron-session": "^6.3.1",
-    "next": "13.2.4",
+    "next": "^13.3.0",
     "next-session": "^4.0.5",
     "planetscale": "^2.1.0",
     "react": "18.2.0",
@@ -39,7 +39,7 @@
     "socketio": "^1.0.0",
     "swr": "^2.2.0",
     "toastify": "^2.0.1",
-    "update": "^0.7.4"
+    "update": "^0.4.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
