@@ -1,20 +1,17 @@
 import type { NextPage } from "next";
 import Layout from "@/components/navbar";
-import Link from "next/link";
 
 import useSWR from "swr";
-import useUser from "@/libs/client/useUser";
 import Review from "@/components/Review";
-import services from "../../api/services";
+
 import { useRouter } from "next/router";
 
 const ReviewList: NextPage = () => {
-  const { user, isLoading } = useUser();
   const router = useRouter();
-  const { data } = useSWR(`/api/users/${router.query.id}/reviews`);
-
+  const { data } = useSWR(`/api/users/${router.query.id}/reviewBy`);
+  console.log(data);
   return (
-    <Layout hasTabBar canGoBack title="리뷰 내역">
+    <Layout hasTabBar canGoBack title="작성한 리뷰 내역">
       <div className="px-4">
         {data?.reviews?.map((reviews) => (
           <Review
