@@ -34,11 +34,17 @@ const Home: NextPage<ServiceResponse> = () => {
   const filterSearchResults = (services: Count[]) => {
     return services.filter((service) => {
       if (selectedOption === "제목") {
-        return service.title.toLowerCase().includes(searchKeyword.toLowerCase());
+        return service.title
+          .toLowerCase()
+          .includes(searchKeyword.toLowerCase());
       } else if (selectedOption === "서비스 방법") {
-        return service.Method.toLowerCase().includes(searchKeyword.toLowerCase());
+        return service.Method.toLowerCase().includes(
+          searchKeyword.toLowerCase()
+        );
       } else if (selectedOption === "상세내용") {
-        return service.content.toLowerCase().includes(searchKeyword.toLowerCase());
+        return service.content
+          .toLowerCase()
+          .includes(searchKeyword.toLowerCase());
       }
       return true; // Default case: no filtering
     });
@@ -77,7 +83,7 @@ const Home: NextPage<ServiceResponse> = () => {
                 {selectedOption}{" "}
                 <svg
                   className={`ml-2 h-2.5 w-2.5 ${
-                    isDropdownOpen ? "transform rotate-180" : ""
+                    isDropdownOpen ? "rotate-180 transform" : ""
                   }`}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"

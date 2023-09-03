@@ -13,8 +13,6 @@ const ReviewList: NextPage = () => {
   const router = useRouter();
   const { data } = useSWR(`/api/users/${router.query.id}/reviews`);
 
-  console.log(data?.reviews[0]);
-
   return (
     <Layout hasTabBar canGoBack title="리뷰 내역">
       <div className="px-4">

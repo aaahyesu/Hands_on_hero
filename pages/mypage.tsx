@@ -5,6 +5,7 @@ import useUser from "@/libs/client/useUser";
 
 const MyPage: NextPage = () => {
   const { user } = useUser();
+  console.log(user?.id);
   return (
     <Layout hasTabBar title="마이페이지">
       <div className="px-4 py-4">
@@ -39,7 +40,7 @@ const MyPage: NextPage = () => {
           </div>
 
           <div className="flex flex-grow justify-end"></div>
-          <Link href="/profile">
+          <Link href={`/profile/${user?.id}`}>
             <p className="hover shadow-3xl rounded-lg bg-black px-1.5 py-2 text-sm text-white hover:bg-gray-700">
               프로필 보기
             </p>
