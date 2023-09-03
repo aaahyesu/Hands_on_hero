@@ -47,7 +47,12 @@ export default function Layout({
           </button>
         ) : null}
         {title ? (
-          <span className={cls(canGoBack ? "justify-right px-2" : "", "")}>
+          <span
+            className={cls(
+              canGoBack ? "justify-right px-2 font-semibold" : "",
+              ""
+            )}
+          >
             {title}
           </span>
         ) : null}

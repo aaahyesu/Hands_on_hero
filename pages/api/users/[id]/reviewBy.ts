@@ -22,7 +22,7 @@ async function handler(
     if (req.method === "GET") {
       const reviews = await prisma.review.findMany({
         where: {
-          createdForId: createdForId,
+          createdById: createdById,
         },
         include: {
           createdBy: {

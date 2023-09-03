@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { Rating, Typography } from "@material-tailwind/react";
 
 interface ListProps {
   id: number;
@@ -74,16 +75,49 @@ export default function List({
         <Link href={`/services/${id}`}>
           <div className="flex space-x-3">
             <div className="flex flex-col">
-              <span className="mb-3 text-[25px] font-bold text-black">
+              <span className="mb-3 px-3 text-[25px] font-bold text-black">
                 {title}
               </span>
               {/* Render stars using the score prop */}
-              <div className="flex space-x-1">{renderStars(score1)}</div>
-              <div className="flex space-x-1">{renderStars(score2)}</div>
-              <div className="flex space-x-1">{renderStars(score3)}</div>
-              <div className="flex space-x-1">{renderStars(score4)}</div>
-              <span className="text-lg text-gray-500">{serviceDate}</span>
-              <span className="mb-2 text-lg text-gray-500">{Method}</span>
+              <dt className=" px-3  text-lg font-medium text-gray-500 dark:text-gray-400">
+                시간 약속을 잘 지켜요
+              </dt>
+              <div className="flex  space-x-1 px-3 py-2">
+                {renderStars(score1)}
+                <Typography color="blue-gray" className="px-3  font-medium">
+                  {score1}.0 점
+                </Typography>
+              </div>
+
+              <dt className="px-3 py-3 text-lg font-medium text-gray-500 dark:text-gray-400">
+                응답 속도가 빨라요
+              </dt>
+              <div className="flex space-x-1 px-3 ">
+                {renderStars(score2)}
+                <Typography color="blue-gray" className="px-3 font-medium">
+                  {score2}.0 점
+                </Typography>
+              </div>
+              <dt className="px-3 py-3 text-lg font-medium text-gray-500 dark:text-gray-400">
+                매너가 좋아요
+              </dt>
+              <div className="flex space-x-1 px-3 ">
+                {renderStars(score3)}
+                <Typography color="blue-gray" className="px-3 font-medium">
+                  {score3}.0 점
+                </Typography>
+              </div>
+              <dt className="px-3 py-3 text-lg font-medium text-gray-500 dark:text-gray-400">
+                서비스를 잘 수행해요
+              </dt>
+              <div className="flex space-x-1 px-3 ">
+                {renderStars(score4)}
+                <Typography color="blue-gray" className="px-3 font-medium">
+                  {score4}.0 점
+                </Typography>
+              </div>
+              <span className="px-3 text-lg text-gray-500">{serviceDate}</span>
+              <span className="mb-2 px-3 text-lg text-gray-500">{Method}</span>
             </div>
           </div>
         </Link>

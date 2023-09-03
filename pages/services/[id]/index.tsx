@@ -68,7 +68,7 @@ const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
       title: data?.service?.title,
       serviceId: data?.service?.id,
     });
-  },  [createRoom, service, me, createRoomLoading]);
+  }, [createRoom, service, me, createRoomLoading]);
   // 채팅방 생성 시 채팅방으로 이동
   useEffect(() => {
     if (!createRoomResponse?.ok) return;
@@ -76,13 +76,14 @@ const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
     toast.success("채팅방으로 이동합니다.");
     router.push(`/chats/${createRoomResponse.roomId}`);
   }, [router, createRoomResponse]);
+  console.log(data?.service?.user);
 
   return (
     <Layout canGoBack title="요청서 상세내용">
       <div className="px-4 py-4">
         <label className="py-2 text-xl font-bold">요청자 프로필</label>
         <div className="pt-2">
-          <Link href={`/profile/`}>
+          <Link href={`/serviceProfile/${data?.service?.user?.id}`}>
             <div className="flex cursor-pointer items-center space-x-3 rounded-lg border border-gray-400 py-3">
               <div className="px-4">
                 <p className="text-lg font-medium text-black">
