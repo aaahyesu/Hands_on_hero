@@ -10,6 +10,23 @@ interface MessageProps {
 }
 
 const Message = ({ message, updatedAt, user, $reversed }: MessageProps) => {
+  // updatedAt를 Date 객체로 변환
+  const updatedDate = new Date(updatedAt);
+
+  // 변환한 Date 객체를 사용하여 시간과 분을 추출
+  const hours = updatedDate.getHours();
+  const minutes = updatedDate.getMinutes();
+
+  // 시간과 분을 문자열로 변환하고, 필요한 경우 0을 추가하여 두 자리로 표시
+  const formattedHours = hours % 12 || 12; // 0시는 12시로 표시, 12시는 그대로 표시
+  const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+
+  // 오전 또는 오후 표시
+  const amPm = hours >= 12 ? "오후" : "오전";
+
+  // 시간과 분을 조합하여 오전/오후와 시간:분 형식으로 표시
+  const formattedTime = `${amPm} ${formattedHours}:${formattedMinutes}`;
+
   return (
     <li
       className={cls(
@@ -44,7 +61,7 @@ const Message = ({ message, updatedAt, user, $reversed }: MessageProps) => {
       </div>
       {/* 채팅 작성 시간 */}
       <span className="self-end text-right text-sm text-gray-500">
-        {timeFormat(updatedAt)}
+        {formattedTime}
       </span>
     </li>
   );

@@ -41,6 +41,9 @@ const Chats: NextPage = () => {
           data.rooms.map((room, index) => (
             <Link key={room.id} href={`/chats/${room.id}`}>
               <p className="flex cursor-pointer items-center space-x-3 rounded-md px-4 py-3 transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-offset-2">
+                <div className="absolute left-[620px] top-[80px] inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500 text-xs font-bold text-white dark:border-gray-900">
+                  2
+                </div>
                 <div
                   className={cls(
                     "flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full  bg-black", // 동그란 원 스타일

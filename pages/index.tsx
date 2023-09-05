@@ -61,7 +61,7 @@ const Home: NextPage<ServiceResponse> = () => {
 
   return (
     <Layout hasTabBar title="요청서 리스트 📝">
-      <div className="flex flex-col px-4">
+      <div className="flex flex-col px-4 ">
         <form onSubmit={handleSearch}>
           <div className="flex pt-4 ">
             <label

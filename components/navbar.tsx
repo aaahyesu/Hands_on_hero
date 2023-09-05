@@ -25,7 +25,7 @@ export default function Layout({
       <div
         className={cls(
           !canGoBack ? "justify-right" : "",
-          "justify-right fixed top-0 flex h-12 w-full max-w-xl items-center border-b bg-white px-4 text-lg font-medium text-gray-800"
+          "justify-right fixed top-0 flex h-12 w-full max-w-xl items-center border-b-2 bg-gray-50 px-4 text-lg font-[600] text-gray-800"
         )}
       >
         {canGoBack ? (
@@ -105,6 +105,10 @@ export default function Layout({
                   clipRule="evenodd"
                 />
               </svg>
+              <div className="absolute bottom-[50px] left-[200px] inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500 text-xs font-bold text-white dark:border-gray-900">
+                8
+              </div>
+
               <span>채팅</span>
             </span>
           </Link>
