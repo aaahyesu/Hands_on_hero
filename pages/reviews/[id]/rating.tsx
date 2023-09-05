@@ -22,10 +22,10 @@ const ReviewList: NextPage = () => {
   const [score4, setRated4] = React.useState(4);
 
   const serviceId = data?.service?.id;
-  console.log(data);
 
+  console.log(data?.service?.userId);
   const handleReviewSubmit = async () => {
-    const response = await fetch(`/api/users/${router.query.id}/reviews`, {
+    const response = await fetch(`/api/users/${data?.service?.userId}/reviews`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,8 +36,7 @@ const ReviewList: NextPage = () => {
         score3: +score3,
         score4: +score4,
         serviceId: +serviceId,
-
-        createdForId: router.query.id,
+        createdForId: data?.service?.userId,
       }),
     });
 
