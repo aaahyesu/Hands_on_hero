@@ -7,7 +7,7 @@ const MyPage: NextPage = () => {
   const { user } = useUser();
   console.log(user?.id);
   return (
-    <Layout hasTabBar title="마이페이지">
+    <Layout hasTabBar title="🖐️ 마이페이지 🖐️">
       <div className="px-4 py-4">
         <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
           <div className="h-12 w-12 rounded-full bg-gray-500" />
