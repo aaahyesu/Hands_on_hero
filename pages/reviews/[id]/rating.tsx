@@ -15,6 +15,7 @@ const ReviewList: NextPage = () => {
   const router = useRouter();
   const { user, isLoading } = useUser();
   const { data } = useSWR(`/api/services/${router.query.id}`);
+  console.log(data);
 
   const [score1, setRated1] = React.useState(4);
   const [score2, setRated2] = React.useState(4);
@@ -22,7 +23,6 @@ const ReviewList: NextPage = () => {
   const [score4, setRated4] = React.useState(4);
 
   const serviceId = data?.service?.id;
-  console.log(data);
 
   const handleReviewSubmit = async () => {
     const response = await fetch(`/api/users/${router.query.id}/reviews`, {
@@ -36,10 +36,10 @@ const ReviewList: NextPage = () => {
         score3: +score3,
         score4: +score4,
         serviceId: +serviceId,
-
         createdForId: router.query.id,
       }),
     });
+    console.log(router.query.id);
 
     const responseData = await response.json();
     if (responseData.ok) {
