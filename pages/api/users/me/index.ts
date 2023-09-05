@@ -31,15 +31,15 @@ async function handler(
     }
     if (method === "POST") {
       const {
-        session: {user},
-        body: {email, name},
+        session: { user },
+        body: { email, name },
       } = req;
       const checkUser = await prisma.user.findUnique({
         where: {
           id: user?.id,
-        }
-      })
-      if(email && email !== checkUser?.email) {
+        },
+      });
+      if (email && email !== checkUser?.email) {
         const Exit = Boolean(
           await prisma.user.findUnique({
             where: {
@@ -47,14 +47,14 @@ async function handler(
             },
             select: {
               id: true,
-            }
+            },
           })
         );
-        if(Exit) {
+        if (Exit) {
           return res.json({
             ok: false,
-            error:"email alreay",
-            message: "email alreay"
+            error: "email alreay",
+            message: "email alreay",
           });
         }
         await prisma.user.update({
@@ -63,15 +63,15 @@ async function handler(
           },
           data: {
             email,
-          }
+          },
         });
         res.json({
           ok: true,
-          message: "email update"
+          message: "email update",
         });
       }
 
-      if(name && name !== checkUser?.name) {
+      if (name && name !== checkUser?.name) {
         const Exit = Boolean(
           await prisma.user.findUnique({
             where: {
@@ -79,10 +79,10 @@ async function handler(
             },
             select: {
               id: true,
-            }
+            },
           })
         );
-        if(Exit) {
+        if (Exit) {
           return res.json({
             ok: false,
             message: "name alreay",
@@ -95,11 +95,11 @@ async function handler(
           },
           data: {
             name,
-          }
+          },
         });
         res.json({
           ok: true,
-          message: "name update"
+          message: "name update",
         });
       }
     }
@@ -127,25 +127,3 @@ async function handler(
 export default withApiSession(
   withHandler({ methods: ["GET", "POST", "DELETE"], handler })
 );
-
-// import { NextApiRequest, NextApiResponse } from "next";
-// import withHandler, { ResponseType } from "@/libs/server/withHandler";
-// import client from "@/libs/server/client";
-// import { withApiSession } from "@/libs/server/withSession";
-
-// async function handler(
-//   req: NextApiRequest,
-//   res: NextApiResponse<ResponseType>
-// ) {
-//   console.log(req.session.user);
-//   const profile = await client.user.findUnique({
-//     where: { id: req.session.user?.id },
-//   });
-//   res.json({
-//       ok: true,
-//       profile,
-//       message: "clear"
-//   });
-// }
-
-// export default withApiSession(withHandler({ methods: ["GET"], handler }));

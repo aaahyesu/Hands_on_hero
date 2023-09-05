@@ -14,7 +14,6 @@ import Button from "@/components/Button";
 
 // component
 import Message from "@/components/message";
-import Complete from "@/pages/services/[id]/complete";
 
 // type
 import {
@@ -30,7 +29,6 @@ import useMe from "@/libs/client/useMe";
 import useSWRInfinite from "swr/infinite";
 import useMutation from "@/libs/client/useMutation";
 import Spinner from "@/components/spinner";
-import { error } from "console";
 import Layout from "@/components/navbar";
 import useUser from "@/libs/client/useUser";
 import Service from "@/components/Service";
@@ -68,6 +66,24 @@ const ChatDetail: NextPage = () => {
 
   const toggleBanner = () => {
     setIsBannerOpen((prev) => !prev);
+  };
+
+  // 수락하기 -> 서비스 완료/미완료 버튼 변경
+  const [isAccepted, setIsAccepted] = useState(false);
+
+  const handleAccept = () => {
+    setIsAccepted(true);
+    // 여기에서 수락하기 버튼을 눌렀을 때의 로직을 추가.
+  };
+
+  const handleServiceComplete = () => {
+    setIsAccepted(false);
+    // 여기에서 서비스 완료 버튼을 눌렀을 때의 로직을 추가할 수 있습니다.
+  };
+
+  const handleServiceIncomplete = () => {
+    setIsAccepted(false);
+    // 여기에서 서비스 미완료 버튼을 눌렀을 때의 로직을 추가할 수 있습니다.
   };
 
   // 채팅 폼
@@ -209,13 +225,19 @@ const ChatDetail: NextPage = () => {
   const [exitRoom, { data: exitRoomResponse, loading: exitRoomLoading }] =
     useMutation<IExitRoomResponse>(`/api/chats/room`, "DELETE");
   // 채팅방 나가기
-  const onExitRoom = useCallback(
-    () =>
-      exitRoom({
+  const onExitRoom = useCallback(async () => {
+    try {
+      await exitRoom({
         roomId: router.query.id,
-      }),
-    [exitRoom, router]
-  );
+      });
+      toast.success("채팅방을 나갔습니다.");
+      router.push("/chats"); // 채팅 목록 페이지로 이동
+    } catch (error) {
+      // 오류 처리
+      console.error("채팅방 나가기 오류:", error);
+      toast.error("채팅방 나가기 중 오류가 발생했습니다.");
+    }
+  }, [exitRoom, router]);
 
   // 채팅방 나가기 성공 메시지
   useEffect(() => {
@@ -224,6 +246,18 @@ const ChatDetail: NextPage = () => {
       router.back();
     }
   }, [exitRoomResponse, router]);
+
+  // 모달 스타일을 설정
+  const modalStyles: React.CSSProperties = {
+    position: "fixed",
+    left: "50%",
+    top: "80%",
+    transform: "translate(-50%, -50%)",
+    zIndex: 1000, // 다른 컨텐츠 위에 나타나도록 zIndex 설정
+    maxHeight: "90vh", // 모달의 최대 높이 조절
+    width: "100%", // 모달의 가로 길이 설정
+    maxWidth: "500px", // 모달의 최대 너비 설정 (예: 'lg' 또는 '2xl')
+  };
 
   return (
     <Layout canGoBack title="채팅">
@@ -247,18 +281,45 @@ const ChatDetail: NextPage = () => {
               요청서 바로가기
             </a>{" "}
             <div className="flex items-center justify-center space-x-8">
-              <button
-                type="button"
-                className="rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                수락하기
-              </button>
-              <button
-                type="button"
-                className="rounded-lg bg-white px-4 py-2.5 text-center text-sm font-medium text-black focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                거절하기
-              </button>
+              {!isAccepted ? (
+                <>
+                  <button
+                    type="button"
+                    className="rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    onClick={handleAccept}
+                  >
+                    수락하기
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded-lg bg-white px-4 py-2.5 text-center text-sm font-medium text-black focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    onClick={onExitRoom}
+                  >
+                    거절하기
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href={`/services/${data?.room?.Service?.id}/complete`}>
+                    <button
+                      type="button"
+                      className={`rounded-lg bg-green-500 px-4 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
+                      onClick={handleServiceComplete}
+                    >
+                      서비스 완료
+                    </button>
+                  </Link>
+                  <Link href={"/"}>
+                    <button
+                      type="button"
+                      className={`rounded-lg bg-red-500 px-4 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
+                      onClick={handleServiceIncomplete}
+                    >
+                      서비스 미완료
+                    </button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         ) : (
@@ -367,6 +428,7 @@ const ChatDetail: NextPage = () => {
           </button>
           {isModalOpen && (
             <div
+              style={modalStyles}
               className="fixed left-0 right-0 top-0 z-50 h-[calc(100%-1rem)] max-h-full w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0"
               id="crypto-modal"
               tabIndex={-1}
@@ -468,37 +530,6 @@ const ChatDetail: NextPage = () => {
                         </span>
                       </Link>
                     </nav>
-
-                    {/* 하단 선택 버튼 */}
-                    <div className="flex flex-col items-center space-x-1">
-                      <nav className="flex w-full max-w-xl flex-col justify-between border-t border-gray-200 bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
-                        <div className="flex items-center space-x-2 rounded-b p-6 dark:border-gray-600 ">
-                          <Link
-                            href={`/services/${data?.room?.Service?.id}/complete`}
-                          >
-                            <button
-                              data-modal-hide="small-modal"
-                              type="button"
-                              className="rounded-lg bg-black px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-black focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            >
-                              서비스 완료
-                            </button>
-                          </Link>
-                          <div className="rounded-b p-6 dark:border-gray-600">
-                            <Link href="">
-                              <button
-                                data-modal-hide="medium-modal"
-                                type="button"
-                                className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-center text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600"
-                              >
-                                서비스 미완료
-                              </button>
-                            </Link>
-                          </div>
-                        </div>
-                      </nav>
-                    </div>
-                    <ul className="my-4 space-y-3">{/* Wallet options */}</ul>
                   </div>
                 </div>
               </div>
