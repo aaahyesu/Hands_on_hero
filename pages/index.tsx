@@ -12,9 +12,6 @@ interface Count extends Service {
     liked: number;
     room: number;
   };
-  state?: {
-    kind: "Start" | "Complete" | "Incomplete";
-  }[];
 }
 
 interface ServiceResponse {
@@ -32,7 +29,7 @@ const Home: NextPage<ServiceResponse> = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const filterSearchResults = (services: Count[]) => {
-    return services.filter((service) => {
+    return services?.filter((service) => {
       if (selectedOption === "제목") {
         return service.title
           .toLowerCase()
@@ -177,7 +174,7 @@ const Home: NextPage<ServiceResponse> = () => {
               state={service.state}
               room={service._count.room}
               link={`/services/${service.id}`}
-              // kind="Incomplete"
+              status={service?.status}
             />
           ))}
         <Link href="/services/upload">

@@ -1,11 +1,5 @@
 import Link from "next/link";
 
-enum Kind {
-  Start = "Start",
-  Complete = "Complete",
-  Incomplete = "Incomplete",
-}
-
 interface ListProps {
   id: number;
   title: string;
@@ -15,10 +9,9 @@ interface ListProps {
   Method: string;
   Cost: number;
   liked: number;
-  state?: { kind: "Start" | "Complete" | "Incomplete" }[];
-  room: number;
-  kind: "Start" | "Complete" | "Incomplete";
   link:string;
+  room: number;
+  status: "Start" | "Complete" | "Incomplete" | "None";
 }
 
 export default function List({
@@ -30,36 +23,45 @@ export default function List({
   Method,
   Cost,
   liked,
-  state,
   room,
-  kind,
   link,
+  status,
 }: ListProps) {
+
+  let statusText = "";
+  let statusClass = "";
+
+  if (status === "Start") {
+    statusText = "서비스 중";
+    statusClass = "bg-blue-500";
+  } else if (status === "Complete") {
+    statusText = "서비스 완료";
+    statusClass = "bg-blue-400";
+  } else if (status === "Incomplete") {
+    statusText = "서비스 미완료";
+    statusClass = "bg-gray-500";
+  } else if (status === "None"){}
+  
   return (
     <Link href={link}>
-      <div className="flex space-x-3">
-        <div className="flex flex-col pt-5">
-          <span className="mb-3 text-[25px] font-bold text-black">{title}</span>
-          <span className="text-lg text-gray-500">{serviceDate}</span>
-          <span className="text-lg text-gray-500">
-            {startTime} ~ {endTime}
-          </span>
-          <span className="text-lg text-gray-500">{Method}</span>
-          <span className="mt-1 text-[20px] font-medium text-gray-900">
-            {Cost}원
-          </span>
-        </div>
+    <div className="flex space-x-3">
+      <div className="flex flex-col pt-5">
+        <span className="mb-3 text-[25px] font-bold text-black">{title}</span>
+        <span className="text-lg text-gray-500">{serviceDate}</span>
+        <span className="text-lg text-gray-500">
+          {startTime} ~ {endTime}
+        </span>
+        <span className="text-lg text-gray-500">{Method}</span>
+        <span className="mt-1 text-[20px] font-medium text-gray-900">
+          {Cost}원
+        </span>
       </div>
-      {state?.some((s) => s.kind === Kind.Start)&& (
-        <span className="rounded-md bg-orange-500 p-2 text-xs text-white">서비스 중</span>
-        )}
-        {kind === "Complete" && (
-        <span className="rounded-md bg-orange-500 p-2 text-xs text-white">서비스 완료</span>
-        )}
-        {kind === "Incomplete" && (
-        <span className="rounded-md bg-orange-500 p-2 text-xs text-white">서비스 미완료</span>
-        )}
+    </div>
       <div className="flex items-end justify-end space-x-2">
+      <div className={`rounded-md p-2 px-4 text-xs text-center text-white ${statusClass}`}>
+        {statusText}
+      </div>
+        <div className="flex flex-grow justify-end"></div>
         <div className="text-5 flex items-center space-x-0.5  text-gray-600">
           <svg
             className="h-7 w-7"
