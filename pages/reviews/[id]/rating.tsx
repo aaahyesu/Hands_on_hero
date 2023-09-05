@@ -23,7 +23,6 @@ const ReviewList: NextPage = () => {
 
   const serviceId = data?.service?.id;
 
-  console.log(data?.service?.userId);
   const handleReviewSubmit = async () => {
     const response = await fetch(`/api/users/${data?.service?.userId}/reviews`, {
       method: "POST",

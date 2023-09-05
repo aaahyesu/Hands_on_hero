@@ -43,7 +43,7 @@ const EditProfile: NextPage = () => {
         <div className="w-32 h-32 rounded-full bg-slate-500" />
         <label
           htmlFor="picture"
-          className="cursor-pointer py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 text-gray-700"
+          className="cursor-pointer py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium focus:ring-2 text-gray-700"
         >
           사진 변경하기
           <input id="picture" type="file" className="hidden" accept="image/*" />
@@ -72,7 +72,7 @@ const EditProfile: NextPage = () => {
           />
       {errors.formErrors ? (<span className="my-2 text-red-500 font-medium block">{errors.formErrors.message}</span>) : null}
       </div>
-      <button className="mt-5 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 focus:outline-none ">
+      <button className="mt-5 w-full bg-black hover:bg-gray-800 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium ">
       수정하기
       </button>
     </form>

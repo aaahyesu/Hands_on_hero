@@ -7,6 +7,7 @@ import Input from "@/components/input";
 import { Service } from "@prisma/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import TextArea from "@/components/textarea";
 
 interface UploadServiceForm {
   title: String;
@@ -44,7 +45,6 @@ const Upload: NextPage = () => {
           <Input
             register={register("title", { required: true })}
             required
-            //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
             type="text"
             placeholder="제목을 입력해주세요."
             label="제목"
@@ -53,16 +53,12 @@ const Upload: NextPage = () => {
           />
         </div>
 
-        <Input
+        <TextArea
           register={register("content", { required: true })}
-          //id="content"
           required
-          //className="h-24 w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
-          type="text"
           label="상세 요청내용"
           placeholder="요청서 내용을 입력해주세요."
           name="content"
-          kind="textArea"
         />
 
         <div className="my-4">
@@ -70,7 +66,6 @@ const Upload: NextPage = () => {
             register={register("Method", { required: true })}
             //id="serviceMethod"
             required
-            //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
             type="text"
             placeholder="화상통화, 원격접속 등 "
             label="서비스 방법을 선택해주세요."
@@ -96,7 +91,6 @@ const Upload: NextPage = () => {
                 label=""
                 name="serviceDate"
                 kind="time"
-                //className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
               />
             </div>
           </div>
@@ -115,7 +109,6 @@ const Upload: NextPage = () => {
                 label=""
                 name="startTime"
                 kind="time"
-                //className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
               />
             </div>
           </div>
@@ -133,7 +126,6 @@ const Upload: NextPage = () => {
               label=""
               name="endTime"
               kind="time"
-              //className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
             />
           </div>
         </div>
@@ -142,7 +134,6 @@ const Upload: NextPage = () => {
             <Input
               register={register("Cost", { required: true })}
               required
-              //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 pl-7 shadow-sm focus:border-black focus:outline-none"
               type="number"
               placeholder=""
               label="서비스 비용을 입력해주세요."

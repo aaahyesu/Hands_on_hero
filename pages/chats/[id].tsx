@@ -5,8 +5,6 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { Socket, io } from "socket.io-client";
 import useSWR from "swr";
-
-import ServiceInfo from "@/components/Service";
 import Link from "next/link";
 
 // common-component
@@ -14,7 +12,6 @@ import Button from "@/components/Button";
 
 // component
 import Message from "@/components/message";
-import Complete from "@/pages/services/[id]/complete";
 
 // type
 import {
@@ -50,12 +47,9 @@ type ChatForm = {
 
 const ChatDetail: NextPage = () => {
   const router = useRouter();
-  const { user, isLoading } = useUser();
   const { data } = useSWR(`/api/chats/${router.query.id}`);
   const { me } = useMe();
-  console.log(data);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -225,6 +219,28 @@ const ChatDetail: NextPage = () => {
     }
   }, [exitRoomResponse, router]);
 
+  const handleServiceComplete = async () => {
+    const serviceId = 1;
+    try {
+      // Make the API request to mark the service as complete
+      const response = await fetch(`/api/status/${serviceId}/complete`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        toast.success("서비스가 완료되었습니다.");
+      } else {
+        toast.error("error occurred");
+      }
+    } catch (error) {
+      console.error("API request error:", error);
+      toast.error("An error occurred during the API request.");
+    }
+  };
+  
+  console.log(data?.room?.Service?.Method);
   return (
     <Layout canGoBack title="채팅">
       <div
@@ -239,6 +255,7 @@ const ChatDetail: NextPage = () => {
               title={data?.room?.Service?.title}
               serviceDate={data?.room?.Service?.serviceDate}
               Method={data?.room?.Service?.Method}
+              status={data?.room?.Service?.status}
             />
             <a
               className="text-primary-600 dark:text-primary-500 font-medium underline hover:no-underline"
@@ -427,7 +444,7 @@ const ChatDetail: NextPage = () => {
                           <span>화상통화</span>
                         </span>
                       </Link>
-                      <Link href="/chats">
+                      <Link href={`/remote/${router.query.id}`}>
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -473,19 +490,18 @@ const ChatDetail: NextPage = () => {
                     <div className="flex flex-col items-center space-x-1">
                       <nav className="flex w-full max-w-xl flex-col justify-between border-t border-gray-200 bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
                         <div className="flex items-center space-x-2 rounded-b p-6 dark:border-gray-600 ">
-                          <Link
-                            href={`/services/${data?.room?.Service?.id}/complete`}
-                          >
+                          <Link href={`/services/${data?.room?.Service?.id}/complete`}>
                             <button
-                              data-modal-hide="small-modal"
                               type="button"
+                              onClick={handleServiceComplete}
                               className="rounded-lg bg-black px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-black focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             >
                               서비스 완료
                             </button>
                           </Link>
+                          
                           <div className="rounded-b p-6 dark:border-gray-600">
-                            <Link href="">
+                            <Link href="/">
                               <button
                                 data-modal-hide="medium-modal"
                                 type="button"

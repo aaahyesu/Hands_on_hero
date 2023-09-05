@@ -2,28 +2,30 @@ import type { NextPage } from "next";
 import Layout from "@/components/navbar";
 import useSWR from "swr";
 import List from "@/components/list";
-const ResponseList: NextPage = () => {
+const service: NextPage = () => {
   const { data } = useSWR(`/api/users/me/responselist`);
+  console.log(data?.responselists);
   return (
     <Layout hasTabBar canGoBack title="수락 요청서 목록">
       <div className="flex flex-col space-y-5 py-2 px-4">
-          {data?.responselists?.map((responselist) => (
+          {data?.responselists?.map((service) => (
             <List
-              key={responselist.id}
-              id={responselist.service.id}
-              title={responselist.service.title}
-              serviceDate={responselist.service.serviceDate}
-              startTime={responselist.service.startTime}
-              endTime={responselist.service.endTime}
-              Cost={responselist.service.Cost}
-              liked={responselist.service._count.liked}
-              room={responselist.service._count.room} 
-              Method={""} 
-              link={`/services/${responselist.service.id}`}           />
+              key={service?.id}
+              id={service?.id}
+              title={service?.title}
+              serviceDate={service?.serviceDate}
+              startTime={service?.startTime}
+              endTime={service?.endTime}
+              Cost={service?.Cost}
+              liked={service?._count?.liked}
+              room={service?._count?.room}
+              Method={""}
+              link={`/services/${service.id}`} 
+              status={service?.status}           />
               ))} 
         </div>
     </Layout>
   );
 };
 
-export default ResponseList;
+export default service;

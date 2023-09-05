@@ -26,15 +26,6 @@ async function handler(
       message: "ok"
     });
   }
-//   if (req.method === "GET") {
-//     const virtual = await client.user.findMany({
-//     });
-//     res.json({
-//       ok: true,
-//       virtual,
-//       message: "o"
-//     });
-//   }
 }
 
 export default withApiSession(
