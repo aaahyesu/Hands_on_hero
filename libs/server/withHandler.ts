@@ -13,7 +13,7 @@ export interface CommonResult {
   [key: string]: any;
 }
 
-type method = "GET" | "POST" | "DELETE" | "PUT";
+type method = "GET" | "POST" | "DELETE" | "PUT" | "PATCH";
 
 interface ConfigType {
   methods: method[];

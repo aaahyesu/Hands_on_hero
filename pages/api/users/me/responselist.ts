@@ -7,24 +7,18 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const {
-    session: { user },
-  } = req;
-  const responselists = await client.responselist.findMany({
+  const responselists = await client.service.findMany({
     where: {
-      userId: user?.id,
+      status: "Start",
     },
     include: {
-      service: {
-        include: {
-          _count: {
-            select: {
-              liked: true,
-              room: true,
-            }
-          }
-        }
-      }
+      _count: {
+        select: {
+          liked: true,
+          room: true,
+        },
+      },
+
     },
     orderBy: { createdAt: "desc" },
   });

@@ -27,7 +27,6 @@ model User {
   services          Service[] 
   inquiries         Inquiry[]   
   answers           Answer[]
-  responselists     Responselist[] 
   liked             Liked[] 
   writtenReviews    Review[]        @relation(name: "WrittenReviews")
   receivedReviews   Review[]        @relation(name: "ReceivedReviews")       
@@ -61,7 +60,6 @@ model Service {
   Cost              Int
   Method            String
   liked             Liked[]
-  responselists     Responselist[] 
   reivew            Review[]  
   room              Room[]  
   status            ServiceStatus
@@ -79,19 +77,6 @@ enum ServiceStatus {
 }
 
 model Liked {
-  id          Int         @id @default(autoincrement())
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int
-  service     Service     @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  serviceId   Int
-
-  @@index([serviceId])
-  @@index([userId])
-}
-
-model Responselist {
   id          Int         @id @default(autoincrement())
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt

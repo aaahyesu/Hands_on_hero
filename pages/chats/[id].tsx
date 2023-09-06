@@ -5,8 +5,6 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import { Socket, io } from "socket.io-client";
 import useSWR from "swr";
-
-import ServiceInfo from "@/components/Service";
 import Link from "next/link";
 
 // common-component
@@ -48,12 +46,9 @@ type ChatForm = {
 
 const ChatDetail: NextPage = () => {
   const router = useRouter();
-  const { user, isLoading } = useUser();
   const { data } = useSWR(`/api/chats/${router.query.id}`);
   const { me } = useMe();
-  console.log(data);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -76,10 +71,10 @@ const ChatDetail: NextPage = () => {
     // 여기에서 수락하기 버튼을 눌렀을 때의 로직을 추가.
   };
 
-  const handleServiceComplete = () => {
-    setIsAccepted(false);
-    // 여기에서 서비스 완료 버튼을 눌렀을 때의 로직을 추가할 수 있습니다.
-  };
+  // const handleServiceComplete = () => {
+  //   setIsAccepted(false);
+  //   // 여기에서 서비스 완료 버튼을 눌렀을 때의 로직을 추가할 수 있습니다.
+  // };
 
   const handleServiceIncomplete = () => {
     setIsAccepted(false);
@@ -247,6 +242,28 @@ const ChatDetail: NextPage = () => {
     }
   }, [exitRoomResponse, router]);
 
+  const handleServiceComplete = async () => {
+    const serviceId = 1;
+    setIsAccepted(false);
+    try {
+      // Make the API request to mark the service as complete
+      const response = await fetch(`/api/status/${serviceId}/complete`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        toast.success("서비스가 완료되었습니다.");
+      } else {
+        toast.error("error occurred");
+      }
+    } catch (error) {
+      console.error("API request error:", error);
+      toast.error("An error occurred during the API request.");
+    }
+  };
+  
   // 모달 스타일을 설정
   const modalStyles: React.CSSProperties = {
     position: "fixed",
@@ -273,6 +290,7 @@ const ChatDetail: NextPage = () => {
               title={data?.room?.Service?.title}
               serviceDate={data?.room?.Service?.serviceDate}
               Method={data?.room?.Service?.Method}
+              status={data?.room?.Service?.status}
             />
             <a
               className="text-primary-600 dark:text-primary-500 font-medium underline hover:no-underline"
@@ -489,7 +507,7 @@ const ChatDetail: NextPage = () => {
                           <span>화상통화</span>
                         </span>
                       </Link>
-                      <Link href="/chats">
+                      <Link href={`/remote/${router.query.id}`}>
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

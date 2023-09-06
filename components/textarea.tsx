@@ -21,7 +21,7 @@ interface TextAreaProps {
         {label ? (
           <label
             htmlFor={name}
-            className="mb-1 block text-sm font-medium text-gray-700"
+            className="mb-1 block text-sm font-bold text-gray-700"
           >
             {label}
           </label>
@@ -31,7 +31,7 @@ interface TextAreaProps {
           required={required}
           {...register}
           placeholder={placeholder}
-          className="mt-1 shadow-sm w-full focus:ring-blue-500 rounded-md border-gray-300 focus:border-blue-500"
+          className="mt-1 shadow-sm w-full focus:ring-gray-500 rounded-md border px-2 py-2 border-gray-500 focus:border-gray-500"
           rows={4}
           {...rest}
         />

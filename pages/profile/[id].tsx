@@ -13,11 +13,11 @@ const Profile: NextPage = () => {
   const { data } = useSWR(
     router.query.id ? `/api/users/${router.query.id}/reviews` : null
   );
-  console.log(data);
+
   return (
     <Layout canGoBack hasTabBar title="프로필 👤">
       <div className="px-4 py-10 ">
-        <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
+        <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm justify-between">
           <div className="flex items-center space-x-3">
             <div className="h-16 w-16 rounded-full bg-slate-500" />
             <div className="flex flex-col">
@@ -29,13 +29,12 @@ const Profile: NextPage = () => {
                 나의 가상 머니 : {user?.virtualAccount} 원
               </label>
             </div>
-            <div className="flex justify-end px-24"></div>
-            <Link href="/profile/edit">
-              <p className="hover shadow-3xl rounded-lg bg-black px-1.5 py-2 text-[14px] text-white hover:bg-gray-700">
-                프로필 수정하기
-              </p>
-            </Link>
           </div>
+          <Link href="/profile/edit">
+            <p className="hover shadow-3xl rounded-lg bg-black px-1.5 py-2 text-[14px] text-white hover:bg-gray-700">
+              프로필 수정하기
+            </p>
+          </Link>
         </div>
         <div className="px-4 py-6">
           <div className=" text-[23px] font-bold text-black">

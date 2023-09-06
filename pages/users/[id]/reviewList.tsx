@@ -22,7 +22,6 @@ const ReviewList: NextPage = () => {
             score2={reviews?.score2}
             score3={reviews?.score3}
             score4={reviews?.score4}
-            // Cost={services.Cost}
             serviceDate={reviews?.serviceDate}
             Method={reviews?.serviceMethod}
           />

@@ -129,7 +129,7 @@ const Home: NextPage<ServiceResponse> = () => {
               <input
                 type="search"
                 id="search-dropdown"
-                className="z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-50 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:border-l-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500"
+                className="z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-50 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:border-l-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-gray-500"
                 placeholder="검색어를 입력하세요 :)"
                 required
                 value={searchKeyword}
@@ -138,7 +138,7 @@ const Home: NextPage<ServiceResponse> = () => {
               <button
                 onClick={handleSearch}
                 type="submit"
-                className="border-black-700 absolute right-0 top-0 rounded-r-lg border bg-black p-3 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="border-black-700 absolute right-0 top-0 rounded-r-lg border bg-black p-3 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none dark:bg-gray-600 dark:hover:bg-gary-700 dark:focus:ring-gray-800"
               >
                 <svg
                   className="h-4 w-4"
@@ -171,14 +171,13 @@ const Home: NextPage<ServiceResponse> = () => {
               endTime={service.endTime}
               Method={service.Method}
               liked={service._count.liked}
-              state={service.state}
               room={service._count.room}
               link={`/services/${service.id}`}
               status={service?.status}
             />
           ))}
         <Link href="/services/upload">
-          <button className="fixed bottom-20 right-5 flex cursor-pointer justify-center rounded-full bg-black px-5 py-4 text-xl text-white shadow-xl transition-colors hover:bg-blue-400">
+          <button className="fixed bottom-20 right-5 flex cursor-pointer justify-center rounded-full bg-black px-5 py-4 text-xl text-white shadow-xl transition-colors hover:bg-gray-400">
             <svg
               className="h-7 w-7"
               xmlns="http://www.w3.org/2000/svg"

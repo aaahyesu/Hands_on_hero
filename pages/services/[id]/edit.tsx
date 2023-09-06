@@ -8,6 +8,7 @@ import { Service } from "@prisma/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import TextArea from "@/components/textarea";
 
 interface EditServiceForm {
   title: String;
@@ -35,9 +36,9 @@ const Update: NextPage = () => {
     if(data?.service?.content) setValue("content", data?.service?.content);
     if(data?.service?.Method) setValue("Method", data?.service?.Method);
     if(data?.service?.Cost) setValue("Cost", data?.service?.Cost);
-    // if(data?.service?.serviceDate) setValue("serviceDate", data?.service?.serviceDate);
-    // if(data?.service?.startTime) setValue("startTime", data?.service?.startTime);
-    // if(data?.service?.endTime) setValue("endTime", data?.service?.endTime);
+    if(data?.service?.serviceDate) setValue("serviceDate", data?.service?.serviceDate);
+    if(data?.service?.startTime) setValue("startTime", data?.service?.startTime);
+    if(data?.service?.endTime) setValue("endTime", data?.service?.endTime);
   }, [data, setValue]);
   const onValid = ({title, content, Method, Cost, serviceDate, startTime, endTime}: EditServiceForm) => {
     if(title === "" && content === "" && Method === "" && Cost === null && serviceDate === null && startTime === null && endTime === null) {
@@ -50,13 +51,20 @@ const Update: NextPage = () => {
       setError("formErrors", { message: data.error });
     }
   }, [data, setError]);
+
+  useEffect(() => {
+    if (data?.ok) {
+      router.replace(`/services/${router.query.id}/myservice`);
+    }
+  }, [data, router]);
+
   return (
     <Layout hasTabBar canGoBack title="요청서 수정">
       <form className="px-4" onSubmit={handleSubmit(onValid)}>
         <div className="my-4">
           <Input
             register={register("title")}
-            required={false}
+            required
             type="text"
             placeholder="제목을 입력해주세요."
             label="제목"
@@ -65,20 +73,18 @@ const Update: NextPage = () => {
           />
         </div>
 
-        <Input
+        <TextArea
           register={register("content")}
-          required={false}
-          type="text"
+          required
           label="상세 요청내용"
           placeholder="요청서 내용을 입력해주세요."
           name="content"
-          kind="textArea"
         />
 
         <div className="my-4">
           <Input
             register={register("Method")}
-            required={false}
+            required
             type="text"
             placeholder="화상통화, 원격접속 등 "
             label="서비스 방법을 선택해주세요."
@@ -98,7 +104,7 @@ const Update: NextPage = () => {
             <div className="relative flex items-center rounded-lg shadow-sm">
               <Input
                 register={register("serviceDate")}
-                required={false}
+                required
                 type="date"
                 placeholder=""
                 label=""
@@ -116,7 +122,7 @@ const Update: NextPage = () => {
             <div className="relative flex items-center rounded-lg shadow-sm">
               <Input
                 register={register("startTime")}
-                required={false}
+                required
                 type="time"
                 placeholder=""
                 label=""
@@ -133,7 +139,7 @@ const Update: NextPage = () => {
           <div className="relative flex items-center rounded-lg shadow-sm">
             <Input
               register={register("endTime")}
-              required={false}
+              required
               type="time"
               placeholder=""
               label=""
@@ -146,7 +152,7 @@ const Update: NextPage = () => {
           <div className="">
             <Input
               register={register("Cost")}
-              required={false}
+              required
               type="number"
               placeholder=""
               label="서비스 비용을 입력해주세요."

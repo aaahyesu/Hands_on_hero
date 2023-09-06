@@ -5,7 +5,7 @@ import useUser from "@/libs/client/useUser";
 
 const MyPage: NextPage = () => {
   const { user } = useUser();
-  console.log(user?.id);
+
   return (
     <Layout hasTabBar title="🖐️ 마이페이지 🖐️">
       <div className="px-4 py-4">

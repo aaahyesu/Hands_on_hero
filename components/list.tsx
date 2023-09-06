@@ -30,23 +30,29 @@ export default function List({
 
   let statusText = "";
   let statusClass = "";
+  let bgClass = "";
 
   if (status === "Start") {
     statusText = "서비스 중";
-    statusClass = "bg-blue-500";
+    statusClass = "bg-green-500";
+    bgClass = "dark:bg-green-900 dark:text-green-300 bg-green-100 text-green-800";
   } else if (status === "Complete") {
     statusText = "서비스 완료";
-    statusClass = "bg-blue-400";
+    statusClass = "bg-red-500";
+    bgClass = "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
   } else if (status === "Incomplete") {
     statusText = "서비스 미완료";
     statusClass = "bg-gray-500";
+    bgClass = "bg-gray-300 text-gray-800 dark:text-gray-800 dark:bg-gray-300 dark:text-gray-800"
   } else if (status === "None"){}
   
   return (
     <Link href={link}>
     <div className="flex space-x-3">
       <div className="flex flex-col pt-5">
+      <div className="flex items-center space-x-2">
         <span className="mb-3 text-[25px] font-bold text-black">{title}</span>
+      </div>
         <span className="text-lg text-gray-500">{serviceDate}</span>
         <span className="text-lg text-gray-500">
           {startTime} ~ {endTime}
@@ -57,10 +63,11 @@ export default function List({
         </span>
       </div>
     </div>
-      <div className="flex items-end justify-end space-x-2">
-      <div className={`rounded-md p-2 px-4 text-xs text-center text-white ${statusClass}`}>
+    <span className={`inline-flex items-center text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full ${bgClass}`}>
+      <span className={`w-2 h-2 mr-1 rounded-full ${statusClass}`}></span>
         {statusText}
-      </div>
+    </span>
+      <div className="flex items-end justify-end space-x-2">
         <div className="flex flex-grow justify-end"></div>
         <div className="text-5 flex items-center space-x-0.5  text-gray-600">
           <svg

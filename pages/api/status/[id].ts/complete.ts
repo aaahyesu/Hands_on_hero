@@ -7,26 +7,39 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-    const serviceId = req.body.serviceId; 
-    if (req.method === "POST") {
-        const complete = await client.service.update({
-            where: {
-                id: serviceId,
-            },
-            data: {
-                status: "Complete",
-            }
-    });
-    res.json({
-      ok: true,
-      complete,
-      message: "ok"
-    });
+  const {
+    query: { id },
+  } = req;
+  
+  if (req.method === "PATCH") {
+    try {
+      const updatedService = await client.service.update({
+        where: {
+          id: +id.toString(),
+        },
+        data: {
+          status: "Complete",
+        },
+      });
+
+      res.json({
+        ok: true,
+        updatedService,
+        message: "Service status updated to Complete",
+      });
+    } catch (error) {
+      console.error("Error updating service status:", error);
+      res.status(500).json({
+        ok: false,
+        message: "Internal server error",
+      });
+    }
   }
 }
+
 export default withApiSession(
-    withHandler({
-      methods: ["POST"],
-      handler,
-    })
-  );
+  withHandler({
+    methods: ["PATCH"],
+    handler,
+  })
+);
