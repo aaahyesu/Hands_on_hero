@@ -6,7 +6,6 @@ import type { NextPage } from "next";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-
 interface EditProfileForm {
   email?: string;
   name?: string;
@@ -18,18 +17,25 @@ interface EditProfileResponse {
   error?: string;
 }
 const EditProfile: NextPage = () => {
-  const {user} = useUser();
-  const { register, setValue, handleSubmit, setError, formState: {errors} } = useForm<EditProfileForm>();
+  const { user } = useUser();
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<EditProfileForm>();
   useEffect(() => {
-    if(user?.email) setValue("email", user?.email);
-    if(user?.name) setValue("name", user?.name);
+    if (user?.email) setValue("email", user?.email);
+    if (user?.name) setValue("name", user?.name);
   }, [user, setValue]);
-  const[editProfile, {data}] = useMutation<EditProfileResponse>(`/api/users/me`);
-  const onValid = ({email, name}:EditProfileForm) => {
-    if(email === "" && name === "") {
-      return setError("formErrors", { message:"수정할 내용을 입력해주세요."});
+  const [editProfile, { data }] =
+    useMutation<EditProfileResponse>(`/api/users/me`);
+  const onValid = ({ email, name }: EditProfileForm) => {
+    if (email === "" && name === "") {
+      return setError("formErrors", { message: "수정할 내용을 입력해주세요." });
     }
-    editProfile({ email, name});
+    editProfile({ email, name });
   };
   useEffect(() => {
     if (data && !data.ok && data.error) {
@@ -38,19 +44,30 @@ const EditProfile: NextPage = () => {
   }, [data, setError]);
   return (
     <Layout canGoBack hasTabBar title="프로필 수정">
-    <form onSubmit={handleSubmit(onValid)} className="py-10 px-4 space-y-4">
-      <div className="flex flex-col items-center space-y-5">
-        <div className="w-32 h-32 rounded-full bg-slate-500" />
-        <label
-          htmlFor="picture"
-          className="cursor-pointer py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm font-medium focus:ring-2 text-gray-700"
-        >
-          사진 변경하기
-          <input id="picture" type="file" className="hidden" accept="image/*" />
-        </label>
-      </div>
-      <div className="space-y-1">
-        <Input            
+      <form onSubmit={handleSubmit(onValid)} className="space-y-4 px-4 py-10">
+        <div className="flex flex-col items-center space-y-5">
+          <div className="h-32 w-32 rounded-full bg-slate-500">
+            <img
+              src="/superman_bg_white.png"
+              alt="Avatar"
+              className="h-full w-full rounded-full shadow-md"
+            />
+          </div>
+          <label
+            htmlFor="picture"
+            className="cursor-pointer rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 shadow-sm focus:ring-2"
+          >
+            사진 변경하기
+            <input
+              id="picture"
+              type="file"
+              className="hidden"
+              accept="image/*"
+            />
+          </label>
+        </div>
+        <div className="space-y-1">
+          <Input
             register={register("name")}
             name="name"
             kind="text"
@@ -59,9 +76,9 @@ const EditProfile: NextPage = () => {
             required={false}
             label="이름"
           />
-      </div>
-      <div className="space-y-1">
-        <Input            
+        </div>
+        <div className="space-y-1">
+          <Input
             name="email"
             kind="text"
             register={register("email")}
@@ -70,12 +87,16 @@ const EditProfile: NextPage = () => {
             required={false}
             label="이메일 주소"
           />
-      {errors.formErrors ? (<span className="my-2 text-red-500 font-medium block">{errors.formErrors.message}</span>) : null}
-      </div>
-      <button className="mt-5 w-full bg-black hover:bg-gray-800 text-white py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium ">
-      수정하기
-      </button>
-    </form>
+          {errors.formErrors ? (
+            <span className="my-2 block font-medium text-red-500">
+              {errors.formErrors.message}
+            </span>
+          ) : null}
+        </div>
+        <button className="mt-5 w-full rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-gray-800 ">
+          수정하기
+        </button>
+      </form>
     </Layout>
   );
 };

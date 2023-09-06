@@ -105,7 +105,7 @@ export default function Layout({
                   clipRule="evenodd"
                 />
               </svg>
-              <div className="absolute bottom-[50px] left-[200px] inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500 text-xs font-bold text-white dark:border-gray-900">
+              <div className="absolute bottom-[50px] left-[140px] inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500 text-xs font-bold text-white dark:border-gray-900">
                 8
               </div>
 

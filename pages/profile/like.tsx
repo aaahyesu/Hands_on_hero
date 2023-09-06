@@ -4,6 +4,8 @@ import Link from "next/link";
 import useSWR from "swr";
 import { Key } from "react";
 import List from "@/components/list";
+import service from "./response";
+import like from "../api/services/[id]/like";
 
 const Like: NextPage = () => {
   const { data } = useSWR(`/api/users/me/likes`);
@@ -24,6 +26,7 @@ const Like: NextPage = () => {
               room={liked.service._count.room}
               Method={""}
               link={`/services/${liked.service.id}`}
+              status={liked.service.status}
             />
           ))}
         </Link>

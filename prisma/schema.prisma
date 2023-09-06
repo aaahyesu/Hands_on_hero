@@ -62,7 +62,7 @@ model Service {
   liked             Liked[]
   reivew            Review[]  
   room              Room[]  
-  status            ServiceStatus
+  status            ServiceStatus?
 
   @@index([userId])
 
