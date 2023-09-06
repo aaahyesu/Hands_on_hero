@@ -12,7 +12,7 @@ async function handler(
     body: { title, content, Method, Cost, serviceDate, startTime, endTime },
     session: { user },
   } = req;
-  
+
   if (req.method === "GET") {
     const services = await client.service.findMany({
       include: {
@@ -31,10 +31,8 @@ async function handler(
       message: "모든 상품들을 가져왔습니다.",
       services,
     });
-
   }
   if (req.method === "POST") {
-
     const createService = await client.service.create({
       data: {
         title,
@@ -44,7 +42,7 @@ async function handler(
         serviceDate,
         startTime,
         endTime,
-        status : "None",
+        status: "None",
         user: {
           connect: {
             id: user?.id,
@@ -60,7 +58,4 @@ async function handler(
   }
 }
 
-
-export default withApiSession(
-  withHandler({ methods: ["GET", "POST"], handler })
-);
+export default withApiSession(withHandler({ methods: ["GET"], handler }));

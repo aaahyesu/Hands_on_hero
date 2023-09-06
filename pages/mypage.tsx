@@ -10,7 +10,14 @@ const MyPage: NextPage = () => {
     <Layout hasTabBar title="🖐️ 마이페이지 🖐️">
       <div className="px-4 py-4">
         <div className="flex items-center space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
-          <div className="h-12 w-12 rounded-full bg-gray-500" />
+          <div className="h-12 w-12 rounded-full bg-gray-500">
+            <img
+              src="/superman_bg_white.png"
+              alt="Avatar"
+              className="h-full w-full rounded-full shadow-md"
+            />{" "}
+          </div>
+
           <div className="flex-col-2 flex px-4">
             <span className="text-md font-bold text-gray-900">
               {user?.name}

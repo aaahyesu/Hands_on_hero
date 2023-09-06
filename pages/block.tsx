@@ -8,7 +8,13 @@ const Block: NextPage = () => {
       {[1, 1, 1, 1].map((_, i) => (
         <div key={i} className="border-b px-4">
           <div className="flex items-center space-x-3 rounded-lg px-3 py-3">
-            <div className="h-12 w-12 rounded-full bg-gray-500" />
+            <div className="h-12 w-12 rounded-full bg-gray-500">
+              <img
+                src="/superman_bg_white.png"
+                alt="Avatar"
+                className="h-full w-full rounded-full shadow-md"
+              />{" "}
+            </div>
             <div className="flex-col-2 flex px-4">
               <span className="text-md font-bold text-gray-900">김혜수</span>
             </div>
