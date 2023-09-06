@@ -4,24 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 
-import { ApiResponse, SimpleUser } from "types";
-import { Review, User } from "@prisma/client";
-
-import UserReview from "components/Review";
-import useUser from "@/libs/client/useUser";
-
-interface IReviewWithWriter extends Review {
-  createdBy: SimpleUser;
-}
-
-interface IReviewResponse extends ApiResponse {
-  reviews: IReviewWithWriter[];
-}
-
-interface IMeResponse extends ApiResponse {
-  user: User;
-}
-
 const Profile: NextPage = () => {
   const router = useRouter();
   const { data } = useSWR(`/api/users/${router.query.id}`);

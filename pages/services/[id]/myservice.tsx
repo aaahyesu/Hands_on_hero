@@ -10,11 +10,6 @@ interface ConnectUser extends Service {
   user: SimpleUser;
 }
 
-interface ListDetail {
-  ok: boolean;
-  service: ConnectUser;
-  liked: boolean;
-}
 
 interface ServiceResponse extends ApiResponse {
   service: ConnectUser;

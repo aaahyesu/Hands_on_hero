@@ -5,8 +5,6 @@ import Link from "next/link";
 import useSWR from "swr";
 import { Service } from "@prisma/client";
 import List from "@/components/list";
-import useUser from "@/libs/client/useUser";
-
 interface Count extends Service {
   _count: {
     liked: number;
@@ -19,10 +17,6 @@ interface ServiceResponse {
   services: Count[];
   service_count: number;
 }
-
-type titleForm = {
-  title: string;
-};
 
 const Home: NextPage<ServiceResponse> = () => {
   const { data } = useSWR<ServiceResponse>("/api/services");

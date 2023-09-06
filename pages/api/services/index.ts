@@ -2,8 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import client from "@/libs/server/client";
 import { withApiSession } from "@/libs/server/withSession";
-import { start } from "repl";
-
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
@@ -28,7 +26,7 @@ async function handler(
 
     res.status(200).json({
       ok: true,
-      message: "모든 상품들을 가져왔습니다.",
+      message: "모든 리스트를 가져왔습니다.",
       services,
     });
   }

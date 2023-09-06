@@ -28,11 +28,6 @@ const Money: NextPage = () => {
     if (loading) return;
     uploadinquiry(data);
   };
-  // useEffect(() => {
-  //   if (data && data.ok) {
-  //     router.push(`/inquires/${data.inquiry.id}`);
-  //   }
-  // }, [data, router]);
 
   return (
     <Layout hasTabBar canGoBack title="가상 머니 충전">
@@ -55,14 +50,12 @@ const Money: NextPage = () => {
         <Input
               register={register("virtualAccount", { required: true })}
               required
-              //className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 pl-7 shadow-sm focus:border-black focus:outline-none"
               type="number"
               placeholder=""
               label=""
               name="VirtualAccount"
               kind="price"
             />
-          {/* <input className="flex flex-col items-center  rounded-lg border border-gray-300 px-12 py-2 shadow-sm cursor-pointer text-center " /> */}
         </div>
       </div>
       <button className="px-60 mt-52 rounded-md border-2 border-transparent bg-black py-3 text-center font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-1 ">

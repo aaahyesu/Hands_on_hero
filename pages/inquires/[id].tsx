@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { Answer, Inquiry, User } from "@prisma/client";
 import Textarea from "@/components/textarea";
 import inquiry from "../api/inquiry";
+import useUser from "@/libs/client/useUser";
+import Link from "next/link";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -37,6 +39,7 @@ interface AnswerResponse {
 
 const CommunityPostDetail: NextPage = () => {
   const router = useRouter();
+  const {user} = useUser();
   const { register, handleSubmit, reset } = useForm<AnswerForm>();
   const { data, mutate } = useSWR<InquiryResponse>(
     router.query.id ? `/api/inquiry/${router.query.id}` : null
@@ -62,8 +65,7 @@ const CommunityPostDetail: NextPage = () => {
         <div className="mb-3 flex cursor-pointer items-center space-x-3  border-b px-4 pb-3">
           <div className="h-10 w-10 rounded-full bg-slate-300" />
           <div>
-            <p className="text-lg font-medium text-gray-700">이가영</p>
-            <p className="text-xs font-medium text-gray-500">프로필 보기</p>
+            <p className="text-lg font-medium text-gray-700">{user?.name}</p>
           </div>
         </div>
         <div>

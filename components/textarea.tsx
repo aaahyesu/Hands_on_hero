@@ -6,7 +6,6 @@ interface TextAreaProps {
     register: UseFormRegisterReturn;
     required: boolean;
     placeholder: string;
-    // [key: string]: any;
   }
   
   export default function TextArea({

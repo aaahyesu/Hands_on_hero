@@ -12,12 +12,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     if (method === "GET") {
-      // const page = +req.query.page;
-      // const offset = +req.query.offset;
+
 
       const chatsPromise = prisma.chat.findMany({
-        // take: offset,
-        // skip: page * offset,
         where: {
           roomId,
         },

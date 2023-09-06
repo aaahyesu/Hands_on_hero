@@ -12,11 +12,9 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   // 타겟
-  // const createdForId = +req.query.id;
+  const createdForId = +req.query.id;
   // 작성자
   const createdById = +req.session.user?.id!;
-
-  // const serviceId = +req.query.id;
 
   try {
     // ...

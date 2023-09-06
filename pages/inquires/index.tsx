@@ -20,12 +20,12 @@ const Community: NextPage = () => {
   const { data } = useSWR<InquiryResponse>(`/api/inquiry`);
   return (
     <Layout hasTabBar canGoBack title="문의 내역">
-      <div className="space-y-5 py-5">
+      <div className="space-y-5">
         {data?.inquiries?.map((inquiry) => (
           <Link key={inquiry.id} href={`/inquires/${inquiry.id}`}>
             <div
               key={inquiry.id}
-              className="flex cursor-pointer flex-col items-start hover:bg-gray-200"
+              className="flex cursor-pointer flex-col items-start pt-4 hover:bg-gray-200"
             >
               <span className="ml-4 flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
                 1:1 문의
@@ -35,8 +35,7 @@ const Community: NextPage = () => {
                 {inquiry.question}
               </div>
               <div className="mt-5 flex w-full items-center justify-between px-4 text-xs font-medium text-gray-500">
-                <span>이가영</span>
-                <span>1시간 전</span>
+                <span>{inquiry?.user?.name}</span>
               </div>
               <div className="mt-3 flex w-full space-x-5 border-b-[2px] border-t px-4 py-2.5  text-gray-700">
                 <span className="flex items-center space-x-2 text-sm">

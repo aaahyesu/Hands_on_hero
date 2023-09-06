@@ -2,7 +2,7 @@ import Input from "@/components/input";
 import useMutation from "@/libs/client/useMutation";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 interface EnterForm {
@@ -106,18 +106,6 @@ const Enter: NextPage = () => {
                   required
                 />
               </div>
-              {/* <div className="mt-1">
-              <Input
-                register={register("password", {required: true,})}
-                name="password"
-                label="비밀번호"
-                type="password"
-                kind="text"
-                placeholder="비밀번호를 입력해주세요."
-                required          
-              />
-            </div> */}
-
               <button className="text- mt-5 rounded-md border border-transparent bg-black px-4 py-2 font-medium text-white shadow-sm hover:bg-[#050708]/80 focus:outline-none focus:ring-2 focus:ring-[#050708] focus:ring-offset-2 ">
                 로그인
               </button>

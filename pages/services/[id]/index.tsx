@@ -14,9 +14,6 @@ import Button from "@/components/Button";
 
 interface ConnectUser extends Service {
   user: SimpleUser;
-  // states: {
-  //   kind: "Before" | "Reserved" | "End";
-  // }[];
 }
 
 interface ListDetail {
@@ -36,7 +33,6 @@ interface RoomResponse extends ApiResponse {
 const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
   const router = useRouter();
   const { me } = useMe();
-  // const states = service?.states?.map((v) => v.kind);
 
   const { mutate } = useSWRConfig();
   const { data, mutate: boundMutate } = useSWR<ListDetail>(
@@ -57,12 +53,10 @@ const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
       return toast.error("본인 요청서에는 채팅을 할 수 없습니다.");
     if (createRoomLoading)
       return toast.warning("채팅방을 생성중입니다.\n잠시 기다려주세요!");
-    // if (states?.includes("Reserved"))
-    //   return toast.warning("이미 서비스중인 사용자와 대화할 수 없습니다.");
-    // if (states?.includes("End"))
-    //   return toast.warning(
-    //     "이미 완료된 서비스이면 사용자와 대화할 수 없습니다."
-    //   );
+    if (data?.service?.status?.includes("Complete"))
+      return toast.warning("이미 완료된 서비스이면 사용자와 대화할 수 없습니다.");
+    if (data?.service?.status?.includes("Incomplete"))
+      return toast.warning("이미 미완료된 서비스이면 사용자와 대화할 수 없습니다.");
     createRoom({
       ownerId: data?.service?.userId,
       title: data?.service?.title,

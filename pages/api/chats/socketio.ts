@@ -19,7 +19,6 @@ export const config = {
   },
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
 async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
   if (!res.socket.server.io) {
     const httpServer: NetServer = res.socket.server as any;
@@ -32,7 +31,6 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
       path: "/api/chats/socketio",
     });
 
-    // res.socket.server.io = io;
 
     io.on("connection", (socket) => {
       console.log("소켓 연결 완료 >> ", socket.id);
