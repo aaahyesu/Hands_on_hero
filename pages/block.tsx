@@ -5,7 +5,7 @@ import Link from "next/link";
 const Block: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="⛔️ 사용자 차단 목록 ⛔️">
-      {[1, 1, 1, 1].map((_, i) => (
+      {[1].map((_, i) => (
         <div key={i} className="border-b px-4">
           <div className="flex items-center space-x-3 rounded-lg px-3 py-3">
             <div className="h-12 w-12 rounded-full bg-gray-500">
