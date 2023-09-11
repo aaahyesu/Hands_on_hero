@@ -65,21 +65,121 @@ const ChatDetail: NextPage = () => {
 
   // 수락하기 -> 서비스 완료/미완료 버튼 변경
   const [isAccepted, setIsAccepted] = useState(false);
+  
+  const renderButtons = () => {
+    const status = data?.room?.Service?.status;
 
-  const handleAccept = () => {
+    if (status === "None" && !isAccepted) {
+      return (
+        <>
+          <button
+            type="button"
+            className="hover hover:bg-gray-700 rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={handleAccept}
+          >
+            수락하기
+          </button>
+          <button
+            type="button"
+            className="hover hover:bg-gray-100 rounded-lg bg-white px-4 border-2 py-2.5 text-center text-sm font-medium text-black"
+            onClick={onExitRoom}
+          >
+            거절하기
+          </button>
+        </>
+      );
+    } else if (status === "Start") {
+      return (
+        <>
+          <Link href={`/services/${data.room.Service.id}/complete`}>
+            <button
+              type="button"
+              className="hover hover:bg-green-600 rounded-lg bg-green-500 px-4 py-2.5 text-center text-sm font-medium text-white"
+              onClick={handleServiceComplete}
+            >
+              서비스 완료
+            </button>
+          </Link>
+          <Link href={"/"}>
+            <button
+              type="button"
+              className="hover hover:bg-red-600 rounded-lg bg-red-500 px-4 py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={handleServiceIncomplete}
+            >
+              서비스 미완료
+            </button>
+          </Link>
+        </>
+      );
+    }
+
+    return null;
+  };
+
+
+  //서비스 수락
+  const handleAccept = async () => {
     setIsAccepted(true);
-    // 여기에서 수락하기 버튼을 눌렀을 때의 로직을 추가.
+    try {
+      const response = await fetch(`/api/status/${data?.room?.serviceId}/start`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        toast.success("서비스가 수락되었습니다.");
+      } else {
+        toast.error("error occurred");
+      }
+    } catch (error) {
+      console.error("API request error:", error);
+      toast.error("An error occurred during the API request.");
+    }
   };
 
-  // const handleServiceComplete = () => {
-  //   setIsAccepted(false);
-  //   // 여기에서 서비스 완료 버튼을 눌렀을 때의 로직을 추가할 수 있습니다.
-  // };
-
-  const handleServiceIncomplete = () => {
+  //서비스 완료
+  const handleServiceComplete = async () => {
     setIsAccepted(false);
-    // 여기에서 서비스 미완료 버튼을 눌렀을 때의 로직을 추가할 수 있습니다.
+    try {
+      const response = await fetch(`/api/status/${data?.room?.serviceId}/complete`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        toast.success("서비스가 완료되었습니다.");
+      } else {
+        toast.error("error occurred");
+      }
+    } catch (error) {
+      console.error("API request error:", error);
+      toast.error("An error occurred during the API request.");
+    }
   };
+
+  //서비스 미완료
+  const handleServiceIncomplete = async () => {
+    setIsAccepted(false);
+    try {
+      const response = await fetch(`/api/status/${data?.room?.serviceId}/incomplete`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) {
+        toast.success("서비스가 미완료되었습니다.");
+      } else {
+        toast.error("error occurred");
+      }
+    } catch (error) {
+      console.error("API request error:", error);
+      toast.error("An error occurred during the API request.");
+    }
+  };
+  
 
   // 채팅 폼
   const { register, handleSubmit, reset } = useForm<ChatForm>();
@@ -242,28 +342,6 @@ const ChatDetail: NextPage = () => {
     }
   }, [exitRoomResponse, router]);
 
-  const handleServiceComplete = async () => {
-    const serviceId = 1;
-    setIsAccepted(false);
-    try {
-      // Make the API request to mark the service as complete
-      const response = await fetch(`/api/status/${serviceId}/complete`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (response.ok) {
-        toast.success("서비스가 완료되었습니다.");
-      } else {
-        toast.error("error occurred");
-      }
-    } catch (error) {
-      console.error("API request error:", error);
-      toast.error("An error occurred during the API request.");
-    }
-  };
-  
   // 모달 스타일을 설정
   const modalStyles: React.CSSProperties = {
     position: "fixed",
@@ -281,7 +359,7 @@ const ChatDetail: NextPage = () => {
       <div
         id="banner"
         tabIndex={-1}
-        className={`fixed z-50 flex w-full items-start justify-between gap-8 border border-b border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-800 sm:items-center lg:py-4`}
+        className={`fixed z-50 flex w-full max-w-xl items-start justify-between gap-8 border border-b border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-800 sm:items-center lg:py-4`}
       >
         {isBannerOpen ? (
           <div className="flex flex-col space-y-3 px-2">
@@ -299,45 +377,7 @@ const ChatDetail: NextPage = () => {
               요청서 바로가기
             </a>{" "}
             <div className="flex items-center justify-center space-x-8">
-              {!isAccepted ? (
-                <>
-                  <button
-                    type="button"
-                    className="rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    onClick={handleAccept}
-                  >
-                    수락하기
-                  </button>
-                  <button
-                    type="button"
-                    className="rounded-lg bg-white px-4 py-2.5 text-center text-sm font-medium text-black focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    onClick={onExitRoom}
-                  >
-                    거절하기
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link href={`/services/${data?.room?.Service?.id}/complete`}>
-                    <button
-                      type="button"
-                      className={`rounded-lg bg-green-500 px-4 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
-                      onClick={handleServiceComplete}
-                    >
-                      서비스 완료
-                    </button>
-                  </Link>
-                  <Link href={"/"}>
-                    <button
-                      type="button"
-                      className={`rounded-lg bg-red-500 px-4 py-2.5 text-center text-sm font-medium text-white  focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
-                      onClick={handleServiceIncomplete}
-                    >
-                      서비스 미완료
-                    </button>
-                  </Link>
-                </>
-              )}
+            {renderButtons()}
             </div>
           </div>
         ) : (
@@ -385,7 +425,7 @@ const ChatDetail: NextPage = () => {
         </button>
       </div>
 
-      <article className="mb-[10vh] min-h-[70vh] space-y-4 rounded-sm bg-slate-200 p-4">
+      <article className="min-h-[73vh] space-y-4 rounded-sm bg-slate-200 p-4 pt-16">
         {loadChatsLoading && (
           <h3 className="rounded-md bg-indigo-400 p-2 text-center text-lg text-white">
             <Spinner kinds="button" />
@@ -427,7 +467,7 @@ const ChatDetail: NextPage = () => {
         <div>
           <button
             onClick={openModal}
-            className="fixed bottom-24 flex items-center justify-center rounded-md p-3 text-gray-400 hover:text-gray-500"
+            className="fixed bottom-[90px] flex items-center justify-center rounded-md p-3 text-gray-400 hover:text-gray-500"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -528,7 +568,7 @@ const ChatDetail: NextPage = () => {
                         </span>
                       </Link>
                       <Link href="api/services/block">
-                        <span className="flex flex-col items-center space-y-2">
+                        <button className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -543,9 +583,8 @@ const ChatDetail: NextPage = () => {
                               d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"
                             />
                           </svg>
-
                           <span>사용자 차단</span>
-                        </span>
+                        </button>
                       </Link>
                     </nav>
                   </div>
@@ -553,23 +592,23 @@ const ChatDetail: NextPage = () => {
               </div>
             </div>
           )}
-        </div>
         <form
           onSubmit={handleSubmit(onAddChatting)}
-          className="fixed inset-x-0 bottom-24 mx-12 flex w-10/12 max-w-lg justify-start rounded-md border border-black"
+          className="fixed bottom-[90px] mx-12 flex w-10/12 max-w-lg justify-start rounded-md border border-black"
         >
           <input
             type="text"
-            className="peer flex-[8.5] rounded-l-md placeholder:text-gray-400 focus:border-orange-400 focus:outline-none focus:ring-1"
+            className="peer flex-[8.5] rounded-l-md placeholder:text-gray-400 focus:border-gray-400 focus:outline-none focus:ring-1"
             {...register("chat")}
             autoFocus
           />
           <Button
             type="submit"
             text="전송"
-            className="flex-[1.5] rounded-r-md bg-black py-[10px] text-white  hover:bg-black focus:outline-orange-500 peer-focus:ring-1"
+            className="flex-[1.5] rounded-r-md bg-black py-[10px] text-white  hover:bg-black focus:outline-gray-500 peer-focus:ring-1"
           />
         </form>
+        </div>
       </article>
     </Layout>
   );

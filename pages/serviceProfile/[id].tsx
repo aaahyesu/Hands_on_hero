@@ -19,9 +19,6 @@ const Profile: NextPage = () => {
               <span className="font-bold text-gray-900">
                 {data?.user?.name}
               </span>
-              <Link href="/profile/edit">
-                <span className="text-sm text-gray-700 ">프로필 수정하기</span>
-              </Link>
             </div>
           </div>
         </div>

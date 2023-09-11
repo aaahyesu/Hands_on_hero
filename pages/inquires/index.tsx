@@ -16,7 +16,7 @@ interface InquiryResponse {
   inquiries: InquiryWithUser[];
 }
 
-const Community: NextPage = () => {
+const inquiry: NextPage = () => {
   const { data } = useSWR<InquiryResponse>(`/api/inquiry`);
   return (
     <Layout hasTabBar canGoBack title="문의 내역">
@@ -30,14 +30,14 @@ const Community: NextPage = () => {
               <span className="ml-4 flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
                 1:1 문의
               </span>
-              <div className="mt-2 px-4 text-gray-700">
+              <div className="mt-4 px-4 text-gray-700">
                 <span className="font-medium text-black">Q.</span>{" "}
                 {inquiry.question}
               </div>
               <div className="mt-5 flex w-full items-center justify-between px-4 text-xs font-medium text-gray-500">
                 <span>{inquiry?.user?.name}</span>
               </div>
-              <div className="mt-3 flex w-full space-x-5 border-b-[2px] border-t px-4 py-2.5  text-gray-700">
+              <div className="mt-6 flex w-full space-x-5 border-b-[2px] border-t px-4 py-2.5  text-gray-700">
                 <span className="flex items-center space-x-2 text-sm">
                   <svg
                     className="h-4 w-4"
@@ -82,4 +82,4 @@ const Community: NextPage = () => {
   );
 };
 
-export default Community;
+export default inquiry;
