@@ -2,6 +2,7 @@ import { cls } from "@/libs/client/utils";
 import Link from "next/link";
 import React from "react";
 import { useRouter } from "next/router";
+import useUser from "@/libs/client/useUser";
 
 interface LayoutProps {
   title?: string;
@@ -17,6 +18,7 @@ export default function Layout({
   children,
 }: LayoutProps) {
   const router = useRouter();
+  const { user } = useUser();
   const onClick = () => {
     router.back();
   };
@@ -112,7 +114,7 @@ export default function Layout({
               <span>채팅</span>
             </span>
           </Link>
-          <Link href="">
+          <Link href={`/chatbot/${user?.id}`}>
             <span
               className={cls(
                 "flex flex-col items-center space-y-2",

@@ -3,6 +3,7 @@ import "react-toastify/dist/ReactToastify.css";
 import type { AppProps } from "next/app";
 import { SWRConfig } from "swr";
 import { ToastContainer } from "react-toastify";
+import navbar from "components/navbar";
 
 import Layout from "@/components/navbar";
 
@@ -29,9 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       }}
     >
       <div className="mx-auto w-full max-w-xl">
-        <Layout hasTabBar>
-          <Component {...pageProps} />
-        </Layout> 
+        <Component {...pageProps} />
       </div>
       <ToastContainer
         position="top-right"

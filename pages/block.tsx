@@ -16,7 +16,7 @@ const Block: NextPage = () => {
               />{" "}
             </div>
             <div className="flex-col-2 flex px-4">
-              <span className="text-md font-bold text-gray-900">김혜수</span>
+              <span className="text-md font-bold text-gray-900">우가우가</span>
             </div>
             <div className="flex flex-grow justify-end"></div>
             <button className="rounded-lg bg-black px-4 py-2 text-sm text-white shadow-sm">

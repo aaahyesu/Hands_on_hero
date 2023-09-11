@@ -49,12 +49,28 @@ async function handler(
               // avatar: true,
             },
           },
+          chats: true,
         },
       });
       console.dir(rooms);
 
+      // 각 채팅방의 온 채팅 수(count) 추가
+      const roomsWithChatCount = await Promise.all(
+        rooms.map(async (room) => {
+          const chatCount = await prisma.chat.count({
+            where: {
+              roomId: room.id,
+            },
+          });
+          return {
+            ...room,
+            chatCount,
+          };
+        })
+      );
+
       // 방들의 마지막 채팅 기준으로 시간 순 정렬
-      const chatPromises = rooms.map((room) =>
+      const chatPromises = roomsWithChatCount.map((room) =>
         prisma.chat.findMany({
           take: 1,
           where: {
@@ -149,6 +165,7 @@ async function handler(
         });
       }
 
+      console.log(exRoom);
       // 이미 한명이 채팅방 나갔으면
       if (exRoom.chatInvisibleTo) {
         await prisma.room.delete({ where: { id: roomId } });

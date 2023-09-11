@@ -7,49 +7,78 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-    const {
-        body : {question},
-        session : {user},
-    } = req;
-    if (req.method === "POST") {
-        const inquiry = await client.inquiry.create({
-          data: {
-            question,
-            user: {
-              connect: {
-                id: user?.id,
-              },
-            },
+  const {
+    body: { question },
+    session: { user },
+  } = req;
+
+  if (req.method === "POST") {
+    const inquiry = await client.inquiry.create({
+      data: {
+        question,
+        user: {
+          connect: {
+            id: user?.id,
+          },
         },
+      },
     });
     res.json({
       ok: true,
       inquiry,
-      message: "ok"
+      message: "ok",
     });
   }
+
   if (req.method === "GET") {
-    const inquiries = await client.inquiry.findMany({
-      include: {
-        user: {
-          select: {
-            id: true,
-            name: true,
+    if (user?.id === 1) {
+      const inquiries = await client.inquiry.findMany({
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          _count: {
+            select: {
+              answer: true,
+            },
           },
         },
-        _count: {
-          select: {
-            answer: true,
+        orderBy: { createdAt: "desc" },
+      });
+      res.json({
+        ok: true,
+        inquiries,
+        message: "ok",
+      });
+    } else {
+      const inquiries = await client.inquiry.findMany({
+        where: {
+          userId: user?.id,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          _count: {
+            select: {
+              answer: true,
+            },
           },
         },
-      },
-      orderBy: { createdAt: "desc" },
-    });
-    res.json({
-      ok: true,
-      inquiries,
-      message: "o"
-    });
+        orderBy: { createdAt: "desc" },
+      });
+      res.json({
+        ok: true,
+        inquiries,
+        message: "ok",
+      });
+    }
   }
 }
 

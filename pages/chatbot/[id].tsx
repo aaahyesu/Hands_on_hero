@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
+import Layout from "@/components/navbar";
 
 export default function Home(): React.JSX.Element {
   const [inputValue, setInputValue] = useState("");
@@ -131,69 +132,71 @@ export default function Home(): React.JSX.Element {
   };
 
   return (
-    <div className="container mx-auto max-w-[700px]">
-      <div className="flex h-screen flex-col bg-gray-900">
-        <h1 className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text py-3 text-center text-6xl font-bold text-transparent">
-          🐴말동무🐴
-        </h1>
-        <div className="flex-grow p-6">
-          <div className="flex flex-col space-y-4">
-            {chatLog.map((message, index) => (
-              <div
-                key={index}
-                className={`flex ${
-                  message.role === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
+    <Layout hasTabBar title="말동무">
+      <div className="container mx-auto max-w-[700px] pt-[25px]">
+        <div className="flex h-[80vh] flex-col bg-gray-900">
+          <h1 className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text py-3 text-center text-6xl font-bold text-transparent">
+            🐴말동무🐴
+          </h1>
+          <div className="flex-grow p-6">
+            <div className="flex flex-col space-y-4">
+              {chatLog.map((message, index) => (
                 <div
-                  className={`${
-                    message.role === "user" ? "bg-purple-500" : "bg-gray-800"
-                  } max-w-sm rounded-lg p-4 text-white`}
+                  key={index}
+                  className={`flex ${
+                    message.role === "user" ? "justify-end" : "justify-start"
+                  }`}
                 >
-                  {message.content}
+                  <div
+                    className={`${
+                      message.role === "user" ? "bg-purple-500" : "bg-gray-800"
+                    } max-w-sm rounded-lg p-4 text-white`}
+                  >
+                    {message.content}
+                  </div>
+                  {message.time !== null && (
+                    <p className="ml-2 self-end text-xs text-gray-400">
+                      {message.time}
+                    </p>
+                  )}
                 </div>
-                {message.time !== null && (
-                  <p className="ml-2 self-end text-xs text-gray-400">
-                    {message.time}
-                  </p>
-                )}
-              </div>
-            ))}
-            {isLoading && (
-              <div key={chatLog.length} className="flex justify-start">
-                <div className="max-w-sm rounded-lg bg-gray-800 p-4 text-white">
-                  {/* 로딩 중 메시지 */}잠 시 만 기 다 려 주 세 요...
+              ))}
+              {isLoading && (
+                <div key={chatLog.length} className="flex justify-start">
+                  <div className="max-w-sm rounded-lg bg-gray-800 p-4 text-white">
+                    {/* 로딩 중 메시지 */}잠 시 만 기 다 려 주 세 요...
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
+          <form onSubmit={handleSubmit} className="flex-none p-6">
+            <div className="flex rounded-lg border border-gray-700 bg-gray-800">
+              <input
+                type="text"
+                className="flex-grow bg-transparent px-4 py-2 text-white focus:outline-none"
+                placeholder="메시지를 입력해 주세요 !"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="rounded-lg bg-purple-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-purple-600 focus:outline-none"
+              >
+                전송
+              </button>
+            </div>
+          </form>
         </div>
-        <form onSubmit={handleSubmit} className="flex-none p-6">
-          <div className="flex rounded-lg border border-gray-700 bg-gray-800">
-            <input
-              type="text"
-              className="flex-grow bg-transparent px-4 py-2 text-white focus:outline-none"
-              placeholder="메시지를 입력해 주세요 !"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-            <button
-              type="submit"
-              className="rounded-lg bg-purple-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-purple-600 focus:outline-none"
-            >
-              전송
-            </button>
-          </div>
-        </form>
+        <div className="flex-none p-6">
+          <button
+            onClick={clearChatLog}
+            className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none"
+          >
+            채팅 내용 지우기
+          </button>
+        </div>
       </div>
-      <div className="flex-none p-6">
-        <button
-          onClick={clearChatLog}
-          className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none"
-        >
-          채팅 내용 지우기
-        </button>
-      </div>
-    </div>
+    </Layout>
   );
 }
