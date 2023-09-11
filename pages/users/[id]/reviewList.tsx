@@ -12,7 +12,7 @@ const ReviewList: NextPage = () => {
   console.log(data);
   return (
     <Layout hasTabBar canGoBack title="작성한 리뷰 내역">
-      <div className="px-4">
+      <div className="mt-6 px-4">
         {data?.reviews?.map((reviews) => (
           <Review
             key={reviews?.id}

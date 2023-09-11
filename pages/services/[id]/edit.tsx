@@ -28,23 +28,51 @@ interface EditServiceResponse {
 }
 const Update: NextPage = () => {
   const router = useRouter();
-  const { register, setValue, handleSubmit, setError } = useForm<EditServiceForm>();
-  const [editService, { loading, data }] =
-    useMutation<EditServiceResponse>(`/api/services/${router.query.id}/edit`);
+  const { register, setValue, handleSubmit, setError } =
+    useForm<EditServiceForm>();
+  const [editService, { loading, data }] = useMutation<EditServiceResponse>(
+    `/api/services/${router.query.id}/edit`
+  );
   useEffect(() => {
-    if(data?.service?.title) setValue("title", data?.service?.title);
-    if(data?.service?.content) setValue("content", data?.service?.content);
-    if(data?.service?.Method) setValue("Method", data?.service?.Method);
-    if(data?.service?.Cost) setValue("Cost", data?.service?.Cost);
-    if(data?.service?.serviceDate) setValue("serviceDate", data?.service?.serviceDate);
-    if(data?.service?.startTime) setValue("startTime", data?.service?.startTime);
-    if(data?.service?.endTime) setValue("endTime", data?.service?.endTime);
+    if (data?.service?.title) setValue("title", data?.service?.title);
+    if (data?.service?.content) setValue("content", data?.service?.content);
+    if (data?.service?.Method) setValue("Method", data?.service?.Method);
+    if (data?.service?.Cost) setValue("Cost", data?.service?.Cost);
+    if (data?.service?.serviceDate)
+      setValue("serviceDate", data?.service?.serviceDate);
+    if (data?.service?.startTime)
+      setValue("startTime", data?.service?.startTime);
+    if (data?.service?.endTime) setValue("endTime", data?.service?.endTime);
   }, [data, setValue]);
-  const onValid = ({title, content, Method, Cost, serviceDate, startTime, endTime}: EditServiceForm) => {
-    if(title === "" && content === "" && Method === "" && Cost === null && serviceDate === null && startTime === null && endTime === null) {
-      return setError("formErrors",{message:"수정할 내용을 입력해주세요."});
+  const onValid = ({
+    title,
+    content,
+    Method,
+    Cost,
+    serviceDate,
+    startTime,
+    endTime,
+  }: EditServiceForm) => {
+    if (
+      title === "" &&
+      content === "" &&
+      Method === "" &&
+      Cost === null &&
+      serviceDate === null &&
+      startTime === null &&
+      endTime === null
+    ) {
+      return setError("formErrors", { message: "수정할 내용을 입력해주세요." });
     }
-    editService({title, content, Method, Cost: +Cost, serviceDate, startTime, endTime})
+    editService({
+      title,
+      content,
+      Method,
+      Cost: +Cost,
+      serviceDate,
+      startTime,
+      endTime,
+    });
   };
   useEffect(() => {
     if (data && !data.ok && data.error) {
@@ -60,7 +88,7 @@ const Update: NextPage = () => {
 
   return (
     <Layout hasTabBar canGoBack title="요청서 수정">
-      <form className="px-4" onSubmit={handleSubmit(onValid)}>
+      <form className="mt-10 px-4" onSubmit={handleSubmit(onValid)}>
         <div className="my-4">
           <Input
             register={register("title")}
@@ -128,7 +156,7 @@ const Update: NextPage = () => {
                 label=""
                 name="startTime"
                 kind="time"
-                />
+              />
             </div>
           </div>
         </div>

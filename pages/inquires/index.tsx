@@ -20,7 +20,7 @@ const inquiry: NextPage = () => {
   const { data } = useSWR<InquiryResponse>(`/api/inquiry`);
   return (
     <Layout hasTabBar canGoBack title="문의 내역">
-      <div className="space-y-5">
+      <div className="mt-5 space-y-5">
         {data?.inquiries?.map((inquiry) => (
           <Link key={inquiry.id} href={`/inquires/${inquiry.id}`}>
             <div

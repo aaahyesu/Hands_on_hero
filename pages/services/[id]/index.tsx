@@ -54,9 +54,13 @@ const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
     if (createRoomLoading)
       return toast.warning("채팅방을 생성중입니다.\n잠시 기다려주세요!");
     if (data?.service?.status?.includes("Complete"))
-      return toast.warning("이미 완료된 서비스이면 사용자와 대화할 수 없습니다.");
+      return toast.warning(
+        "이미 완료된 서비스이면 사용자와 대화할 수 없습니다."
+      );
     if (data?.service?.status?.includes("Incomplete"))
-      return toast.warning("이미 미완료된 서비스이면 사용자와 대화할 수 없습니다.");
+      return toast.warning(
+        "이미 미완료된 서비스이면 사용자와 대화할 수 없습니다."
+      );
     createRoom({
       ownerId: data?.service?.userId,
       title: data?.service?.title,
@@ -74,7 +78,7 @@ const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
 
   return (
     <Layout canGoBack title="요청서 상세내용">
-      <div className="px-4 py-4">
+      <div className="mt-4 px-4 py-5">
         <label className="py-2 text-xl font-bold">요청자 프로필</label>
         <div className="pt-2">
           <Link href={`/serviceProfile/${data?.service?.user?.id}`}>

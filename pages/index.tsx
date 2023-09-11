@@ -55,7 +55,7 @@ const Home: NextPage<ServiceResponse> = () => {
 
   return (
     <Layout hasTabBar title="요청서 리스트 📝">
-      <div className="flex flex-col px-4 ">
+      <div className="mt-6 flex flex-col px-4 ">
         <form onSubmit={handleSearch}>
           <div className="flex pt-4 ">
             <label
@@ -132,7 +132,7 @@ const Home: NextPage<ServiceResponse> = () => {
               <button
                 onClick={handleSearch}
                 type="submit"
-                className="border-black-700 absolute right-0 top-0 rounded-r-lg border bg-black p-3 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none dark:bg-gray-600 dark:hover:bg-gary-700 dark:focus:ring-gray-800"
+                className="border-black-700 dark:hover:bg-gary-700 absolute right-0 top-0 rounded-r-lg border bg-black p-3 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none dark:bg-gray-600 dark:focus:ring-gray-800"
               >
                 <svg
                   className="h-4 w-4"

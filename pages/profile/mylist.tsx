@@ -7,7 +7,7 @@ const MyList: NextPage = ({}) => {
   const { data } = useSWR(`/api/users/me/requestlist`);
   return (
     <Layout hasTabBar canGoBack title="나의 요청서 목록">
-      <div className="flex flex-col space-y-5 px-4 py-2">
+      <div className="flex flex-col space-y-5 px-4 py-2 pt-5">
         {data?.services?.map((service) => (
           <List
             id={service.id}
