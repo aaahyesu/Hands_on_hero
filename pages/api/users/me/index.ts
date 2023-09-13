@@ -32,7 +32,7 @@ async function handler(
     if (method === "POST") {
       const {
         session: { user },
-        body: { email, name },
+        body: { email, name, avatarId },
       } = req;
       const checkUser = await prisma.user.findUnique({
         where: {
@@ -70,7 +70,16 @@ async function handler(
           message: "email update",
         });
       }
-
+      if (avatarId) {
+        await prisma.user.update({
+          where: {
+            id: user?.id,
+          },
+          data: {
+            avatar: avatarId,
+          },
+        });
+      }
       if (name && name !== checkUser?.name) {
         const Exit = Boolean(
           await prisma.user.findUnique({

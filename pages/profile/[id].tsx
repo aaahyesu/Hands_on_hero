@@ -19,13 +19,20 @@ const Profile: NextPage = () => {
       <div className="px-4 py-10 ">
         <div className="flex items-center justify-between space-x-3 rounded-lg border border-gray-200 px-3 py-3 shadow-sm">
           <div className="flex items-center space-x-3">
-            <div className="h-16 w-16 rounded-full bg-slate-500">
+            {user?.avatar ? (
               <img
-                src="/superman_bg_white.png"
-                alt="Avatar"
-                className="h-full w-full rounded-full shadow-md"
-              />{" "}
-            </div>
+                src={`https://imagedelivery.net/aSbksvJjax-AUC7qVnaC4A/${user?.avatar}/avatar`}
+                className="h-16 w-16 rounded-full bg-slate-500"
+              />
+            ) : (
+              <div className="h-16 w-16 rounded-full bg-slate-500">
+                <img
+                  src="/superman_bg_white.png"
+                  alt="Avatar"
+                  className="h-16 w-16 rounded-full shadow-md"
+                />{" "}
+              </div>
+            )}
             <div className="flex flex-col">
               <span className="font-bold text-gray-900">{user?.name}</span>
               <label
