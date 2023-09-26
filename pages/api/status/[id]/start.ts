@@ -10,15 +10,29 @@ async function handler(
   const {
     query: { id },
   } = req;
-  
+   
   if (req.method === "PATCH") {
     try {
-      const updatedService = await client.service.update({
+      const select = await client.room.findUnique({
         where: {
           id: +id.toString(),
         },
+        select: {
+          serviceId: true,
+          users: true,
+        }
+      })
+    
+      const serviceUser = select?.users[1]?.id;
+      const ServiceId = select?.serviceId;
+
+      const updatedService = await client.service.update({
+        where: {
+          id: ServiceId
+        },
         data: {
           status: "Start",
+          serviceUserId: serviceUser, 
         },
       });
 

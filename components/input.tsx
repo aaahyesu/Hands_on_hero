@@ -1,4 +1,5 @@
-import type { UseFormRegisterReturn } from "react-hook-form";
+import React from "react";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface InputProps {
   label: string;
@@ -10,12 +11,14 @@ interface InputProps {
     | "password"
     | "textArea"
     | "time"
+    | "select"; // "select" 타입 추가
   type: string;
   register: UseFormRegisterReturn;
   required: boolean;
   placeholder: string;
   maxLength?: number;
   minLength?: number;
+  options?: string[]; // 선택 옵션을 받을 배열 추가
 }
 
 export default function Input({
@@ -26,6 +29,7 @@ export default function Input({
   type,
   required,
   placeholder,
+  options, // 선택 옵션을 받아옴
 }: InputProps) {
   return (
     <div>
@@ -94,6 +98,20 @@ export default function Input({
           type={type}
           className="w-full rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
         />
+      ) : null}
+      {kind === "select" && options ? ( // "select" 타입일 때 처리
+        <select
+          id={name}
+          required={required}
+          {...register}
+          className="w-full appearance-none rounded-lg border border-gray-400 px-3 py-2 shadow-sm focus:border-black focus:outline-none"
+        >
+          {options.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       ) : null}
     </div>
   );

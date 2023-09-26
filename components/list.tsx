@@ -32,7 +32,7 @@ export default function List({
   let bgClass = "";
 
   if (status === "Start") {
-    statusText = "서비스 중";
+    statusText = "서비스 매칭 완료";
     statusClass = "bg-green-500";
     bgClass =
       "dark:bg-green-900 dark:text-green-300 bg-green-100 text-green-800";

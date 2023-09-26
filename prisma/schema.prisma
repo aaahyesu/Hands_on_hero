@@ -11,25 +11,28 @@ datasource db {
   relationMode = "prisma"
 }
 model User {
-  id                Int            @id @default(autoincrement())
-  name              String         @unique
+  id                Int             @id @default(autoincrement())
+  name              String          @unique
   // phone             String?        @db.VarChar(11)
   avatar            String?
   // password          String        @db.VarChar(20)
-  email             String?        @unique
-  virtualAccount    Int           @default(0)
+  email             String?         @unique
+  virtualAccount    Int             @default(0)            
   tokens            Token[]
   chats             Chat[]
   rooms             Room[]
   messages          Message[]
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt()
-  services          Service[] 
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt()
+  services          Service[]       @relation(name: "services")
+  serviceUser       Service[]       @relation(name: "serviceUser")
   inquiries         Inquiry[]   
   answers           Answer[]
   liked             Liked[] 
   writtenReviews    Review[]        @relation(name: "WrittenReviews")
-  receivedReviews   Review[]        @relation(name: "ReceivedReviews")       
+  receivedReviews   Review[]        @relation(name: "ReceivedReviews")   
+  blockBy           BlockList[]     @relation(name: "blockBy")
+  blockUser         BlockList[]     @relation(name: "blockUser")    
 
 }
 
@@ -50,8 +53,10 @@ model Service {
   id                Int         @id @default(autoincrement())
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
-  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId            Int
+  user              User        @relation(name: "services", fields: [userId], references: [id], onDelete: Cascade)
+  userId            Int         // 서비스 글 작성한 사용자
+  serviceUser       User?       @relation(name: "serviceUser", fields: [serviceUserId], references: [id], onDelete: Cascade)
+  serviceUserId     Int?         // 서비스 글 수락한 사용자
   title             String   
   content           String      @db.MediumText
   serviceDate       String
@@ -65,7 +70,7 @@ model Service {
   status            ServiceStatus?
 
   @@index([userId])
-
+  @@index([serviceUserId])
 
 }
 
@@ -141,12 +146,12 @@ model Review {
 model Room {
   id              Int      @id @default(autoincrement())
   name            String   @unique
-  realName        String?
+  realName        String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   chatInvisibleTo Int?
-  Service         Service? @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  serviceId       Int? 
+  Service         Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  serviceId       Int 
   users User[]
   chats Chat[]
 
@@ -181,9 +186,12 @@ model Message {
 }
 
 model BlockList {
-  blockId           Int      @id
-  blockedUserId     Int
-  userId            Int      @db.Int
+  id                Int      @id @default(autoincrement())
+  blockBy           User     @relation(name: "blockBy", fields: [blockById], references: [id], onDelete: Cascade)
+  blockById         Int
+  blockUser         User     @relation(name: "blockUser", fields: [blockUserId], references: [id], onDelete: Cascade)
+  blockUserId       Int
 
-  @@map("block_list")
+  @@index([blockById])
+  @@index([blockUserId])
 }

@@ -7,9 +7,13 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
+  const {
+    session: {user},
+  } = req;
+
   const responselists = await client.service.findMany({
     where: {
-      status: "Start",
+      serviceUserId: user?.id,
     },
     include: {
       _count: {

@@ -20,7 +20,7 @@ const MyServiceDetail: NextPage<ServiceResponse> = () => {
     router.query.id ? `/api/services/${router.query.id}` : null
   );
   return (
-    <Layout canGoBack title="요청서 상세내용">
+    <Layout hasTabBar canGoBack title="요청서 상세내용">
       <div className="mt-7 px-4 py-4">
         <h1 className="text-xl font-bold text-gray-900">
           {data?.service?.title}

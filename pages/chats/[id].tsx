@@ -121,7 +121,7 @@ const ChatDetail: NextPage = () => {
     setIsAccepted(true);
     try {
       const response = await fetch(
-        `/api/status/${data?.room?.serviceId}/start`,
+        `/api/status/${data?.room?.id}/start`,
         {
           method: "PATCH",
           headers: {
@@ -144,25 +144,41 @@ const ChatDetail: NextPage = () => {
   const handleServiceComplete = async () => {
     setIsAccepted(false);
     try {
-      const response = await fetch(
-        `/api/status/${data?.room?.serviceId}/complete`,
+      const postResponse = await fetch(
+        `/api/services/${data?.room?.serviceId}/pay`,
         {
-          method: "PATCH",
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      if (response.ok) {
-        toast.success("서비스가 완료되었습니다.");
+  
+      if (postResponse.ok) {
+        const patchResponse = await fetch(
+          `/api/status/${data?.room?.serviceId}/complete`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        if (patchResponse.ok) {
+          toast.success("서비스가 완료되었습니다.");
+        } else {
+          toast.error("서비스 완료 중 오류가 발생했습니다.");
+        }
       } else {
-        toast.error("error occurred");
+        toast.error("서비스 완료 중 오류가 발생했습니다.");
       }
     } catch (error) {
       console.error("API request error:", error);
-      toast.error("An error occurred during the API request.");
+      toast.error("API 호출 중 오류가 발생했습니다.");
     }
   };
+
 
   //서비스 미완료
   const handleServiceIncomplete = async () => {
@@ -432,7 +448,7 @@ const ChatDetail: NextPage = () => {
         </button>
       </div>
 
-      <article className="min-h-[73vh] space-y-4 rounded-sm bg-slate-200 p-4 pt-16">
+      <article className="min-h-[90vh] space-y-4 rounded-sm bg-slate-200 p-4 pt-20 mb-10">
         {loadChatsLoading && (
           <h3 className="rounded-md bg-indigo-400 p-2 text-center text-lg text-white">
             <Spinner kinds="button" />

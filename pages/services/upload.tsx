@@ -5,7 +5,7 @@ import Link from "next/link";
 import useMutation from "@/libs/client/useMutation";
 import Input from "@/components/input";
 import { Service } from "@prisma/client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import TextArea from "@/components/textarea";
 
@@ -26,6 +26,23 @@ interface UploadServiceMutation {
 const Upload: NextPage = () => {
   const router = useRouter();
   const { register, handleSubmit } = useForm<UploadServiceForm>();
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.value;
+
+    // 선택한 날짜가 현재 날짜보다 이후인지 확인
+    const currentDate = new Date();
+    const selectedDate = new Date(selected);
+    if (selectedDate < currentDate) {
+      // 선택한 날짜가 현재 날짜 이전인 경우 경고 메시지 또는 다른 처리를 수행할 수 있습니다.
+      console.warn("서비스 받을 날짜는 현재 날짜 이후이어야 합니다.");
+      // 선택을 취소하거나 다른 조치를 취할 수 있습니다.
+      return;
+    }
+
+    setSelectedDate(selected);
+  };
   const [uploadService, { loading, data }] =
     useMutation<UploadServiceMutation>("/api/services");
   const onValid = (data: UploadServiceForm) => {
@@ -41,7 +58,7 @@ const Upload: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="요청서 작성">
       <form className="px-4" onSubmit={handleSubmit(onValid)}>
-        <div className="my-4">
+        <div className="pt-6 my-4">
           <Input
             register={register("title", { required: true })}
             required
@@ -62,17 +79,19 @@ const Upload: NextPage = () => {
         />
 
         <div className="my-4">
-          <Input
-            register={register("Method", { required: true })}
-            //id="serviceMethod"
-            required
-            type="text"
-            placeholder="화상통화, 원격접속 등 "
-            label="서비스 방법을 선택해주세요."
-            name="Method"
-            kind="text"
-          />
+          <label className="mb-2 block text-sm font-bold text-gray-700">
+            서비스 방법을 선택해주세요.
+          </label>
+          <select
+            {...register("Method", { required: true })}
+            className="w-full p-2 border rounded-lg"
+          >
+            <option value="화상통화">화상통화</option>
+            <option value="원격접속">원격접속</option>
+            <option value="채팅">채팅</option>
+          </select>
         </div>
+
 
         <div className="text my-2">
           <label className="mb-2 block text-sm font-bold text-gray-700">
@@ -91,6 +110,7 @@ const Upload: NextPage = () => {
                 label=""
                 name="serviceDate"
                 kind="time"
+                onChange={handleDateChange} // 날짜 변경 핸들러 추가
               />
             </div>
           </div>

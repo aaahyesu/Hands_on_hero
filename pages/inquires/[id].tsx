@@ -61,7 +61,7 @@ const inquiryPost: NextPage = () => {
 
   return (
     <Layout hasTabBar canGoBack title="1:1 문의">
-      <div>
+      <div className="pt-6">
         <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 text-xs font-medium text-gray-800">
           1:1 문의
         </span>

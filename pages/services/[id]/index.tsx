@@ -77,7 +77,7 @@ const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
   console.log(data?.service?.user);
 
   return (
-    <Layout canGoBack title="요청서 상세내용">
+    <Layout hasTabBar canGoBack title="요청서 상세내용">
       <div className="mt-4 px-4 py-5">
         <label className="py-2 text-xl font-bold">요청자 프로필</label>
         <div className="pt-2">

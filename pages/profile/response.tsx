@@ -7,7 +7,7 @@ const service: NextPage = () => {
   console.log(data?.responselists);
   return (
     <Layout hasTabBar canGoBack title="수락 요청서 목록">
-      <div className="flex flex-col space-y-5 py-2 px-4">
+      <div className="flex flex-col space-y-5 py-2 px-4 pt-5">
           {data?.responselists?.map((service) => (
             <List
               key={service?.id}

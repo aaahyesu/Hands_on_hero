@@ -11,7 +11,7 @@ const Like: NextPage = () => {
   const { data } = useSWR(`/api/users/me/likes`);
   return (
     <Layout hasTabBar canGoBack title="나의 찜목록 💘">
-      <div className="flex flex-col space-y-5 px-4 py-2">
+      <div className="flex flex-col space-y-5 px-4 py-2 pt-5">
         <Link href="/">
           {data?.liked?.map((liked) => (
             <List
