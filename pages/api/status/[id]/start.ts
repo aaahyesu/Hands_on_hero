@@ -13,6 +13,7 @@ async function handler(
    
   if (req.method === "PATCH") {
     try {
+      // 채팅방과 관련된 서비스 아이디, 사용자들 찾기
       const select = await client.room.findUnique({
         where: {
           id: +id.toString(),
@@ -22,9 +23,29 @@ async function handler(
           users: true,
         }
       })
-    
-      const serviceUser = select?.users[1]?.id;
+
       const ServiceId = select?.serviceId;
+      const findUser1 = select?.users[0]?.id;
+      const findUser2 = select?.users[1]?.id;
+      let findUser;
+      
+      const find = await client.service.findUnique({
+        where: {
+          id: ServiceId
+        },
+        select: {
+          userId: true
+        }
+      })
+
+      // 사용자들의 아이디 비교 후 제공자 아이디 설정
+      if(find?.userId != findUser1) {
+        findUser = findUser1
+      }
+      else if(find?.id != findUser2) {
+        findUser = findUser2
+      }
+      const serviceUser = findUser
 
       const updatedService = await client.service.update({
         where: {
