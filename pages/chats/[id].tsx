@@ -46,6 +46,7 @@ type ChatForm = {
 
 const ChatDetail: NextPage = () => {
   const router = useRouter();
+  const { user } = useUser();
   const { data } = useSWR(`/api/chats/${router.query.id}`);
   const { me } = useMe();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,8 +69,9 @@ const ChatDetail: NextPage = () => {
 
   const renderButtons = () => {
     const status = data?.room?.Service?.status;
+    const isUserAuthorized = user?.id === data?.room?.Service?.userId; // 사용자 권한을 확인  
 
-    if (status === "None" && !isAccepted) {
+    if (status === "None" && !isAccepted && isUserAuthorized) {
       return (
         <>
           <button
@@ -88,7 +90,7 @@ const ChatDetail: NextPage = () => {
           </button>
         </>
       );
-    } else if (status === "Start") {
+    } else if (status === "Start" && isUserAuthorized) {
       return (
         <>
           <Link href={`/services/${data.room.Service.id}/complete`}>

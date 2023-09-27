@@ -44,6 +44,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
               serviceDate: true,
               Method: true,
               status: true,
+              userId: true,
             },
           },
         },
