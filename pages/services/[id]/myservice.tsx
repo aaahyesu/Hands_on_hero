@@ -50,14 +50,14 @@ const MyServiceDetail: NextPage<ServiceResponse> = () => {
             {data?.service?.Method}
           </span>
         </div>
-        <div className="flex  items-center justify-center space-x-10 pt-10">
+        <div className="flex  items-center justify-center space-x-4 pt-10">
           <Link href={`/services/${data?.service?.id}/edit`}>
-            <button className="rounded-md border border-black bg-black px-12 py-3 font-medium text-white shadow-xl hover:bg-gray-800 focus:outline-none">
+            <button className="rounded-md border border-black bg-black px-10 py-3 font-medium text-white shadow-xl hover:bg-gray-800 focus:outline-none">
               수정하기
             </button>
           </Link>
           <Link href={`/services/edit`}>
-            <button className="rounded-md border border-gray-400 bg-white px-12 py-3 font-medium text-black shadow-md hover:bg-gray-100 focus:outline-none">
+            <button className="rounded-md border border-gray-400 bg-white px-10 py-3 font-medium text-black shadow-md hover:bg-gray-100 focus:outline-none">
               삭제하기
             </button>
           </Link>

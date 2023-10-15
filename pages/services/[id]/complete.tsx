@@ -16,11 +16,11 @@ const complete: FunctionComponent = () => {
       <div className="absolute left-[161px] top-[452px] font-semibold leading-[125%]">
         Continue
       </div>
-      <div className="font-nanumsquare-neo absolute left-[34px] top-[116px] inline-block w-[339px] text-center text-[30px] font-extrabold leading-[130%] tracking-[-0.01em] text-black">
+      <div className="font-nanumsquare-neo absolute left-[34px] top-[140px] inline-block w-[339px] text-center text-[30px] font-extrabold leading-[130%] tracking-[-0.01em] text-black">
         서비스 완료 ✨
       </div>
       <div
-        className="absolute left-[20px] top-[707px] h-14 w-[353px] cursor-pointer items-center"
+        className="absolute left-[20px] top-[680px] h-14 w-[353px] cursor-pointer items-center"
         onClick={onGroupContainerClick}
       >
         <Link href="/" className="mx-auto">

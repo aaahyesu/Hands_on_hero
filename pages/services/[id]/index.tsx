@@ -130,7 +130,7 @@ const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
                 {data?.service?.Method}
               </span>
             </div>
-            <div className="flex items-center justify-between space-x-2 pt-16">
+            <div className="flex items-center justify-between space-x-2 pt-4">
               <Button
                 text="채팅 보내기"
                 type="button"

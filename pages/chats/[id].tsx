@@ -572,7 +572,7 @@ const ChatDetail: NextPage = () => {
                           <span>화상통화</span>
                         </span>
                       </Link>
-                      <Link href={`/remote/${router.query.id}`}>
+                      <Link href="https://web.teamviewer.com/remote-support">
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
