@@ -81,6 +81,19 @@ export default function Home(): React.JSX.Element {
 
     setInputValue("");
   };
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom(); // 초기 로딩 시 스크롤을 아래로 이동
+
+    // 새로운 메시지가 추가될 때 스크롤을 아래로 이동
+    scrollToBottom();
+  }, [chatLog]);
 
   const sendMessage = (message: string) => {
     const url = "/api/chatbot";
@@ -134,11 +147,11 @@ export default function Home(): React.JSX.Element {
   return (
     <Layout hasTabBar title="말동무">
       <div className="container mx-auto max-w-[700px] pt-[25px]">
-        <div className="flex h-[80vh] flex-col bg-gray-900">
+        <div className="flex h-screen flex-col bg-gray-900">
           <h1 className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text py-3 text-center text-6xl font-bold text-transparent">
             🐴말동무🐴
           </h1>
-          <div className="flex-grow p-6">
+          <div className="flex-grow bg-gray-900 p-6">
             <div className="flex flex-col space-y-4">
               {chatLog.map((message, index) => (
                 <div
@@ -170,31 +183,33 @@ export default function Home(): React.JSX.Element {
               )}
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="flex-none p-6">
-            <div className="flex rounded-lg border border-gray-700 bg-gray-800">
-              <input
-                type="text"
-                className="flex-grow bg-transparent px-4 py-2 text-white focus:outline-none"
-                placeholder="메시지를 입력해 주세요 !"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="rounded-lg bg-purple-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-purple-600 focus:outline-none"
-              >
-                전송
-              </button>
-            </div>
-          </form>
-        </div>
-        <div className="flex-none p-6">
-          <button
-            onClick={clearChatLog}
-            className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none"
-          >
-            채팅 내용 지우기
-          </button>
+          <div className="flex-none bg-gray-900 p-6">
+            <form onSubmit={handleSubmit} className="flex-none p-6">
+              <div className="flex rounded-lg border border-gray-700 bg-gray-800">
+                <input
+                  type="text"
+                  className="flex-grow bg-transparent px-4 py-2 text-white focus:outline-none"
+                  placeholder="메시지를 입력해 주세요 !"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+                <button
+                  type="submit"
+                  className="rounded-lg bg-purple-500 px-4 py-2 font-semibold text-white transition-colors duration-300 hover:bg-purple-600 focus:outline-none"
+                >
+                  전송
+                </button>
+              </div>
+              <div className="flex-none p-6">
+                <button
+                  onClick={clearChatLog}
+                  className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600 focus:outline-none"
+                >
+                  채팅 내용 지우기
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </Layout>

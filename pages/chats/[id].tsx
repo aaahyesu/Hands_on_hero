@@ -69,7 +69,7 @@ const ChatDetail: NextPage = () => {
 
   const renderButtons = () => {
     const status = data?.room?.Service?.status;
-    const isUserAuthorized = user?.id === data?.room?.Service?.userId; // 사용자 권한을 확인  
+    const isUserAuthorized = user?.id === data?.room?.Service?.userId; // 사용자 권한을 확인
 
     if (status === "None" && !isAccepted && isUserAuthorized) {
       return (
@@ -122,15 +122,12 @@ const ChatDetail: NextPage = () => {
   const handleAccept = async () => {
     setIsAccepted(true);
     try {
-      const response = await fetch(
-        `/api/status/${data?.room?.id}/start`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`/api/status/${data?.room?.id}/start`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (response.ok) {
         toast.success("서비스가 수락되었습니다.");
       } else {
@@ -155,7 +152,7 @@ const ChatDetail: NextPage = () => {
           },
         }
       );
-  
+
       if (postResponse.ok) {
         const patchResponse = await fetch(
           `/api/status/${data?.room?.serviceId}/complete`,
@@ -166,7 +163,7 @@ const ChatDetail: NextPage = () => {
             },
           }
         );
-  
+
         if (patchResponse.ok) {
           toast.success("서비스가 완료되었습니다.");
         } else {
@@ -180,7 +177,6 @@ const ChatDetail: NextPage = () => {
       toast.error("API 호출 중 오류가 발생했습니다.");
     }
   };
-
 
   //서비스 미완료
   const handleServiceIncomplete = async () => {
@@ -450,7 +446,7 @@ const ChatDetail: NextPage = () => {
         </button>
       </div>
 
-      <article className="min-h-[90vh] space-y-4 rounded-sm bg-slate-200 p-4 pt-20 mb-10">
+      <article className="mb-10 min-h-[90vh] space-y-4 rounded-sm bg-slate-200 p-4 pt-20">
         {loadChatsLoading && (
           <h3 className="rounded-md bg-indigo-400 p-2 text-center text-lg text-white">
             <Spinner kinds="button" />
@@ -572,7 +568,7 @@ const ChatDetail: NextPage = () => {
                           <span>화상통화</span>
                         </span>
                       </Link>
-                      <a href="https://web.teamviewer.com/remote-support" target="_blank">
+                      <Link href="https://web.teamviewer.com/remote-support">
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
