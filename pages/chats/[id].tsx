@@ -396,7 +396,7 @@ const ChatDetail: NextPage = () => {
               status={data?.room?.Service?.status}
             />
             <a
-              className="text-primary-600 dark:text-primary-500 font-medium underline hover:no-underline"
+              className="text-[15px] dark:text-primary-500 underline hover:no-underline"
               href={`/services/${data?.room?.Service?.id}`}
             >
               요청서 바로가기
@@ -553,7 +553,7 @@ const ChatDetail: NextPage = () => {
                   {/* Modal body */}
                   <div className="space-y-6 p-6">
                     <nav className="flex w-full max-w-xl justify-between bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
-                      <Link href="http://localhost:3001/">
+                      <Link href={`http://localhost:3001/${data?.room?.id}`}>
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -572,7 +572,7 @@ const ChatDetail: NextPage = () => {
                           <span>화상통화</span>
                         </span>
                       </Link>
-                      <Link href="https://web.teamviewer.com/remote-support">
+                      <a href="https://web.teamviewer.com/remote-support" target="_blank">
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -588,10 +588,10 @@ const ChatDetail: NextPage = () => {
                               d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.225.569-9.47 5.227 7.917-3.286-.672zM12 2.25V4.5m5.834.166l-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243l-1.59-1.59"
                             />
                           </svg>
-
                           <span>원격접속</span>
                         </span>
-                      </Link>
+                      </a>
+
                       <Link href="api/services/block">
                         <button className="flex flex-col items-center space-y-2">
                           <svg

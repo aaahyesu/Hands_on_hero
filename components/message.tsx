@@ -55,7 +55,7 @@ const Message = ({ message, updatedAt, user, $reversed }: MessageProps) => {
         {!$reversed && <p className="text-xs text-black">{user.name}</p>}
 
         {/* 채팅 내용 */}
-        <p className="max-w-[240px] rounded-2xl border-2 bg-black px-4 py-2 text-white">
+        <p className="max-w-[300px] rounded-2xl border-2 bg-black px-4 py-2 text-white">
           {message}
         </p>
       </div>

@@ -53,33 +53,34 @@ export default function List({
   }
 
   return (
-    <Link href={link}>
+    <Link href={link} className="hover:bg-gray-100">
       <div className="flex space-x-3">
         <div className="flex flex-col pt-5">
           <div className="flex items-center space-x-2">
-            <span className="mb-3 text-[25px] font-bold text-black">
+            <span className="mb-1 text-[20px] font-bold text-black">
               {title}
             </span>
           </div>
-          <span className="text-lg text-gray-500">{serviceDate}</span>
-          <span className="text-lg text-gray-500">
+          <span className="text-md text-gray-500">{serviceDate}</span>
+          <span className="text-md text-gray-500">
             {startTime} ~ {endTime}
           </span>
-          <span className="text-lg text-gray-500">{Method}</span>
-          <span className="mt-1 text-[20px] font-medium text-gray-900">
+          <span className="text-md text-gray-500">{Method}</span>
+          <span className="text-md font-medium text-gray-900">
             {Cost}원
           </span>
         </div>
       </div>
+      <div className="flex items-center space-x-2">
       <span
         className={`mr-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${bgClass}`}
       >
         <span className={`mr-1 h-2 w-2 rounded-full ${statusClass}`}></span>
         {statusText}
       </span>
-      <div className="flex items-end justify-end space-x-2">
-        <div className="flex flex-grow justify-end"></div>
-        <div className="text-5 flex items-center space-x-0.5  text-gray-600">
+      {/* <div className="flex items-end justify-end space-x-2"> */}
+        {/* <div className="flex flex-grow justify-end"></div> */}
+        <div className="text-5 flex flex-grow justify-end space-x-0.5  text-gray-600">
           <svg
             className="h-7 w-7"
             fill="none"
@@ -114,7 +115,7 @@ export default function List({
           <span>{room}</span>
         </div>
       </div>
-      <div className="border-b pb-4"></div>
+      <div className="border-b pb-4 border-gray-300"></div>
     </Link>
   );
 }
