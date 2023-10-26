@@ -107,14 +107,11 @@ export default function Layout({
                   clipRule="evenodd"
                 />
               </svg>
-              <div className="absolute bottom-[50px] left-[140px] inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500 text-xs font-bold text-white dark:border-gray-900">
-                8
-              </div>
 
               <span>채팅</span>
             </span>
           </Link>
-          <Link href={`/chatbot/${user?.id}`}>
+          <Link href={"/chatbot"}>
             <span
               className={cls(
                 "flex flex-col items-center space-y-2",
