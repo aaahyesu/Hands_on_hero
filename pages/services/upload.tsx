@@ -58,7 +58,7 @@ const Upload: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="요청서 작성">
       <form className="px-4" onSubmit={handleSubmit(onValid)}>
-        <div className="pt-6 my-4">
+        <div className="pt-6 my-2">
           <Input
             register={register("title", { required: true })}
             required
@@ -78,7 +78,7 @@ const Upload: NextPage = () => {
           name="content"
         />
 
-        <div className="my-4">
+        <div className="py-1">
           <label className="mb-2 block text-sm font-bold text-gray-700">
             서비스 방법을 선택해주세요.
           </label>
@@ -93,7 +93,7 @@ const Upload: NextPage = () => {
         </div>
 
 
-        <div className="text my-2">
+        <div className="text my-1">
           <label className="mb-2 block text-sm font-bold text-gray-700">
             서비스 받을 시간을 선택해주세요
           </label>
@@ -149,7 +149,7 @@ const Upload: NextPage = () => {
             />
           </div>
         </div>
-        <div className="my-4">
+        <div className="my-2">
           <div className="">
             <Input
               register={register("Cost", { required: true })}
@@ -164,11 +164,11 @@ const Upload: NextPage = () => {
         </div>
         <div className="flex justify-center">
           <div className="flex-col-2 flex">
-            <button className="mr-6 mt-2 w-full flex-1 rounded-lg border border-transparent bg-black px-4 py-3 text-sm font-bold text-white shadow-md hover:bg-gray-700 ">
+            <button className="mr-6 mt-1 w-full flex-1 rounded-lg border border-transparent bg-black px-4 py-3 text-sm font-bold text-white shadow-md hover:bg-gray-700 ">
               작성하기
             </button>
             <Link href="/">
-              <button className="ml-6 mt-2 w-full flex-1 rounded-lg border border-gray-600 border-transparent bg-white px-4 py-3 text-sm font-bold text-black shadow-md hover:bg-gray-300 ">
+              <button className="ml-6 mt-1 w-full flex-1 rounded-lg border border-gray-600 border-transparent bg-white px-4 py-3 text-sm font-bold text-black shadow-md hover:bg-gray-300 ">
                 취소하기
               </button>
             </Link>

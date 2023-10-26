@@ -78,58 +78,58 @@ const ServiceDetail: NextPage<ServiceResponse> = ({ service }) => {
 
   return (
     <Layout hasTabBar canGoBack title="요청서 상세내용">
-      <div className="mt-4 px-4 py-5">
-        <label className="py-2 text-xl font-bold">요청자 프로필</label>
+      <div className=" px-4 py-5">
         <div className="pt-2">
-          <Link href={`/serviceProfile/${data?.service?.user?.id}`}>
-            <div className="flex cursor-pointer items-center space-x-3 rounded-lg border border-gray-400 py-3">
-              <div className="px-4">
-                <p className="text-lg font-medium text-black">
-                  {data?.service?.user?.name}
-                </p>
-                <p className="text-xs font-medium text-gray-500">프로필 보기</p>
-              </div>
-            </div>
-          </Link>
-          <div className="pt-4">
+          <div className="pt-3">
             <h1 className="text-xl font-bold text-gray-900">
               {data?.service?.title}
             </h1>
             <div className="pt-2" />
-            <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-6">
-              <p className="mb-2 px-4 text-xl font-bold">상세내용</p>
+            <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-5">
               <span className="px-2 text-sm text-black">
                 {data?.service?.content}
               </span>
             </div>
-            <div className="pt-4" />
+            <div className="pt-2" />
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
-              <p className="mb-2 px-4 text-xl font-bold">요청날짜</p>
+              <p className="mb-1 px-4 text-md font-bold">요청날짜</p>
               <span className="px-2 text-sm text-black">
                 {data?.service?.serviceDate}
               </span>
             </div>
-            <div className="pt-4" />
+            <div className="pt-2" />
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
-              <p className="mb-2 px-4 text-xl font-bold">요청시간</p>
+              <p className="mb-1 px-4 text-md font-bold">요청시간</p>
               <span className="px-2 text-sm text-black">
                 {data?.service?.startTime} ~ {data?.service?.endTime}
               </span>
             </div>
-            <div className="pt-4" />
+            <div className="pt-2" />
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
-              <p className="mb-2 px-4 text-xl font-bold">서비스 비용</p>
+              <p className="mb-1 px-4 text-md font-bold">서비스 비용</p>
               <span className="px-2 text-sm text-black">
-                {data?.service?.Cost}
+                {data?.service?.Cost} 원
               </span>
             </div>
-            <div className="pt-4" />
+            <div className="pt-2" />
             <div className="flex flex-col space-x-3 rounded-lg border border-gray-400 py-2">
-              <p className="mb-2 px-4 text-xl font-bold">서비스 방법</p>
+              <p className="mb-1 px-4 text-md font-bold">서비스 방법</p>
               <span className="px-2 text-sm text-black">
                 {data?.service?.Method}
               </span>
             </div>
+            <div className="pt-2" />
+            <Link href={`/serviceProfile/${data?.service?.user?.id}`}>
+            <div className="pt-2 flex cursor-pointer items-center space-x-3 rounded-lg border border-gray-400 py-3">
+              <div className="px-4">
+                <p className="text-md font-medium text-black">
+                  {data?.service?.user?.name}
+                </p>
+                <p className="text-xs font-medium text-gray-500">요청자 프로필 보기</p>
+              </div>
+            </div>
+          </Link>
+
             <div className="flex items-center justify-between space-x-2 pt-4">
               <Button
                 text="채팅 보내기"

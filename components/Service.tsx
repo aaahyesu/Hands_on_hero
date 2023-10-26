@@ -46,7 +46,7 @@ export default function List({
         <div className="flex space-x-1">
           <div className="flex flex-col">
             <div className="flex items-center space-x-2">
-              <span className="text-xl font-bold text-black">{title}</span>
+              <span className="text-[15px] font-bold text-black">{title}</span>
               {statusText && (
                 <span
                   className={`mr-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${bgClass}`}
@@ -58,8 +58,8 @@ export default function List({
                 </span>
               )}
             </div>
-            <span className="text-lg text-gray-500">{serviceDate}</span>
-            <span className="text-lg text-gray-500">{Method}</span>
+            <span className="text-sm text-gray-500">{serviceDate}</span>
+            <span className="text-sm text-gray-500">{Method}</span>
           </div>
         </div>
       </div>
