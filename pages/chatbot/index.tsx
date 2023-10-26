@@ -83,7 +83,7 @@ export default function Home(): React.JSX.Element {
   };
 
   const sendMessage = (message: string) => {
-    const url = "/api/chat";
+    const url = "/api/chatbot";
 
     const data = {
       model: "gpt-3.5-turbo",

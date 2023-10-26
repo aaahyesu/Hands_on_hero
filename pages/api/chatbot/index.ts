@@ -1,6 +1,15 @@
 import axios from "axios";
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: { method?: any; body?: any },
+  res: {
+    status: (arg0: number) => {
+      (): any;
+      new (): any;
+      json: { (arg0: { message: any }): void; new (): any };
+    };
+  }
+) {
   if (req.method !== "POST") {
     res.status(405).json({ message: "Method should be POST" });
     return;
