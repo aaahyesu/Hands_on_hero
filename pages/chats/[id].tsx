@@ -392,7 +392,7 @@ const ChatDetail: NextPage = () => {
               status={data?.room?.Service?.status}
             />
             <a
-              className="text-[15px] dark:text-primary-500 underline hover:no-underline"
+              className="dark:text-primary-500 text-[15px] underline hover:no-underline"
               href={`/services/${data?.room?.Service?.id}`}
             >
               요청서 바로가기
@@ -568,7 +568,10 @@ const ChatDetail: NextPage = () => {
                           <span>화상통화</span>
                         </span>
                       </Link>
-                      <Link href="https://web.teamviewer.com/remote-support">
+                      <a
+                        href="https://web.teamviewer.com/remote-support"
+                        target="_blank"
+                      >
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
