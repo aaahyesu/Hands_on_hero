@@ -26,7 +26,7 @@ const ReviewList: NextPage = () => {
 
   const handleReviewSubmit = async () => {
     const response = await fetch(
-      `/api/users/${data?.service?.userId}/reviews`,
+      `/api/services/${data?.service?.id}/rating`,
       {
         method: "POST",
         headers: {
@@ -65,10 +65,11 @@ const ReviewList: NextPage = () => {
       <div className="px-3 py-2 text-lg font-bold text-gray-700">
         항목별 리뷰 작성하기{" "}
       </div>
+      <div className="px-2">
       <div className="max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
         <div>
           <dl>
-            <dt className=" px-3  text-lg font-medium text-gray-500 dark:text-gray-400">
+            <dt className=" px-3 font-medium text-gray-500 dark:text-gray-400">
               시간 약속을 잘 지켜요
             </dt>
             <div className=" flex items-center gap-2 px-3 ">
@@ -77,13 +78,13 @@ const ReviewList: NextPage = () => {
                 onChange={(value) => setRated1(value)}
                 className=" text-yellow-400"
               />
-              <Typography color="blue-gray" className="px-3 py-3 font-medium">
+              <Typography color="blue-gray" className="px-3 py-2 font-medium">
                 {score1}.0 점
               </Typography>
             </div>
           </dl>
           <dl>
-            <dt className="px-3 py-3 text-lg font-medium text-gray-500 dark:text-gray-400">
+            <dt className="px-3 pt-3 font-medium text-gray-500 dark:text-gray-400">
               응답 속도가 빨라요
             </dt>
             <div className="flex items-center gap-2 px-3 ">
@@ -92,13 +93,13 @@ const ReviewList: NextPage = () => {
                 onChange={(value) => setRated2(value)}
                 className=" text-yellow-400"
               />
-              <Typography color="blue-gray" className="px-3 py-3 font-medium">
+              <Typography color="blue-gray" className="px-3 py-2 font-medium">
                 {+score2}.0 점
               </Typography>
             </div>
           </dl>
           <dl>
-            <dt className="px-3 py-3 text-lg font-medium text-gray-500 dark:text-gray-400">
+            <dt className="px-3 pt-3 font-medium text-gray-500 dark:text-gray-400">
               매너가 좋아요
             </dt>
             <div className="flex items-center gap-2 px-3  ">
@@ -107,13 +108,13 @@ const ReviewList: NextPage = () => {
                 onChange={(value) => setRated3(value)}
                 className=" text-yellow-400"
               />
-              <Typography color="blue-gray" className="px-3 py-3 font-medium">
+              <Typography color="blue-gray" className="px-3 py-2 font-medium">
                 {+score3}.0 점
               </Typography>
             </div>
           </dl>
           <dl>
-            <dt className="px-3 py-3 text-lg font-medium text-gray-500 dark:text-gray-400">
+            <dt className="px-3 pt-3 font-medium text-gray-500 dark:text-gray-400">
               서비스를 잘 수행해요
             </dt>
             <div className="flex items-center gap-2 px-3 ">
@@ -122,7 +123,7 @@ const ReviewList: NextPage = () => {
                 onChange={(value) => setRated4(value)}
                 className=" text-yellow-400"
               />
-              <Typography color="blue-gray" className="px-3 py-3 font-medium">
+              <Typography color="blue-gray" className="px-3 py-2 font-medium">
                 {+score4}.0 점
               </Typography>
             </div>
@@ -142,6 +143,7 @@ const ReviewList: NextPage = () => {
               취소하기
             </button>
           </Link>
+        </div>
         </div>
       </div>
     </Layout>

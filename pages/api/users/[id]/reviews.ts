@@ -11,21 +11,19 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  // 타겟
-  const createdForId = +req.query.id;
-  // 작성자
-  const createdById = +req.session.user?.id!;
+
+  const createdForId = +req.session.user?.id!;
 
   try {
-    // ...
-
+    
     if (req.method === "GET") {
+
       const reviews = await prisma.review.findMany({
         where: {
-          createdForId: createdForId,
+          createdForId: +createdForId,
         },
         include: {
-          createdBy: {
+          createdFor: {
             select: {
               id: true,
               name: true,
@@ -62,40 +60,7 @@ async function handler(
         message: "리뷰를 가져왔습니다.",
         reviews: reviewsWithServiceInfo,
       });
-    } else if (req.method === "POST") {
-      const rated1 = +req.body.score1;
-      const rated2 = +req.body.score2;
-      const rated3 = +req.body.score3;
-      const rated4 = +req.body.score4;
-      const serviceId = +req.body.serviceId;
-
-      const createdReview = await prisma.review.create({
-        data: {
-          createdById,
-          createdForId,
-          score1: rated1,
-          score2: rated2,
-          score3: rated3,
-          score4: rated4,
-          serviceId: serviceId,
-        },
-        include: {
-          createdBy: {
-            select: {
-              id: true,
-              name: true,
-              avatar: true,
-            },
-          },
-        },
-      });
-
-      return res.status(201).json({
-        ok: true,
-        message: "리뷰를 생성했습니다.",
-        createdReview,
-      });
-    }
+    } 
   } catch (error) {
     console.error("/api/users/[id]/reviews error >> ", error);
 

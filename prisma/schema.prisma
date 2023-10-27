@@ -126,10 +126,10 @@ model Review {
   score2        Int      @default(3)
   score3        Int      @default(3)
   score4        Int      @default(3)  
-  createdBy      User     @relation(name: "WrittenReviews", fields: [createdById], references: [id], onDelete: Cascade)
-  createdById    Int
-  createdFor     User?     @relation(name: "ReceivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
-  createdForId   Int
+  createdBy      User    @relation(name: "WrittenReviews", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById    Int      // 요청자(리뷰 쓰는)
+  createdFor     User?    @relation(name: "ReceivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId   Int      // 제공자(리뷰 받는)
   serviceId      Int?      
   serviceInfo    Service?  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
 

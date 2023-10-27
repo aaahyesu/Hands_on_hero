@@ -111,7 +111,7 @@ export default function Layout({
               <span>채팅</span>
             </span>
           </Link>
-          <Link href={"/chatbot"}>
+          <Link href="/chatbot">
             <span
               className={cls(
                 "flex flex-col items-center space-y-2",
