@@ -58,7 +58,8 @@ const ChatDetail: NextPage = () => {
     setIsModalOpen(false);
   };
 
-  const [isBannerOpen, setIsBannerOpen] = useState(true);
+  const [isBannerOpen, setIsBannerOpen] = useState(false);
+  
 
   const toggleBanner = () => {
     setIsBannerOpen((prev) => !prev);
@@ -402,7 +403,7 @@ const ChatDetail: NextPage = () => {
             </div>
           </div>
         ) : (
-          <span className="px-2 text-xl font-bold text-black">
+          <span className="px-1 font-bold text-black">
             {data?.room?.Service?.title}
           </span>
         )}
@@ -446,7 +447,7 @@ const ChatDetail: NextPage = () => {
         </button>
       </div>
 
-      <article className="mb-10 min-h-[90vh] space-y-4 rounded-sm bg-slate-200 p-4 pt-20">
+      <article className="mb-10 min-h-[78vh] space-y-4 rounded-sm bg-slate-200 p-4 pt-20">
         {loadChatsLoading && (
           <h3 className="rounded-md bg-indigo-400 p-2 text-center text-lg text-white">
             <Spinner kinds="button" />
