@@ -18,10 +18,8 @@ model User {
   // password          String        @db.VarChar(20)
   email             String?         @unique
   virtualAccount    Int             @default(0)            
-  tokens            Token[]
   chats             Chat[]
   rooms             Room[]
-  messages          Message[]
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt()
   services          Service[]       @relation(name: "services")
@@ -35,19 +33,6 @@ model User {
   blockUser         BlockList[]     @relation(name: "blockUser")    
 
 }
-
-model Token {
-  id        Int       @id @default(autoincrement())
-  payload   String    @unique
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  @@index([userId])
-}
-
-
 
 model Service {
   id                Int         @id @default(autoincrement())
@@ -171,18 +156,6 @@ model Chat {
 
   @@index([userId])
   @@index([roomId])
-}
-
-model Message {
-  id        Int      @id @default(autoincrement())
-  message   String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
-
-  @@index([userId])
 }
 
 model BlockList {
