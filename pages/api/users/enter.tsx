@@ -1,41 +1,36 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@/libs/server/withHandler";
 import client from "@/libs/server/client";
+import { withApiSession } from "@/libs/server/withSession";
 
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const { email, password, name } = req.body;
+  const { email, name } = req.body;
   const user = email ? { email } : {};
   if (!user)
     return res.status(400).json({
       ok: false,
       message: "",
     });
-  const payload = Math.floor(100000 + Math.random() * 900000) + "";
-  const token = await client.token.create({
+  const createUser = await client.user.create({
     data: {
-      payload,
-      user: {
-        connectOrCreate: {
-          where: {
             ...user,
-          },
-          create: {
-            ...user,
-            // ...(password && { password }),
             ...(name && { name }),
-          },
-        },
-      },
     },
   });
-  console.log(token);
+
+  req.session.user = {
+    id: createUser.id,
+  };
+  await req.session.save();
   return res.json({
     ok: true,
     message: "gg",
   });
 }
 
-export default withHandler({ methods: ["POST"], handler, isPrivate: false });
+export default withApiSession(
+  withHandler({ methods: ["POST"], handler, isPrivate: false })
+);
