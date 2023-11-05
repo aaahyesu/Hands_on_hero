@@ -59,7 +59,6 @@ const ChatDetail: NextPage = () => {
   };
 
   const [isBannerOpen, setIsBannerOpen] = useState(false);
-  
 
   const toggleBanner = () => {
     setIsBannerOpen((prev) => !prev);
@@ -550,7 +549,7 @@ const ChatDetail: NextPage = () => {
                   {/* Modal body */}
                   <div className="space-y-6 p-6">
                     <nav className="flex w-full max-w-xl justify-between bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
-                      <Link href={`http://localhost:3001/${data?.room?.id}`}>
+                      <Link href={"https://192.168.0.55:3001/"}>
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
