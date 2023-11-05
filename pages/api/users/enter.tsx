@@ -14,22 +14,42 @@ async function handler(
       ok: false,
       message: "",
     });
-  const createUser = await client.user.create({
-    data: {
-            ...user,
-            ...(name && { name }),
-    },
-  });
+    const existingUser = await client.user.findFirst({
+      where: {
+        email: user?.email,
+        ...(name && { name }),
+      },
+    });
 
-  req.session.user = {
-    id: createUser.id,
-  };
-  await req.session.save();
-  return res.json({
-    ok: true,
-    message: "gg",
-  });
-}
+    if (existingUser) {
+      req.session.user = {
+        id: existingUser.id,
+      };
+      await req.session.save();
+  
+      return res.json({
+        ok: true,
+        message: "Logged in",
+      });
+    } else {
+      const createUser = await client.user.create({
+        data: {
+          ...email,
+          ...(name && { name }),
+        },
+      });
+
+      req.session.user = {
+        id: createUser.id,
+      };
+      await req.session.save();
+  
+      return res.json({
+        ok: true,
+        message: "User created and logged in",
+      });
+    }
+  }
 
 export default withApiSession(
   withHandler({ methods: ["POST"], handler, isPrivate: false })
