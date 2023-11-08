@@ -15,11 +15,18 @@ async function handler(
     query: { id },
   } = req;
 
+  if (typeof id !== "string") {
+    return res.status(400).json({
+      ok: false,
+      message: "Invalid 'id' parameter",
+    });
+  }
+  
   try {
     
     const service = await prisma.service.findUnique({
       where: {
-        id: +id.toString(),
+        id: +id,
       }
     })
 

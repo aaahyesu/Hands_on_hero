@@ -11,9 +11,17 @@ async function handler(
     query: { id },
     session: { user },
   } = req;
+
+  if (typeof id !== "string") {
+    return res.status(400).json({
+      ok: false,
+      message: "Invalid 'id' parameter",
+    });
+  }
+  
   const service = await client.service.findUnique({
     where: {
-      id: +id.toString(),
+      id: +id,
     },
     include: {
       user: {
