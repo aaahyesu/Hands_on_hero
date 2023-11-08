@@ -5,7 +5,7 @@ import useSWR from "swr";
 
 interface ProfileRespone {
   ok: boolean;
-  profile: User;
+  user: User;
 }
 
 export default function useUser() {

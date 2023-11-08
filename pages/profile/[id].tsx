@@ -6,6 +6,7 @@ import Review from "@/components/Review";
 import useSWR from "swr";
 
 import useUser from "@/libs/client/useUser";
+import { Key } from "react";
 
 const Profile: NextPage = () => {
   const router = useRouter();
@@ -54,19 +55,31 @@ const Profile: NextPage = () => {
             받은 리뷰 내역 ✍️
           </div>
           <div className="">
-            {data?.reviews?.map((reviews) => (
-              <Review
-                key={reviews?.id}
-                id={reviews?.serviceId}
-                title={reviews?.serviceTitle}
-                score1={reviews?.score1}
-                score2={reviews?.score2}
-                score3={reviews?.score3}
-                score4={reviews?.score4}
-                serviceDate={reviews?.serviceDate.toString()}
-                Method={reviews?.serviceMethod}
-              />
-            ))}
+            {data?.reviews?.map(
+              (reviews: {
+                id: Key | null | undefined;
+                serviceId: number;
+                serviceTitle: string;
+                score1: number;
+                score2: number;
+                score3: number;
+                score4: number;
+                serviceDate: { toString: () => Date };
+                serviceMethod: string;
+              }) => (
+                <Review
+                  key={reviews?.id}
+                  id={reviews?.serviceId}
+                  title={reviews?.serviceTitle}
+                  score1={reviews?.score1}
+                  score2={reviews?.score2}
+                  score3={reviews?.score3}
+                  score4={reviews?.score4}
+                  serviceDate={reviews?.serviceDate.toString()}
+                  Method={reviews?.serviceMethod}
+                />
+              )
+            )}
           </div>
         </div>
       </div>
