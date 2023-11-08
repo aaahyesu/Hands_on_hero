@@ -10,15 +10,15 @@ const Service: NextPage = () => {
       <div className="flex flex-col space-y-5 px-4 py-2 pt-5">
         {data?.responselists?.map((service) => (
           <List
-            key={service?.id}
-            id={service?.id}
-            title={service?.title}
-            serviceDate={service?.serviceDate}
-            startTime={service?.startTime}
-            endTime={service?.endTime}
-            Cost={service?.Cost}
-            liked={service?._count?.liked}
-            room={service?._count?.room}
+            key={service.id}
+            id={service.id}
+            title={service.title}
+            serviceDate={service.serviceDate.toString()}
+            startTime={service.startTime.toString()}
+            endTime={service.endTime.toString()}
+            Cost={service.Cost}
+            liked={service._count.liked}
+            room={service._count.room}
             Method={""}
             link={`/services/${service.id}`}
             status={service?.status}

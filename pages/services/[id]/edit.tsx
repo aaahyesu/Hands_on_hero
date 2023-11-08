@@ -14,9 +14,9 @@ interface EditServiceForm {
   title: String;
   content: String;
   Method: String;
-  serviceDate: Date;
-  startTime: Date;
-  endTime: Date;
+  serviceDate: String;
+  startTime: String;
+  endTime: String;
   Cost: Number;
   formErrors?: string;
 }

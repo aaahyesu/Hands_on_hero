@@ -61,24 +61,24 @@ export default function List({
               {title}
             </span>
           </div>
-          <span className="text-md text-gray-500">{serviceDate}</span>
           <span className="text-md text-gray-500">
-            {startTime} ~ {endTime}
+            {serviceDate.toString()}
+          </span>
+          <span className="text-md text-gray-500">
+            {startTime.toString()} ~ {endTime.toString()}
           </span>
           <span className="text-md text-gray-500">{Method}</span>
-          <span className="text-md font-medium text-gray-900">
-            {Cost}원
-          </span>
+          <span className="text-md font-medium text-gray-900">{Cost}원</span>
         </div>
       </div>
       <div className="flex items-center space-x-2">
-      <span
-        className={`mr-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${bgClass}`}
-      >
-        <span className={`mr-1 h-2 w-2 rounded-full ${statusClass}`}></span>
-        {statusText}
-      </span>
-      {/* <div className="flex items-end justify-end space-x-2"> */}
+        <span
+          className={`mr-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${bgClass}`}
+        >
+          <span className={`mr-1 h-2 w-2 rounded-full ${statusClass}`}></span>
+          {statusText}
+        </span>
+        {/* <div className="flex items-end justify-end space-x-2"> */}
         {/* <div className="flex flex-grow justify-end"></div> */}
         <div className="text-5 flex flex-grow justify-end space-x-0.5  text-gray-600">
           <svg
@@ -115,7 +115,7 @@ export default function List({
           <span>{room}</span>
         </div>
       </div>
-      <div className="border-b pb-4 border-gray-300"></div>
+      <div className="border-b border-gray-300 pb-4"></div>
     </Link>
   );
 }

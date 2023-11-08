@@ -116,7 +116,9 @@ export default function List({
                   {score4}.0 점
                 </Typography>
               </div>
-              <span className="px-3 text-lg text-gray-500">{serviceDate}</span>
+              <span className="px-3 text-lg text-gray-500">
+                {serviceDate.toString()}
+              </span>
               <span className="mb-2 px-3 text-lg text-gray-500">{Method}</span>
             </div>
           </div>

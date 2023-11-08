@@ -14,9 +14,9 @@ const MyList: NextPage = ({}) => {
             id={service.id}
             title={service.title}
             Cost={service.Cost}
-            serviceDate={service.serviceDate}
-            startTime={service.startTime}
-            endTime={service.endTime}
+            serviceDate={service.serviceDate.toString()}
+            startTime={service.startTime.toString()}
+            endTime={service.endTime.toString()}
             Method={service.Method}
             liked={service._count.liked}
             room={service._count.room}

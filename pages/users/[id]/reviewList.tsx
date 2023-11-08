@@ -22,7 +22,7 @@ const ReviewList: NextPage = () => {
             score2={reviews?.score2}
             score3={reviews?.score3}
             score4={reviews?.score4}
-            serviceDate={reviews?.serviceDate}
+            serviceDate={reviews?.serviceDate.toString()}
             Method={reviews?.serviceMethod}
           />
         ))}

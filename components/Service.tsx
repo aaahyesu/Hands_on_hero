@@ -46,12 +46,14 @@ export default function List({
         <span className="text-[15px] font-bold text-black">{title}</span>
       </div>
       {statusText && (
-        <span className={`mr-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${bgClass}`}>
-        <span className={`mr-1 h-2 w-2 rounded-full ${statusClass}`}></span>
-        {statusText}
+        <span
+          className={`mr-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${bgClass}`}
+        >
+          <span className={`mr-1 h-2 w-2 rounded-full ${statusClass}`}></span>
+          {statusText}
         </span>
-         )}
-      <div className="text-sm text-gray-500">{serviceDate}</div>
+      )}
+      <div className="text-sm text-gray-500">{serviceDate.toString()}</div>
       <div className="text-sm text-gray-500">{Method}</div>
     </div>
   );

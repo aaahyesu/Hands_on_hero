@@ -19,7 +19,9 @@ interface ServiceResponse {
 }
 
 const Home: NextPage<ServiceResponse> = () => {
-  const { data } = useSWR<ServiceResponse>("/api/services");
+  const { data } = useSWR<ServiceResponse>(
+    typeof window === "undefined" ? null : "/api/services"
+  );
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedStatusOption, setSelectedStatusOption] =
     useState("서비스 매칭 대기 중");
@@ -244,16 +246,15 @@ const Home: NextPage<ServiceResponse> = () => {
         {data &&
           filterSearchResults(data?.services)?.map((service) => (
             <List
-              key={service.id}
-              id={service.id}
-              title={service.title}
-              Cost={service.Cost}
-              serviceDate={service.serviceDate}
-              startTime={service.startTime}
-              endTime={service.endTime}
-              Method={service.Method}
-              liked={service._count.liked}
-              room={service._count.room}
+              key={service?.id}
+              id={service?.id}
+              title={service?.title}
+              Cost={service?.Cost}
+              serviceDate={service?.serviceDate.toString()}
+              startTime={service?.startTime.toString()}
+              endTime={service?.endTime.toString()}
+              Method={service?.Method}
+              liked={service?._count.liked}
               link={`/services/${service.id}`}
               status={service?.status}
             />

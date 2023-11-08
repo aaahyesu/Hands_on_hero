@@ -13,7 +13,7 @@ interface UploadServiceForm {
   title: String;
   content: String;
   Method: String;
-  serviceDate: Date;
+  serviceDate: String;
   startTime: Date;
   endTime: Date;
   Cost: Number;
@@ -58,7 +58,7 @@ const Upload: NextPage = () => {
   return (
     <Layout hasTabBar canGoBack title="요청서 작성">
       <form className="px-4" onSubmit={handleSubmit(onValid)}>
-        <div className="pt-6 my-2">
+        <div className="my-2 pt-6">
           <Input
             register={register("title", { required: true })}
             required
@@ -84,14 +84,13 @@ const Upload: NextPage = () => {
           </label>
           <select
             {...register("Method", { required: true })}
-            className="w-full p-2 border rounded-lg"
+            className="w-full rounded-lg border p-2"
           >
             <option value="화상통화">화상통화</option>
             <option value="원격접속">원격접속</option>
             <option value="채팅">채팅</option>
           </select>
         </div>
-
 
         <div className="text my-1">
           <label className="mb-2 block text-sm font-bold text-gray-700">
@@ -110,7 +109,7 @@ const Upload: NextPage = () => {
                 label=""
                 name="serviceDate"
                 kind="time"
-                onChange={handleDateChange} // 날짜 변경 핸들러 추가
+                // onChange={handleDateChange} // 날짜 변경 핸들러 추가
               />
             </div>
           </div>
