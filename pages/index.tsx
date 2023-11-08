@@ -244,6 +244,7 @@ const Home: NextPage<ServiceResponse> = () => {
         {data &&
           filterSearchResults(data?.services)?.map((service) => (
             <List
+              key={service.id}
               id={service.id}
               title={service.title}
               Cost={service.Cost}
