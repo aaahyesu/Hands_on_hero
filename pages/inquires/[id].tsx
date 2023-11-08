@@ -40,11 +40,7 @@ const InquiryPost: NextPage = () => {
   const { user } = useUser();
   const { register, handleSubmit, reset } = useForm<AnswerForm>();
   const { data, mutate } = useSWR<InquiryResponse>(
-    typeof window === "undefined"
-      ? null
-      : router.query.id
-      ? `/api/inquiry/${router.query.id}`
-      : null
+    router.query.id ? `/api/inquiry/${router.query.id}` : null
   );
 
   const [sendAnswer, { data: answerData, loading: answerLoading }] =

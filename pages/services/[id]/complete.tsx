@@ -3,7 +3,7 @@ import Link from "next/link";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 
-const complete: FunctionComponent = () => {
+const Complete: FunctionComponent = () => {
   const router = useRouter();
   const { data } = useSWR(`/api/services/${router.query.id}`);
   console.log(data);
@@ -47,4 +47,4 @@ const complete: FunctionComponent = () => {
   );
 };
 
-export default complete;
+export default Complete;

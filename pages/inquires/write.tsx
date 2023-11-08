@@ -34,7 +34,7 @@ const Write: NextPage = () => {
 
   return (
     <Layout hasTabBar canGoBack title="1:1 문의 작성">
-      <form onSubmit={handleSubmit(onValid)} className="space-y-4 p-4 mt-8">
+      <form onSubmit={handleSubmit(onValid)} className="mt-8 space-y-4 p-4">
         <TextArea
           register={register("question", { required: true, minLength: 5 })}
           required

@@ -16,7 +16,7 @@ interface InquiryResponse {
   inquiries: InquiryWithUser[];
 }
 
-const inquiry: NextPage = () => {
+const Inquiry: NextPage = () => {
   const { data } = useSWR<InquiryResponse>(
     typeof window === "undefined" ? null : `/api/inquiry`
   );
@@ -84,4 +84,4 @@ const inquiry: NextPage = () => {
   );
 };
 
-export default inquiry;
+export default Inquiry;
