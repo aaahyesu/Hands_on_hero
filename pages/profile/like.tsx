@@ -24,7 +24,7 @@ const Like: NextPage = () => {
                 endTime: Date;
                 Cost: number;
                 _count: { liked: number; room: number };
-                status: string;
+                status: "Start" | "Complete" | "Incomplete" | "None";
               };
             }) => (
               <List

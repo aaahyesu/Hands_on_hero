@@ -246,17 +246,17 @@ const Home: NextPage<ServiceResponse> = () => {
         {data &&
           filterSearchResults(data?.services)?.map((service) => (
             <List
-              key={service?.id}
-              id={service?.id}
-              title={service?.title}
-              Cost={service?.Cost}
-              serviceDate={service?.serviceDate.toString()}
-              startTime={service?.startTime.toString()}
-              endTime={service?.endTime.toString()}
-              Method={service?.Method}
-              liked={service?._count.liked}
+              key={service.id}
+              id={service.id}
+              title={service.title}
+              Cost={service.Cost}
+              serviceDate={service.serviceDate.toString()}
+              startTime={service.startTime.toString()}
+              endTime={service.endTime.toString()}
+              Method={service.Method}
+              liked={service._count.liked}
               link={`/services/${service.id}`}
-              status={service?.status}
+              status={service.status}
             />
           ))}
         <Link href="/services/upload">

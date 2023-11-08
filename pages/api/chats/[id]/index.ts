@@ -8,12 +8,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     method,
     session: { user },
   } = req;
-  const roomId = +req.query.id;
+  const roomId = req.query.id ? +req.query.id : undefined;
 
   try {
     if (method === "GET") {
-
-
       const chatsPromise = prisma.chat.findMany({
         where: {
           roomId,
