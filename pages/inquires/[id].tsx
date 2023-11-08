@@ -35,7 +35,7 @@ interface AnswerResponse {
   response: Answer;
 }
 
-const inquiryPost: NextPage = () => {
+const InquiryPost: NextPage = () => {
   const router = useRouter();
   const { user } = useUser();
   const { register, handleSubmit, reset } = useForm<AnswerForm>();
@@ -105,7 +105,7 @@ const inquiryPost: NextPage = () => {
           ))}
         </div>
         {!data?.inquiry?._count?.answer && (
-          <div className="mt-4 mb-2 px-4 text-sm text-gray-500">
+          <div className="mb-2 mt-4 px-4 text-sm text-gray-500">
             아직 답변이 없습니다.
           </div>
         )}
@@ -126,4 +126,4 @@ const inquiryPost: NextPage = () => {
   );
 };
 
-export default inquiryPost;
+export default InquiryPost;
