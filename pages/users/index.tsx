@@ -33,7 +33,7 @@ const Enter: NextPage = () => {
   };
   useEffect(() => {
     if (data?.ok) {
-      router.replace(`/`);
+      router.replace(`/totalList`);
     }
   }, [data, router]);
   return (
