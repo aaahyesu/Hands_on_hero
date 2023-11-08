@@ -14,9 +14,9 @@ const MyList: NextPage = ({}) => {
             id: Key | null | undefined;
             title: string;
             Cost: number;
-            serviceDate: { toString: () => Date };
-            startTime: { toString: () => Date };
-            endTime: { toString: () => Date };
+            serviceDate: string;
+            startTime: string;
+            endTime: string;
             Method: string;
             _count: { liked: number; room: number };
             status: string;

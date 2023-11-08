@@ -19,9 +19,9 @@ const Like: NextPage = () => {
               service: {
                 id: number;
                 title: string;
-                serviceDate: { toString: () => Date };
-                startTime: Date;
-                endTime: Date;
+                serviceDate: string;
+                startTime: string;
+                endTime: string;
                 Cost: number;
                 _count: { liked: number; room: number };
                 status: "Start" | "Complete" | "Incomplete" | "None";

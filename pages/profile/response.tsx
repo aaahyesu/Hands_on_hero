@@ -13,9 +13,9 @@ const Service: NextPage = () => {
           (service: {
             id: Key | null | undefined;
             title: string;
-            serviceDate: { toString: () => Date };
-            startTime: { toString: () => Date };
-            endTime: { toString: () => Date };
+            serviceDate: string;
+            startTime: string;
+            endTime: string;
             Cost: number;
             _count: { liked: number; room: number };
             status: string;
