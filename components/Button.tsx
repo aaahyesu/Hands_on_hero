@@ -4,7 +4,7 @@ import { ReactChild, Suspense } from "react";
 import { cls } from "libs/client/utils";
 
 // common-component
-import Spinner from "./spinner";
+import Spinner from "@/components/Spinner";
 
 type Props = {
   text: string | ReactChild;

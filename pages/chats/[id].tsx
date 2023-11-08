@@ -26,7 +26,7 @@ import { Chat } from "@prisma/client";
 import useMe from "@/libs/client/useMe";
 import useSWRInfinite from "swr/infinite";
 import useMutation from "@/libs/client/useMutation";
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/Spinner";
 import Layout from "@/components/navbar";
 import useUser from "@/libs/client/useUser";
 import Service from "@/components/Service";

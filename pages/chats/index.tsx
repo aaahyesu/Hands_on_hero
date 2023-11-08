@@ -6,7 +6,7 @@ import Layout from "@/components/navbar";
 import { cls } from "libs/client/utils";
 
 // common-components
-import Spinner from "components/spinner";
+import Spinner from "@/components/Spinner";
 // import Avatar from "@/components/Avatar";
 
 // type
