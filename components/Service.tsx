@@ -3,7 +3,7 @@ import React from "react";
 interface ListProps {
   id: number;
   title: string;
-  serviceDate: Date;
+  serviceDate: string;
   Method: string;
   status: "Start" | "Complete" | "Incomplete" | "None";
 }

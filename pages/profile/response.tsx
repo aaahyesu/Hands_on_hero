@@ -24,9 +24,9 @@ const Service: NextPage = () => {
               key={service.id as number}
               id={service.id as number}
               title={service.title}
-              serviceDate={service.serviceDate.toString()}
-              startTime={service.startTime.toString()}
-              endTime={service.endTime.toString()}
+              serviceDate={service.serviceDate}
+              startTime={service.startTime}
+              endTime={service.endTime}
               Cost={service.Cost}
               liked={service._count.liked}
               room={service._count.room}

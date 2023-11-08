@@ -5,7 +5,7 @@ import { Rating, Typography } from "@material-tailwind/react";
 interface ListProps {
   id: number;
   title: string;
-  serviceDate: Date;
+  serviceDate: string;
   Method: string;
   score1: number;
   score2: number;

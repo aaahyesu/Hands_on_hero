@@ -64,7 +64,7 @@ const Profile: NextPage = () => {
                 score2: number;
                 score3: number;
                 score4: number;
-                serviceDate: { toString: () => Date };
+                serviceDate: string;
                 serviceMethod: string;
               }) => (
                 <Review
@@ -75,7 +75,7 @@ const Profile: NextPage = () => {
                   score2={reviews?.score2}
                   score3={reviews?.score3}
                   score4={reviews?.score4}
-                  serviceDate={reviews?.serviceDate.toString()}
+                  serviceDate={reviews?.serviceDate}
                   Method={reviews?.serviceMethod}
                 />
               )

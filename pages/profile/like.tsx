@@ -31,7 +31,7 @@ const Like: NextPage = () => {
                 key={liked.id}
                 id={liked.service.id}
                 title={liked.service.title}
-                serviceDate={liked.service.serviceDate.toString()}
+                serviceDate={liked.service.serviceDate}
                 startTime={liked.service.startTime}
                 endTime={liked.service.endTime}
                 Cost={liked.service.Cost}

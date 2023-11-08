@@ -5,7 +5,7 @@ import router, { useRouter } from "next/router";
 interface ListProps {
   id: number;
   title: string;
-  serviceDate: Date;
+  serviceDate: string;
   Method: string;
 }
 

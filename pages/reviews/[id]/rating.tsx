@@ -56,7 +56,7 @@ const ReviewList: NextPage = () => {
       <Service
         id={data?.service?.id}
         title={data?.service?.title}
-        serviceDate={data?.service?.serviceDate.toString()}
+        serviceDate={data?.service?.serviceDate}
         Method={data?.service?.Method}
       />
       <div className="px-3 py-2 text-lg font-bold text-gray-700">

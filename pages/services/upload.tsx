@@ -14,8 +14,8 @@ interface UploadServiceForm {
   content: String;
   Method: String;
   serviceDate: String;
-  startTime: Date;
-  endTime: Date;
+  startTime: string;
+  endTime: string;
   Cost: Number;
 }
 
