@@ -1,38 +1,28 @@
 import { FunctionComponent, useCallback } from "react";
 import Link from "next/link";
 
-const complete: FunctionComponent = () => {
+const Logout: FunctionComponent = () => {
   const onGroupContainerClick = useCallback(() => {}, []);
 
   return (
-    <div className="font-inter relative h-[852px] w-full overflow-hidden bg-white text-left text-base text-white">
-      <div className="absolute left-[161px] top-[452px] font-semibold leading-[125%]">
-        Continue
-      </div>
-      <div className="font-nanumsquare-neo absolute left-[34px] top-[116px] inline-block w-[339px] text-center text-[30px] font-extrabold leading-[130%] tracking-[-0.01em] text-black">
-        로그아웃 완료 🙌
-      </div>
-      <div
-        className="absolute left-[20px] top-[707px] h-14 w-[353px] cursor-pointer items-center"
-        onClick={onGroupContainerClick}
-      >
-        <Link href="/enter" className="mx-auto">
-          <button className="rounded-md bg-black px-[150px] py-3 font-semibold text-white shadow-md hover:bg-gray-800">
+    <div className="mt-16 px-4">
+      <h2 className="text-center text-4xl font-extrabold">로그아웃 완료 🙌</h2>
+      <div className="mt-5">
+        <div className="flex flex-col items-center">
+          <img
+            src="/superman_bg_transparent.png"
+            alt="Superman Background"
+            className="image-style "
+          />
+        </div>
+        <Link href="/users/">
+          <div className="mt-1 rounded-md border-2 border-transparent bg-black px-4 py-2 text-center font-medium text-white shadow-sm hover:bg-[#050708]/80 focus:outline-none focus:ring-2 focus:ring-[#050708] focus:ring-offset-2 ">
             확인
-          </button>
+          </div>
         </Link>
-        <div className="pt-4"></div>
-      </div>
-
-      <div className="absolute left-[10px] top-[171px] flex flex-row items-start justify-start p-2">
-        <img
-          className="relative h-[495px] w-[357px] object-cover"
-          alt=""
-          src="/superman_bg_white.png"
-        />
       </div>
     </div>
   );
 };
 
-export default complete;
+export default Logout;
