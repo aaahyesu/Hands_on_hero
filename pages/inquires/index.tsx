@@ -17,7 +17,9 @@ interface InquiryResponse {
 }
 
 const inquiry: NextPage = () => {
-  const { data } = useSWR<InquiryResponse>(`/api/inquiry`);
+  const { data } = useSWR<InquiryResponse>(
+    typeof window === "undefined" ? null : `/api/inquiry`
+  );
   return (
     <Layout hasTabBar canGoBack title="문의 내역">
       <div className="mt-5 space-y-5">

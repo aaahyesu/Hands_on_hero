@@ -46,6 +46,7 @@ const InquiryPost: NextPage = () => {
       ? `/api/inquiry/${router.query.id}`
       : null
   );
+
   const [sendAnswer, { data: answerData, loading: answerLoading }] =
     useMutation<AnswerResponse>(`/api/inquiry/${router.query.id}/answers`);
 
