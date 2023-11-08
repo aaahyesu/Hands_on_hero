@@ -3,9 +3,9 @@ import Link from "next/link";
 interface ListProps {
   id: number;
   title: string;
-  serviceDate: String;
-  startTime: String;
-  endTime: String;
+  serviceDate: string;
+  startTime: string;
+  endTime: string;
   Method: string;
   Cost: number;
   liked: number;
