@@ -13,6 +13,13 @@ async function handler(
     body: { answer },
   } = req;
 
+  if (typeof id !== "string") {
+    return res.status(400).json({
+      ok: false,
+      message: "Invalid 'id' parameter",
+    });
+  }
+
   const newAnswer = await client.answer.create({
     data: {
       user: {
@@ -22,7 +29,7 @@ async function handler(
       },
       inquiry: {
         connect: {
-          id: +id.toString(),
+          id: +id,
         },
       },
       answer,

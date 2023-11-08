@@ -10,9 +10,17 @@ async function handler(
     const {
         query: {id},
     } = req;
+
+    if (typeof id !== "string") {
+      return res.status(400).json({
+        ok: false,
+        message: "Invalid 'id' parameter",
+      });
+    }
+
     const inquiry = await client.inquiry.findUnique({
         where: {
-            id: +id.toString(),
+            id: +id,
         },
         include: {
             user: {

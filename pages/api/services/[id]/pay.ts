@@ -11,18 +11,18 @@ async function handler(
     query: { id },
   } = req;
 
-  if (typeof id !== "string") {
+    if (typeof id !== "string") {
     return res.status(400).json({
       ok: false,
       message: "Invalid 'id' parameter",
     });
   }
-
   if (req.method === "POST") {
+    
     try {
       const Service = await client.service.findUnique({
         where: {
-            id: +id,
+            id: +id.toString(),
         },
       })
 
@@ -40,12 +40,14 @@ async function handler(
         });
       }
 
+      
       // 제공자 정보 가져오기
       const takemoney = await client.user.findUnique({
         where: {
-          id: Service?.serviceUserId
+          id: typeof Service?.serviceUserId === 'number' ? Service?.serviceUserId : -1,
         },
       });
+
 
       if (!takemoney) {
         return res.status(404).json({
@@ -71,12 +73,13 @@ async function handler(
       // 제공자 가상 계좌 업데이트
       const updatedUser2 = await client.user.update({
         where: {
-          id: Service?.serviceUserId
+          id: typeof Service?.serviceUserId === 'number' ? Service?.serviceUserId : -1, // 대체값을 설정할 수 있습니다.
         },
         data: {
           virtualAccount: plusmoney,
         },
       });
+
 
       res.json({
         ok: true,

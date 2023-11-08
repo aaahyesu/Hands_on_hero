@@ -11,19 +11,18 @@ async function handler(
     query: { id },
   } = req;
    
-  if (typeof id !== "string") {
+    if (typeof id !== "string") {
     return res.status(400).json({
       ok: false,
       message: "Invalid 'id' parameter",
     });
   }
-
   if (req.method === "PATCH") {
     try {
       // 채팅방과 관련된 서비스 아이디, 사용자들 찾기
       const select = await client.room.findUnique({
         where: {
-          id: +id,
+          id: +id.toString(),
         },
         select: {
           serviceId: true,
@@ -34,7 +33,7 @@ async function handler(
       const ServiceId = select?.serviceId;
       const findUser1 = select?.users[0]?.id;
       const findUser2 = select?.users[1]?.id;
-      let findUser;
+      let findUser: number | undefined;
       
       const find = await client.service.findUnique({
         where: {
@@ -46,13 +45,22 @@ async function handler(
       })
 
       // 사용자들의 아이디 비교 후 제공자 아이디 설정
-      if(find?.userId != findUser1) {
-        findUser = findUser1
+
+      if (find?.userId !== findUser1) {
+        findUser = findUser1;
+      } else if (find?.userId !== findUser2) {
+        findUser = findUser2;
       }
-      else if(find?.id != findUser2) {
-        findUser = findUser2
+
+      if (findUser === undefined) {
+        return res.status(500).json({
+          ok: false,
+          message: "Unable to determine the service user",
+        });
       }
-      const serviceUser = findUser
+
+      const serviceUser = findUser;
+
 
       const updatedService = await client.service.update({
         where: {
