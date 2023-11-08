@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "push": "npx prisma db push",
     "studio": "npx prisma studio",
-    "connect": "pscale connect hands_on_hero"
+    "connect": "pscale connect hands_on_hero",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.14",
