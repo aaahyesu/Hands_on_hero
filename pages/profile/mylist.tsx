@@ -10,6 +10,7 @@ const MyList: NextPage = ({}) => {
       <div className="flex flex-col space-y-5 px-4 py-2 pt-5">
         {data?.services?.map((service) => (
           <List
+            key={service.id}
             id={service.id}
             title={service.title}
             Cost={service.Cost}
