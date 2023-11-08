@@ -19,9 +19,7 @@ interface ServiceResponse {
 }
 
 const Home: NextPage<ServiceResponse> = () => {
-  const { data } = useSWR<ServiceResponse>(
-    typeof window === "undefined" ? null : "/api/services"
-  );
+  const { data } = useSWR<ServiceResponse>("/api/services");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedStatusOption, setSelectedStatusOption] =
     useState("서비스 매칭 대기 중");
@@ -250,13 +248,14 @@ const Home: NextPage<ServiceResponse> = () => {
               id={service.id}
               title={service.title}
               Cost={service.Cost}
-              serviceDate={service.serviceDate.toString()}
-              startTime={service.startTime.toString()}
-              endTime={service.endTime.toString()}
+              serviceDate={service.serviceDate}
+              startTime={service.startTime}
+              endTime={service.endTime}
               Method={service.Method}
               liked={service._count.liked}
+              room={service._count.room}
               link={`/services/${service.id}`}
-              status={service.status}
+              status={service.status ?? "Start"}
             />
           ))}
         <Link href="/services/upload">
