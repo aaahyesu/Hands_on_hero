@@ -65,28 +65,6 @@ const Enter: NextPage = () => {
               required
             />
           </div>
-          {/* <div className="mt-1">
-            <Input
-              register={register("password", { required: true })}
-              name="password"
-              label="비밀번호"
-              type="password"
-              kind="text"
-              placeholder="비밀번호를 입력해주세요."
-              required
-            />
-          </div> */}
-          {/* <div className="mt-1">
-            <Input
-              register={register("password", { required: true })}
-              name="password"
-              label="비밀번호 확인"
-              type="password"
-              kind="text"
-              placeholder="비밀번호를 다시 한 번 입력해주세요."
-              required
-            />
-          </div> */}
           <div className="mb-4 flex items-center">
             <input
               type="checkbox"

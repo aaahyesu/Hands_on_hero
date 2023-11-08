@@ -53,7 +53,7 @@ export default function List({
           {statusText}
         </span>
       )}
-      <div className="text-sm text-gray-500">{serviceDate.toString()}</div>
+      <div className="text-sm text-gray-500">{serviceDate}</div>
       <div className="text-sm text-gray-500">{Method}</div>
     </div>
   );

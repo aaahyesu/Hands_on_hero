@@ -21,7 +21,7 @@ export default function List({ id, title, serviceDate, Method }: ListProps) {
             <div className="flex flex-col">
               <span className=" text-lg font-bold text-black">{title}</span>
               <span className="text-[15px] text-gray-500">
-                {serviceDate.toString()}
+                {serviceDate}
               </span>
               <span className="pt-1 text-[15px] text-gray-500">{Method}</span>
             </div>

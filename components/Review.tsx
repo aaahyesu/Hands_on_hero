@@ -117,7 +117,7 @@ export default function List({
                 </Typography>
               </div>
               <span className="px-3 text-lg text-gray-500">
-                {serviceDate.toString()}
+                {serviceDate}
               </span>
               <span className="mb-2 px-3 text-lg text-gray-500">{Method}</span>
             </div>

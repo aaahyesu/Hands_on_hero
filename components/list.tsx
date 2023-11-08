@@ -53,8 +53,7 @@ export default function List({
   }
 
   return (
-    <Link href={link} passHref>
-      <a className="hover:bg-gray-100">
+    <Link href={link} className="hover:bg-gray-100">
         <div className="flex space-x-3">
           <div className="flex flex-col pt-5">
             <div className="flex items-center space-x-2">
@@ -115,7 +114,6 @@ export default function List({
           </div>
         </div>
         <div className="border-b border-gray-300 pb-4"></div>
-      </a>
     </Link>
   );
 }
