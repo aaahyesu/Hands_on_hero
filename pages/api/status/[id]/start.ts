@@ -11,12 +11,19 @@ async function handler(
     query: { id },
   } = req;
    
+  if (typeof id !== "string") {
+    return res.status(400).json({
+      ok: false,
+      message: "Invalid 'id' parameter",
+    });
+  }
+
   if (req.method === "PATCH") {
     try {
       // 채팅방과 관련된 서비스 아이디, 사용자들 찾기
       const select = await client.room.findUnique({
         where: {
-          id: +id.toString(),
+          id: +id,
         },
         select: {
           serviceId: true,

@@ -11,11 +11,18 @@ async function handler(
     query: { id },
   } = req;
   
+  if (typeof id !== "string") {
+    return res.status(400).json({
+      ok: false,
+      message: "Invalid 'id' parameter",
+    });
+  }
+  
   if (req.method === "PATCH") {
     try {
       const updatedService = await client.service.update({
         where: {
-          id: +id.toString(),
+          id: +id,
         },
         data: {
           status: "Incomplete",

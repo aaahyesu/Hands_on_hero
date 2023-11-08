@@ -12,7 +12,14 @@ async function handler(
       session: { user },
     } = req;
 
-    const blockUserId: number = +id.toString();
+    if (typeof id !== "string") {
+      return res.status(400).json({
+        ok: false,
+        message: "Invalid 'id' parameter",
+      });
+    }
+    
+    const blockUserId: number = +id;
     const blockById: number = user?.id ?? 0;
     
     if (req.method === "POST") {

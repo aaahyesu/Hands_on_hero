@@ -11,6 +11,12 @@ async function handler(
     query: { id },
     session: { user },
   } = req;
+  if (typeof id !== "string") {
+    return res.status(400).json({
+      ok: false,
+      message: "Invalid 'id' parameter",
+    });
+  }
   const likes = await client.liked.findFirst({
     where: {
       serviceId: +id.toString(),
