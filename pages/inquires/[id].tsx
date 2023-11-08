@@ -40,7 +40,11 @@ const InquiryPost: NextPage = () => {
   const { user } = useUser();
   const { register, handleSubmit, reset } = useForm<AnswerForm>();
   const { data, mutate } = useSWR<InquiryResponse>(
-    router.query.id ? `/api/inquiry/${router.query.id}` : null
+    typeof window === "undefined"
+      ? null
+      : router.query.id
+      ? `/api/inquiry/${router.query.id}`
+      : null
   );
   const [sendAnswer, { data: answerData, loading: answerLoading }] =
     useMutation<AnswerResponse>(`/api/inquiry/${router.query.id}/answers`);
