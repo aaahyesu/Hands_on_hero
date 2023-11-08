@@ -61,11 +61,9 @@ export default function List({
               {title}
             </span>
           </div>
+          <span className="text-md text-gray-500">{serviceDate}</span>
           <span className="text-md text-gray-500">
-            {serviceDate.toString()}
-          </span>
-          <span className="text-md text-gray-500">
-            {startTime.toString()} ~ {endTime.toString()}
+            {startTime} ~ {endTime}
           </span>
           <span className="text-md text-gray-500">{Method}</span>
           <span className="text-md font-medium text-gray-900">{Cost}원</span>
