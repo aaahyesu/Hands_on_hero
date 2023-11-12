@@ -76,7 +76,7 @@ const ChatDetail: NextPage = () => {
         <>
           <button
             type="button"
-            className="hover rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="hover rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
             onClick={handleAccept}
           >
             수락하기
@@ -105,7 +105,7 @@ const ChatDetail: NextPage = () => {
           <Link href={"/"}>
             <button
               type="button"
-              className="hover rounded-lg bg-red-500 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="hover rounded-lg bg-red-500 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-blue-300 "
               onClick={handleServiceIncomplete}
             >
               서비스 미완료
@@ -380,7 +380,7 @@ const ChatDetail: NextPage = () => {
       <div
         id="banner"
         tabIndex={-1}
-        className={`fixed z-50 mt-6 flex w-full max-w-xl items-start justify-between gap-8 border border-b border-gray-200 bg-gray-50 px-4 py-3 dark:border-gray-700 dark:bg-gray-800 sm:items-center lg:py-4`}
+        className={`fixed z-50 mt-6 flex w-full max-w-xl items-start justify-between gap-8 border border-b border-gray-200 bg-gray-50 px-4 py-3 sm:items-center lg:py-4`}
       >
         {isBannerOpen ? (
           <div className="flex flex-col space-y-3 px-2">
@@ -392,7 +392,7 @@ const ChatDetail: NextPage = () => {
               status={data?.room?.Service?.status}
             />
             <a
-              className="dark:text-primary-500 text-[15px] underline hover:no-underline"
+              className="text-[15px] underline hover:no-underline"
               href={`/services/${data?.room?.Service?.id}`}
             >
               요청서 바로가기
@@ -412,7 +412,7 @@ const ChatDetail: NextPage = () => {
         >
           {isBannerOpen ? (
             <svg
-              className="h-[18px] w-[18px] text-gray-800 dark:text-white"
+              className="h-[18px] w-[18px] text-gray-800 "
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -428,7 +428,7 @@ const ChatDetail: NextPage = () => {
             </svg>
           ) : (
             <svg
-              className="h-[18px] w-[18px] text-gray-800 dark:text-white"
+              className="h-[18px] w-[18px] text-gray-800"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -514,10 +514,10 @@ const ChatDetail: NextPage = () => {
               aria-hidden="true"
             >
               <div className="relative max-h-full w-full max-w-md">
-                <div className="relative rounded-lg bg-white shadow dark:bg-gray-700">
+                <div className="relative rounded-lg bg-white shadow">
                   <button
                     type="button"
-                    className="absolute right-2.5 top-3 ml-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+                    className="absolute right-2.5 top-3 ml-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 "
                     onClick={closeModal}
                     data-modal-hide="crypto-modal"
                   >
@@ -540,8 +540,8 @@ const ChatDetail: NextPage = () => {
                   </button>
 
                   {/* Modal header */}
-                  <div className="rounded-t border-b px-6 py-4 dark:border-gray-600">
-                    <h3 className="text-base font-semibold text-gray-900 dark:text-white lg:text-xl">
+                  <div className="rounded-t border-b px-6 py-4 ">
+                    <h3 className="text-base font-semibold text-gray-900  lg:text-xl">
                       추가 기능
                     </h3>
                   </div>

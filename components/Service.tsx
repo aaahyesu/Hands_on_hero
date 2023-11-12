@@ -22,22 +22,19 @@ export default function List({
   if (status === "Start") {
     statusText = "서비스 매칭 완료";
     statusClass = "bg-green-500";
-    bgClass =
-      "dark:bg-green-900 dark:text-green-300 bg-green-100 text-green-800";
+    bgClass = " bg-green-100 text-green-800";
   } else if (status === "Complete") {
     statusText = "서비스 완료";
     statusClass = "bg-red-500";
-    bgClass = "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
+    bgClass = "bg-red-100 text-red-800 ";
   } else if (status === "Incomplete") {
     statusText = "서비스 미완료";
     statusClass = "bg-gray-500";
-    bgClass =
-      "bg-gray-300 text-gray-800 dark:text-gray-800 dark:bg-gray-300 dark:text-gray-800";
+    bgClass = "bg-gray-300 text-gray-800 ";
   } else if (status === "None") {
     statusText = "서비스 매칭 대기 중";
     statusClass = "bg-blue-500";
-    bgClass =
-      "bg-blue-200 text-blue-800 dark:text-blue-800 dark:bg-blue-300 dark:text-blue-800";
+    bgClass = "bg-blue-200 text-blue-800 ";
   }
 
   return (

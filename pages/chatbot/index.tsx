@@ -123,30 +123,31 @@ export default function Home(): React.JSX.Element {
     console.log(data);
 
     axios
-    .post(url, data, {
-      timeout: 10000, // 타임아웃을 10초로 설정
-    })
-    .then((response) => {
-      console.log(response);
-      const currentTime = new Date();
-      const formattedTime = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
-  
-      const botMessage = {
-        role: "bot",
-        content: response.data.message,
-        time: formattedTime,
-      };
-  
-      setChatLog((prevChatLog) => [...prevChatLog, botMessage]);
-      setIsLoading(false);
-    })
-    .catch((error) => {
-      setIsLoading(false);
-      console.log(error);
-    });
+      .post(url, data, {
+        timeout: 10000,
+      })
+      .then((response) => {
+        console.log(response);
+        const currentTime = new Date();
+        const formattedTime = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
+
+        const botMessage = {
+          role: "bot",
+          content: response.data.message,
+          time: formattedTime,
+        };
+
+        setChatLog((prevChatLog) => [...prevChatLog, botMessage]);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
 
   return (
-    <Layout hasTabBar title="말동무">
+    <Layout hasTabBar title="🐴 말동무 챗봇 🐴">
       <div className="container mx-auto max-w-[700px] pt-[25px]">
         <div className="flex h-screen flex-col bg-gray-900">
           <h1 className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text py-3 text-center text-6xl font-bold text-transparent">
