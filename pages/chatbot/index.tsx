@@ -123,26 +123,27 @@ export default function Home(): React.JSX.Element {
     console.log(data);
 
     axios
-      .post(url, data)
-      .then((response) => {
-        console.log(response);
-        const currentTime = new Date();
-        const formattedTime = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
-
-        const botMessage = {
-          role: "bot",
-          content: response.data.message,
-          time: formattedTime,
-        };
-
-        setChatLog((prevChatLog) => [...prevChatLog, botMessage]);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.log(error);
-      });
-  };
+    .post(url, data, {
+      timeout: 10000, // 타임아웃을 10초로 설정
+    })
+    .then((response) => {
+      console.log(response);
+      const currentTime = new Date();
+      const formattedTime = `${currentTime.getHours()}:${currentTime.getMinutes()}`;
+  
+      const botMessage = {
+        role: "bot",
+        content: response.data.message,
+        time: formattedTime,
+      };
+  
+      setChatLog((prevChatLog) => [...prevChatLog, botMessage]);
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      setIsLoading(false);
+      console.log(error);
+    });
 
   return (
     <Layout hasTabBar title="말동무">
