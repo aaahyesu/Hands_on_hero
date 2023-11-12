@@ -120,17 +120,17 @@ const Home: NextPage<ServiceResponse> = () => {
                 id="dropdown"
                 className={`${
                   isDropdownOpen ? "block" : "hidden"
-                } z-10 divide-y rounded-[10px] border border-gray-300  dark:bg-gray-700`}
+                } z-10 divide-y rounded-[10px] border border-gray-300`}
               >
                 <ul
-                  className="py-1 text-sm text-gray-700 dark:text-gray-300"
+                  className="py-1 text-sm text-gray-700 "
                   aria-labelledby="dropdown-button"
                 >
                   {dropdownOptions.map((option) => (
                     <li key={option}>
                       <button
                         type="button"
-                        className={`w-full px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                        className={`w-full px-3 py-2 hover:bg-gray-100 ${
                           option === selectedOption ? "font-semibold" : ""
                         }`}
                         onClick={() => {
@@ -149,7 +149,7 @@ const Home: NextPage<ServiceResponse> = () => {
               <input
                 type="search"
                 id="search-dropdown"
-                className="z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-50 bg-gray-50 p-2.5 text-sm text-gray-900 dark:border-gray-600 dark:border-l-gray-700  dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-gray-500"
+                className="z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-50 bg-gray-50 p-2.5 text-sm text-gray-90 "
                 placeholder="검색어를 입력하세요 :)"
                 required
                 value={searchKeyword}
@@ -158,7 +158,7 @@ const Home: NextPage<ServiceResponse> = () => {
               <button
                 onClick={handleSearch}
                 type="submit"
-                className="border-black-700 dark:hover:bg-gary-700 absolute right-0 top-0 rounded-r-lg border bg-black p-3 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none dark:bg-gray-600 dark:focus:ring-gray-800"
+                className="border-black-700 absolute right-0 top-0 rounded-r-lg border bg-black p-3 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none "
               >
                 <svg
                   className="h-4 w-4"
@@ -184,7 +184,7 @@ const Home: NextPage<ServiceResponse> = () => {
           <div className="mt-4 flex">
             <button
               id="dropdown-button"
-              className={`w-45 ml-auto inline-flex items-center rounded-lg border-[1.5px] border-black bg-white px-4 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700 ${
+              className={`w-45 ml-auto inline-flex items-center rounded-lg border-[1.5px]  bg-black px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-100 ${
                 isDropdownOpen ? "bg-gray-200" : ""
               }`}
               type="button"
@@ -213,17 +213,17 @@ const Home: NextPage<ServiceResponse> = () => {
               id="status-dropdown"
               className={`${
                 isStatusDropdownOpen ? "block" : "hidden"
-              }   divide-y rounded-[10px] border border-gray-300 dark:bg-gray-700`}
+              }   divide-y rounded-[10px] border border-gray-300`}
             >
               <ul
-                className=" py-1 text-sm text-gray-700 dark:text-gray-300"
+                className=" py-1 text-sm text-gray-700 "
                 aria-labelledby="status-dropdown-button"
               >
                 {statusDropdownOptions.map((statusOption) => (
                   <li key={statusOption}>
                     <button
                       type="button"
-                      className={`w-full px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                      className={`w-full px-3 py-2 hover:bg-gray-100 ${
                         statusOption === selectedStatusOption
                           ? "font-semibold"
                           : ""
