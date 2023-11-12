@@ -91,7 +91,7 @@ const Home: NextPage<ServiceResponse> = () => {
             <div className="relative">
               <button
                 id="dropdown-button"
-                className={`inline-flex w-32 flex-shrink-0 items-center rounded-l-lg border border-gray-300 bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-gray-900 hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-700 ${
+                className={`inline-flex w-32 flex-shrink-0 items-center rounded-l-lg bg-gray-100 px-4 py-2.5 text-center text-sm font-medium text-black hover:bg-gray-200 focus:outline-none focus:ring-4 focus:ring-gray-100${
                   isDropdownOpen ? "bg-gray-200" : ""
                 }`}
                 type="button"
@@ -149,7 +149,7 @@ const Home: NextPage<ServiceResponse> = () => {
               <input
                 type="search"
                 id="search-dropdown"
-                className="z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-50 bg-gray-50 p-2.5 text-sm text-gray-90 "
+                className="text-gray-90 z-20 block w-full rounded-r-lg border border-l-2 border-gray-300 border-l-gray-50 bg-gray-50 p-2.5 text-sm "
                 placeholder="검색어를 입력하세요 :)"
                 required
                 value={searchKeyword}
@@ -158,7 +158,7 @@ const Home: NextPage<ServiceResponse> = () => {
               <button
                 onClick={handleSearch}
                 type="submit"
-                className="border-black-700 absolute right-0 top-0 rounded-r-lg border bg-black p-3 text-sm font-medium text-white hover:bg-gray-800 focus:outline-none "
+                className="border-black-700 absolute right-0 top-0 rounded-r-lg border bg-gray-100 p-3 text-sm font-medium text-gray-900 hover:bg-gray-800 focus:outline-none "
               >
                 <svg
                   className="h-4 w-4"
@@ -184,7 +184,7 @@ const Home: NextPage<ServiceResponse> = () => {
           <div className="mt-4 flex">
             <button
               id="dropdown-button"
-              className={`w-45 ml-auto inline-flex items-center rounded-lg border-[1.5px]  bg-black px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-100 ${
+              className={`w-45 ml-auto inline-flex items-center rounded-lg border-[1.5px]  bg-black px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-4 focus:ring-gray-100 ${
                 isDropdownOpen ? "bg-gray-200" : ""
               }`}
               type="button"

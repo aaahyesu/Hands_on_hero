@@ -71,7 +71,7 @@ export default function List({
 
   return (
     <div className="pt-6">
-      <div className="max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
+      <div className="max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow">
         <Link href={`/services/${id}`}>
           <div className="flex space-x-3">
             <div className="flex flex-col">
@@ -79,7 +79,7 @@ export default function List({
                 {title}
               </span>
               {/* Render stars using the score prop */}
-              <dt className=" px-3  text-lg font-medium text-gray-500 dark:text-gray-400">
+              <dt className=" px-3  text-lg font-medium text-gray-500 ">
                 시간 약속을 잘 지켜요
               </dt>
               <div className="flex  space-x-1 px-3 py-2">
@@ -89,7 +89,7 @@ export default function List({
                 </Typography>
               </div>
 
-              <dt className="px-3 py-3 text-lg font-medium text-gray-500 dark:text-gray-400">
+              <dt className="px-3 py-3 text-lg font-medium text-gray-500">
                 응답 속도가 빨라요
               </dt>
               <div className="flex space-x-1 px-3 ">
@@ -98,16 +98,14 @@ export default function List({
                   {score2}.0 점
                 </Typography>
               </div>
-              <dt className="px-3 py-3 text-lg font-medium text-gray-500 dark:text-gray-400">
-                매너가 좋아요
-              </dt>
+              <dt className="px-3 py-3 text-lg font-medium text-gray-500 "></dt>
               <div className="flex space-x-1 px-3 ">
                 {renderStars(score3)}
                 <Typography color="blue-gray" className="px-3 font-medium">
                   {score3}.0 점
                 </Typography>
               </div>
-              <dt className="px-3 py-3 text-lg font-medium text-gray-500 dark:text-gray-400">
+              <dt className="px-3 py-3 text-lg font-medium text-gray-500 ">
                 서비스를 잘 수행해요
               </dt>
               <div className="flex space-x-1 px-3 ">
@@ -116,9 +114,7 @@ export default function List({
                   {score4}.0 점
                 </Typography>
               </div>
-              <span className="px-3 text-lg text-gray-500">
-                {serviceDate}
-              </span>
+              <span className="px-3 text-lg text-gray-500">{serviceDate}</span>
               <span className="mb-2 px-3 text-lg text-gray-500">{Method}</span>
             </div>
           </div>

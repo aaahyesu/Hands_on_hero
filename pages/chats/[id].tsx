@@ -64,12 +64,13 @@ const ChatDetail: NextPage = () => {
     setIsBannerOpen((prev) => !prev);
   };
 
+  const isUserAuthorized = user?.id === data?.room?.Service?.userId; // 사용자 권한을 확인
+  
   // 수락하기 -> 서비스 완료/미완료 버튼 변경
   const [isAccepted, setIsAccepted] = useState(false);
 
   const renderButtons = () => {
     const status = data?.room?.Service?.status;
-    const isUserAuthorized = user?.id === data?.room?.Service?.userId; // 사용자 권한을 확인
 
     if (status === "None" && !isAccepted && isUserAuthorized) {
       return (
@@ -569,7 +570,7 @@ const ChatDetail: NextPage = () => {
                         </span>
                       </Link>
                       <a
-                        href="https://web.teamviewer.com/remote-support"
+                        href={isUserAuthorized ? "https://web.teamviewer.com/remote-support" : "https://start.teamviewer.com/ko/"}
                         target="_blank"
                       >
                         <span className="flex flex-col items-center space-y-2">
