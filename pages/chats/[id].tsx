@@ -240,7 +240,7 @@ const ChatDetail: NextPage = () => {
   useEffect(() => {
     if (!me) return;
 
-    const mySocket = io("http://localhost:3000", {
+    const mySocket = io("https://hands-on-hero.vercel.app:3000", {
       path: "/api/chats/socketio",
       withCredentials: true,
       transports: ["websocket"],
