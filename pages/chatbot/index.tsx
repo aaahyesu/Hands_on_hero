@@ -124,7 +124,7 @@ export default function Home(): React.JSX.Element {
 
     axios
       .post(url, data, {
-        timeout: 10000,
+        timeout: 1000000,
       })
       .then((response) => {
         console.log(response);
