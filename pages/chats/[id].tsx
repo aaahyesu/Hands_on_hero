@@ -77,7 +77,7 @@ const ChatDetail: NextPage = () => {
         <>
           <button
             type="button"
-            className="hover rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300"
+            className="hover rounded-lg bg-black px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300 "
             onClick={handleAccept}
           >
             수락하기
@@ -106,7 +106,7 @@ const ChatDetail: NextPage = () => {
           <Link href={"/"}>
             <button
               type="button"
-              className="hover rounded-lg bg-red-500 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-blue-300"
+              className="hover rounded-lg bg-red-500 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-blue-300 "
               onClick={handleServiceIncomplete}
             >
               서비스 미완료
@@ -240,7 +240,7 @@ const ChatDetail: NextPage = () => {
   useEffect(() => {
     if (!me) return;
 
-    const mySocket = io("wss://hands-on-hero.vercel.app:3000", {
+    const mySocket = io("http://localhost:3000", {
       path: "/api/chats/socketio",
       withCredentials: true,
       transports: ["websocket"],

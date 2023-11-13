@@ -28,7 +28,7 @@ async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
       InterServerEvents,
       SocketData
     >(httpServer, {
-      path: "https://hands-on-hero.vercel.app/api/chats/socketio",
+      path: "/api/chats/socketio",
     });
 
     io.on("connection", (socket) => {
