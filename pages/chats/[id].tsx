@@ -550,7 +550,7 @@ const ChatDetail: NextPage = () => {
                   {/* Modal body */}
                   <div className="space-y-6 p-6">
                     <nav className="flex w-full max-w-xl justify-between bg-white px-4 pb-5 pt-3 text-center text-xs text-gray-800">
-                      <Link href={"https://192.168.0.55:3001/"}>
+                      <Link href={"https://192.168.0.36:3002/"}>
                         <span className="flex flex-col items-center space-y-2">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
